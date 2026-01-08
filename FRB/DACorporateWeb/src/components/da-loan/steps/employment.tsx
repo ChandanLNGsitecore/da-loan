@@ -10,6 +10,7 @@ import { DropDownList } from "components/da-loan/ui/drop-down-list";
 import { StandardTextInput } from "components/da-loan/ui/standard-text-input";
 import { StandardNumberInput } from "components/da-loan/ui/standard-number-input";
 import { Text } from '@sitecore-content-sdk/nextjs';
+import { useRouter } from "next/navigation";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type SitecoreFields = Record<string, any>;
@@ -79,6 +80,7 @@ const deriveSectorFromEmployer = (employerName: string): string => {
 
 export const Default = (props: EmploymentProps) => {
 	"use no memo";
+	 const router = useRouter();
 
 	const { onSubmit, initialData, onBack } = props;
 	const { fields: propsFields = {} } = props;
@@ -137,8 +139,14 @@ export const Default = (props: EmploymentProps) => {
 	}, [employerName, sector, setValue]);
 
 	const onFormSubmit = handleSubmit((data) => {
-		onSubmit(data);
-	});
+        console.log("Employment form submitted:", data);
+        if (onSubmit && typeof onSubmit === 'function') {
+            onSubmit(data);
+        } else {
+            // Navigate to banking details page if no onSubmit handler provided
+            router.push("/loans/banking-detail");
+        }
+    });
 
 	const handleNext = async () => {
 		const isValid = await trigger();

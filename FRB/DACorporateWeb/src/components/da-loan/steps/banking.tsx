@@ -7,6 +7,8 @@ import { ChevronLeft, ChevronRight, Info } from "lucide-react";
 import { DropDownList } from "components/da-loan/ui/drop-down-list";
 import { StandardNumberInput } from "components/da-loan/ui/standard-number-input";
 import { Text } from '@sitecore-content-sdk/nextjs';
+import { useRouter } from "next/navigation";
+ 
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type SitecoreFields = Record<string, any>;
@@ -35,6 +37,7 @@ interface BankingProps {
 }
 
 export const Default = (props: BankingProps) => {
+  const router = useRouter();
   const { onSubmit, initialData, onBack } = props;
   const { fields: propsFields = {} } = props;
   const fields = propsFields.fields || propsFields;
@@ -63,8 +66,14 @@ debugger;
   const bankName = useWatch({ control, name: "bankName" });
   const accountType = useWatch({ control, name: "accountType" });
 
-  const onFormSubmit = handleSubmit((data) => {
-    onSubmit(data);
+   const onFormSubmit = handleSubmit((data) => {
+    console.log("Banking form submitted:", data);
+    if (onSubmit && typeof onSubmit === 'function') {
+      onSubmit(data);
+    } else {
+      // Navigate to address details page if no onSubmit handler provided
+      router.push("/loans/address-detail");
+    }
   });
 
   const handleNext = async () => {

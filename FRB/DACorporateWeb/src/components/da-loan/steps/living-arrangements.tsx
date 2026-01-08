@@ -8,6 +8,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { DropDownList } from "components/da-loan/ui/drop-down-list";
 import { RadioGroup } from "components/da-loan/ui/radio-group-input";
 import { Text } from '@sitecore-content-sdk/nextjs';
+import { useRouter } from "next/navigation";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type SitecoreFields = Record<string, any>;
@@ -48,7 +49,7 @@ interface LivingArrangementsProps {
 
 export const Default = (props: LivingArrangementsProps) => {
 	"use no memo";
-
+	const router = useRouter();
 	const { onSubmit, initialData, onBack } = props;
 	const { fields: propsFields = {} } = props;
 	const fields = propsFields.fields || propsFields;
@@ -82,7 +83,13 @@ export const Default = (props: LivingArrangementsProps) => {
 	const maritalStatus = useWatch({ control, name: "maritalStatus" });
 
 	const onFormSubmit = handleSubmit((data) => {
-		onSubmit(data);
+		console.log("Liveing Arrangement form submitted:", data);
+		if (onSubmit && typeof onSubmit === 'function') {
+			onSubmit(data);
+		} else {
+			// Navigate to banking details page if no onSubmit handler provided
+			router.push("/loans/affordability-detail");
+		}
 	});
 
 	const handleNext = async () => {
@@ -98,8 +105,8 @@ export const Default = (props: LivingArrangementsProps) => {
 		<Card className="w-full mx-auto bg-white">
 			<CardContent className="p-6 md:p-8 space-y-6">
 				<div className="flex items-center justify-between mb-4">
-						<h2 className="text-2xl font-semibold text-gray-800"><Text field={fields?.JourneyStep_Heading} /></h2>
-						<div className="text-sm text-gray-600 font-medium"><Text field={fields?.StepCountText} /></div>
+					<h2 className="text-2xl font-semibold text-gray-800"><Text field={fields?.JourneyStep_Heading} /></h2>
+					<div className="text-sm text-gray-600 font-medium"><Text field={fields?.StepCountText} /></div>
 				</div>
 
 				<div className="space-y-6">
@@ -221,7 +228,7 @@ export const Default = (props: LivingArrangementsProps) => {
 							<Controller
 								name="maritalType"
 								control={control}
-								rules={{ 
+								rules={{
 									validate: (value) => {
 										if (maritalStatus === "Married" && !value) {
 											return fields?.MaritalTypeRequiredMessage?.value;
@@ -239,7 +246,7 @@ export const Default = (props: LivingArrangementsProps) => {
 											value: option.fields.Value.value,
 											label: option.fields.Text.value,
 											id: option.fields.Id.value
-										})) }
+										}))}
 										error={hasAttemptedSubmit ? errors.maritalType?.message : undefined}
 										required
 										wrapperClassName=""
