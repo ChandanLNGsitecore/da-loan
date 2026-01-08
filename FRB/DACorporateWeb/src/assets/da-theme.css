@@ -1,0 +1,118 @@
+@import "tailwindcss";
+
+@theme {
+  /* Primitive Colors - Neutrals */
+  --color-black: #000000;
+  --color-white: #FFFFFF;
+  --color-grey-200: #F5F5F5;
+  --color-grey-300: #F7F7F7;
+  --color-grey-400: #E9E9E9;
+  --color-grey-500: #CCCCCC;
+  --color-grey-600: #9A9EA3;
+  --color-grey-700: #808080;
+  --color-grey-900: #1a1a1a;
+  --color-da-green: #1D5E4B;
+
+  /* Primitive Colors - Primary */
+  --color-logo-green: #1D5E4B;
+  --color-logo-red: #B4413B;
+  --color-primary-neutral: #434C56;
+
+  /* Primitive Colors - Secondary */
+  --color-secondary-teal: #4BA2AA;
+  --color-secondary-teal-tint: #60C2CB;
+  --color-secondary-teal-dark: #407C83;
+  --color-secondary-green: #226458;
+  --color-secondary-yellow: #CCB82B;
+  --color-secondary-blue: #0074B0;
+  --color-secondary-blue-dark: #3A5263;
+  --color-secondary-light-green: #769F44;
+  --color-secondary-light-blue: #60C1CB;
+  --color-error: #FF3C31;
+
+  /* Applied/Semantic Colors */
+  --color-primary:var(--color-da-green);
+  --color-primary-foreground: #FFFFFF;
+  
+  --color-secondary: #B4413B;
+  --color-secondary-foreground: #FFFFFF;
+
+  --color-text-primary: #434C56;
+  
+  --color-background: #FFFFFF;
+  --color-background-menu: #1D5E4B;
+  --color-body-bg: #F5F5F5;
+  --color-foreground: #434C56;
+
+  --color-button-primary: var(--color-primary);
+  --color-button-primary-hover: var(--color-primary-hover);
+  --color-button-secondary: #9A9EA3;
+  --color-button-secondary-hover: #808080;
+  --color-button-disabled: #CCCCCC;
+
+  --color-header-bg:var(--color-primary);
+  --color-header-bg-scrolled: var(--color-primary);
+
+  --color-label-default: #4BA2AA;
+  --color-link: #407C83;
+
+  --color-input-border-default: #CCCCCC;
+  --color-input-border-focus: #226458;
+
+  --color-menu-color: #1a1a1a;
+
+  --color-border: #E9E9E9;
+  --color-input: #E9E9E9;
+  --color-ring: #1D5E4B;
+
+  --color-destructive: #FF3C31;
+  --color-destructive-foreground: #FFFFFF;
+
+  --color-muted: #F5F5F5;
+  --color-muted-foreground: #9A9EA3;
+
+  --color-accent: #4BA2AA;
+  --color-accent-foreground: #FFFFFF;
+
+  --color-popover: #FFFFFF;
+  --color-popover-foreground: #434C56;
+
+  --color-card: #FFFFFF;
+  --color-card-foreground: #434C56;
+
+  /* Radius */
+  --radius-lg: 0.5rem;
+  --radius-md: calc(0.5rem - 2px);
+  --radius-sm: calc(0.5rem - 4px);
+
+  /* Fonts */
+  --font-family-sans: var(--font-montserrat), system-ui, -apple-system, sans-serif;
+  --font-family-heading: var(--font-nohemi), var(--font-montserrat), system-ui, sans-serif;
+}
+
+
+body {
+  font-family: var(--font-montserrat), system-ui, -apple-system, sans-serif;
+}
+
+/* Nohemi heading font utility */
+.font-heading {
+  font-family: var(--font-nohemi), var(--font-montserrat), system-ui, -apple-system, sans-serif;
+}
+
+/* Menu item stagger animation */
+@keyframes menu-item-fade-in {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.menu-item-animate {
+  animation: menu-item-fade-in 0.4s ease-out forwards;
+  opacity: 0;
+}

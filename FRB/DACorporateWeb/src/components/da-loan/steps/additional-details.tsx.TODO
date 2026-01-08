@@ -1,0 +1,601 @@
+"use client";
+
+import { useState, useEffect, useRef } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "components/da-loan/ui/button";
+import { Card, CardContent } from "components/da-loan/ui/card";
+import { Input } from "components/da-loan/ui/input";
+import { ChevronLeft, ChevronRight, Info } from "lucide-react";
+import { additionalDetailsSchema, type AdditionalDetails } from "lib/schemas";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "components/da-loan/ui/select";
+
+interface AdditionalDetailsProps {
+	readonly onSubmit: (data: AdditionalDetails) => void;
+	readonly initialData?: Partial<AdditionalDetails>;
+	readonly onBack?: () => void;
+}
+
+type FormStep = "banking" | "employment" | "review";
+
+const SA_BANKS = ["ABSA", "Capitec Bank", "Discovery Bank", "FNB", "Nedbank", "Standard Bank", "TymeBank", "African Bank", "Investec", "Other"];
+
+const SECTORS = [
+	"Accounting & Finance",
+	"Agriculture & Farming",
+	"Arts & Entertainment",
+	"Construction & Engineering",
+	"Education & Training",
+	"Government & Public Sector",
+	"Healthcare & Medical",
+	"Hospitality & Tourism",
+	"Information Technology",
+	"Legal Services",
+	"Manufacturing",
+	"Media & Communications",
+	"Mining & Resources",
+	"Non-Profit",
+	"Real Estate",
+	"Retail & Wholesale",
+	"Transportation & Logistics",
+	"Other",
+];
+
+const deriveSectorFromEmployer = (employerName: string): string => {
+	const name = employerName.toLowerCase();
+
+	if (name.includes("hospital") || name.includes("clinic") || name.includes("medical") || name.includes("health")) {
+		return "Healthcare & Medical";
+	}
+	if (name.includes("school") || name.includes("university") || name.includes("college") || name.includes("education")) {
+		return "Education & Training";
+	}
+	if (name.includes("bank") || name.includes("finance") || name.includes("insurance")) {
+		return "Accounting & Finance";
+	}
+	if (name.includes("tech") || name.includes("software") || name.includes("it ") || name.includes("digital")) {
+		return "Information Technology";
+	}
+	if (name.includes("government") || name.includes("municipality") || name.includes("dept") || name.includes("department")) {
+		return "Government & Public Sector";
+	}
+	if (name.includes("retail") || name.includes("shop") || name.includes("store")) {
+		return "Retail & Wholesale";
+	}
+	if (name.includes("hotel") || name.includes("restaurant") || name.includes("lodge")) {
+		return "Hospitality & Tourism";
+	}
+	if (name.includes("construction") || name.includes("engineering") || name.includes("build")) {
+		return "Construction & Engineering";
+	}
+
+	return "";
+};
+
+export function AdditionalDetails({ onSubmit, initialData, onBack }: AdditionalDetailsProps) {
+	"use no memo";
+
+	const [currentStep, setCurrentStep] = useState<FormStep>("banking");
+
+	const incomeProviderManuallyEdited = useRef(false);
+	const sectorManuallyEdited = useRef(false);
+
+	const {
+		register,
+		handleSubmit,
+		setValue,
+		getValues,
+		watch,
+		trigger,
+		formState: { errors },
+	} = useForm<AdditionalDetails>({
+		resolver: zodResolver(additionalDetailsSchema),
+		mode: "onChange",
+		reValidateMode: "onChange",
+		defaultValues: {
+			bankName: initialData?.bankName || "",
+			accountType: initialData?.accountType || "",
+			accountNumber: initialData?.accountNumber || "",
+			branchCode: initialData?.branchCode || "",
+			employmentStatus: initialData?.employmentStatus || "",
+			employmentType: initialData?.employmentType || "",
+			selfEmployedDuration: initialData?.selfEmployedDuration || "",
+			employerName: initialData?.employerName || "",
+			sector: initialData?.sector || "",
+			occupation: initialData?.occupation || "",
+			incomeFrequency: initialData?.incomeFrequency || "Monthly",
+			salaryDate: initialData?.salaryDate || "",
+			payDay: initialData?.payDay || "",
+			incomeProvider: initialData?.incomeProvider || "",
+			spxConsent: initialData?.spxConsent || "",
+		},
+	});
+
+	// eslint-disable-next-line react-hooks/incompatible-library
+	const employerName = watch("employerName");
+	const sector = watch("sector");
+	const bankName = watch("bankName");
+	const accountType = watch("accountType");
+	const incomeFrequency = watch("incomeFrequency");
+	const employmentStatus = watch("employmentStatus");
+
+	useEffect(() => {
+		if (employerName) {
+			if (!incomeProviderManuallyEdited.current) {
+				setValue("incomeProvider", employerName);
+			}
+
+			if (!sectorManuallyEdited.current && (!sector || sector === "")) {
+				const derivedSector = deriveSectorFromEmployer(employerName);
+				if (derivedSector) {
+					setValue("sector", derivedSector);
+				}
+			}
+		}
+	}, [employerName, sector, setValue]);
+
+	const handleNext = async () => {
+		const stepFields: Record<FormStep, (keyof AdditionalDetails)[]> = {
+			banking: ["bankName", "accountType", "accountNumber", "branchCode"],
+			employment: [
+				"employmentStatus",
+				"employmentType",
+				"selfEmployedDuration",
+				"employerName",
+				"sector",
+				"occupation",
+				"incomeFrequency",
+				"salaryDate",
+				"payDay",
+				"incomeProvider",
+				"spxConsent",
+			],
+			review: [],
+		};
+
+		const currentFields = stepFields[currentStep];
+
+		const isValid = await trigger(currentFields);
+
+		if (!isValid) {
+			return;
+		}
+
+		if (currentStep === "banking") {
+			setCurrentStep("employment");
+		} else if (currentStep === "employment") {
+			setCurrentStep("review");
+		}
+	};
+
+	const handleBack = () => {
+		if (currentStep === "banking" && onBack) {
+			onBack();
+		} else if (currentStep === "employment") {
+			setCurrentStep("banking");
+		} else if (currentStep === "review") {
+			setCurrentStep("employment");
+		}
+	};
+
+	const onFormSubmit = handleSubmit((data) => {
+		onSubmit(data);
+	});
+
+	const getStepNumber = () => {
+		switch (currentStep) {
+			case "banking":
+				return 3;
+			case "employment":
+				return 4;
+			case "review":
+				return 5;
+		}
+	};
+
+	return (
+		<Card className="w-full mx-auto bg-white">
+			<CardContent className="p-6 md:p-8 space-y-6">
+				<div className="flex items-center justify-between mb-4">
+					<h2 className="text-2xl font-semibold text-gray-800">
+						{currentStep === "banking" && "Banking Details"}
+						{currentStep === "employment" && "Employment & Income"}
+						{currentStep === "review" && "Review & Submit"}
+					</h2>
+					<div className="text-sm text-gray-600 font-medium">Step {getStepNumber()} of 5</div>
+				</div>
+
+				<div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+					<div className="h-full bg-[#2c5f5d] transition-all duration-300" style={{ width: `${(getStepNumber() / 5) * 100}%` }} />
+				</div>
+
+				{currentStep === "banking" && (
+					<div className="space-y-4">
+						<div>
+							<label htmlFor="bankName" className="block text-sm font-medium text-gray-800 mb-1">
+								Bank Name
+							</label>
+							<Select value={bankName} onValueChange={(value) => setValue("bankName", value, { shouldValidate: true })}>
+								<SelectTrigger className="w-full">
+									<SelectValue placeholder="Select your bank" />
+								</SelectTrigger>
+								<SelectContent>
+									{SA_BANKS.map((bank) => (
+										<SelectItem key={bank} value={bank}>
+											{bank}
+										</SelectItem>
+									))}
+								</SelectContent>
+							</Select>
+							{errors.bankName && <p className="text-sm text-red-500 mt-1">{errors.bankName.message}</p>}
+						</div>
+
+						<div>
+							<label htmlFor="accountType" className="block text-sm font-medium text-gray-800 mb-1">
+								Account Type
+							</label>
+							<Select value={accountType} onValueChange={(value) => setValue("accountType", value, { shouldValidate: true })}>
+								<SelectTrigger className="w-full">
+									<SelectValue placeholder="Select account type" />
+								</SelectTrigger>
+								<SelectContent>
+									<SelectItem value="Cheque Account">Cheque Account</SelectItem>
+									<SelectItem value="Savings Account">Savings Account</SelectItem>
+									<SelectItem value="Transmission Account">Transmission Account</SelectItem>
+								</SelectContent>
+							</Select>
+							{errors.accountType && <p className="text-sm text-red-500 mt-1">{errors.accountType.message}</p>}
+						</div>
+
+						<div>
+							<label htmlFor="accountNumber" className="block text-sm font-medium text-gray-800 mb-1">
+								Account Number
+							</label>
+							<Input id="accountNumber" type="text" inputMode="numeric" pattern="[0-9]*" placeholder="Enter account number" {...register("accountNumber")} />
+							{errors.accountNumber && <p className="text-sm text-red-500 mt-1">{errors.accountNumber.message}</p>}
+						</div>
+
+						<div>
+							<label htmlFor="branchCode" className="block text-sm font-medium text-gray-800 mb-1">
+								Branch Code
+							</label>
+							<Input id="branchCode" type="text" inputMode="numeric" pattern="[0-9]*" placeholder="Enter branch code" {...register("branchCode")} />
+							{errors.branchCode && <p className="text-sm text-red-500 mt-1">{errors.branchCode.message}</p>}
+						</div>
+
+						<div className="bg-blue-50 border border-blue-200 rounded-lg p-3 flex gap-2">
+							<Info className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
+							<p className="text-sm text-gray-700">
+								Later in the process, you&apos;ll need to upload <span className="font-semibold">proof of banking details</span> (recent bank statement).
+							</p>
+						</div>
+					</div>
+				)}
+
+				{currentStep === "employment" && (
+					<div className="space-y-4">
+						<div>
+							<label htmlFor="employmentStatus" className="block text-sm font-medium text-gray-800 mb-1">
+								Employment Status
+							</label>
+							<Select
+								value={employmentStatus}
+								onValueChange={(value) => {
+									setValue("employmentStatus", value, { shouldValidate: true });
+									if (value !== "Employed" && value !== "Other") {
+										setValue("employmentType", "", { shouldValidate: true });
+									}
+									if (value !== "Self-Employed") {
+										setValue("selfEmployedDuration", "", { shouldValidate: true });
+									}
+									if (value !== "Employed") {
+										setValue("spxConsent", "", { shouldValidate: true });
+									}
+									trigger(["employmentType", "selfEmployedDuration", "spxConsent"]);
+								}}
+							>
+								<SelectTrigger className="w-full">
+									<SelectValue placeholder="Select employment status" />
+								</SelectTrigger>
+								<SelectContent>
+									<SelectItem value="Employed">Employed</SelectItem>
+									<SelectItem value="Self-Employed">Self-Employed</SelectItem>
+									<SelectItem value="Pensioner">Pensioner</SelectItem>
+									<SelectItem value="Other">Other</SelectItem>
+								</SelectContent>
+							</Select>
+							{errors.employmentStatus && <p className="text-sm text-red-500 mt-1">{errors.employmentStatus.message}</p>}
+						</div>
+
+						{(employmentStatus === "Employed" || employmentStatus === "Other") && (
+							<div>
+								<label htmlFor="employmentType" className="block text-sm font-medium text-gray-800 mb-1">
+									Employment Type
+								</label>
+								<Select value={watch("employmentType") || ""} onValueChange={(value) => setValue("employmentType", value, { shouldValidate: true })}>
+									<SelectTrigger className="w-full">
+										<SelectValue placeholder="Select employment type" />
+									</SelectTrigger>
+									<SelectContent>
+										{employmentStatus === "Employed" ? (
+											<>
+												<SelectItem value="Public Sector">Public Sector</SelectItem>
+												<SelectItem value="Private Sector">Private Sector</SelectItem>
+											</>
+										) : (
+											<>
+												<SelectItem value="Independent Income">Independent Income</SelectItem>
+												<SelectItem value="Pensioner Disability">Pensioner Disability</SelectItem>
+											</>
+										)}
+									</SelectContent>
+								</Select>
+								{errors.employmentType && <p className="text-sm text-red-500 mt-1">{errors.employmentType.message}</p>}
+							</div>
+						)}
+
+						{employmentStatus === "Self-Employed" && (
+							<div>
+								<label htmlFor="selfEmployedDuration" className="block text-sm font-medium text-gray-800 mb-1">
+									How long are you Self-employed?
+								</label>
+								<Input id="selfEmployedDuration" type="text" placeholder="e.g., 2 years, 6 months" {...register("selfEmployedDuration")} />
+								{errors.selfEmployedDuration && <p className="text-sm text-red-500 mt-1">{errors.selfEmployedDuration.message}</p>}
+							</div>
+						)}
+
+						<div>
+							<label htmlFor="employerName" className="block text-sm font-medium text-gray-800 mb-1">
+								Employer Name
+							</label>
+							<Input id="employerName" type="text" placeholder="Enter your employer's name" {...register("employerName")} />
+							{errors.employerName && <p className="text-sm text-red-500 mt-1">{errors.employerName.message}</p>}
+						</div>
+
+						<div>
+							<label htmlFor="sector" className="block text-sm font-medium text-gray-800 mb-1">
+								Sector
+							</label>
+							<Select
+								value={sector}
+								onValueChange={(value) => {
+									setValue("sector", value, { shouldValidate: true });
+									sectorManuallyEdited.current = true;
+								}}
+							>
+								<SelectTrigger className="w-full">
+									<SelectValue placeholder="Select sector" />
+								</SelectTrigger>
+								<SelectContent>
+									{SECTORS.map((sectorOption) => (
+										<SelectItem key={sectorOption} value={sectorOption}>
+											{sectorOption}
+										</SelectItem>
+									))}
+								</SelectContent>
+							</Select>
+							{errors.sector && <p className="text-sm text-red-500 mt-1">{errors.sector.message}</p>}
+						</div>
+
+						<div>
+							<label htmlFor="occupation" className="block text-sm font-medium text-gray-800 mb-1">
+								Occupation
+							</label>
+							<Input id="occupation" type="text" placeholder="Enter your occupation" {...register("occupation")} />
+							{errors.occupation && <p className="text-sm text-red-500 mt-1">{errors.occupation.message}</p>}
+							<p className="text-xs text-gray-500 mt-1">Note: This should use the existing WesBank dropdown list (to be integrated)</p>
+						</div>
+
+						<div>
+							<label htmlFor="incomeFrequency" className="block text-sm font-medium text-gray-800 mb-1">
+								Income Frequency
+							</label>
+							<Select value={incomeFrequency} onValueChange={(value) => setValue("incomeFrequency", value, { shouldValidate: true })}>
+								<SelectTrigger className="w-full">
+									<SelectValue placeholder="Select income frequency" />
+								</SelectTrigger>
+								<SelectContent>
+									<SelectItem value="Monthly">Monthly</SelectItem>
+									<SelectItem value="Bi-weekly">Bi-weekly (Every 2 weeks)</SelectItem>
+									<SelectItem value="Weekly">Weekly</SelectItem>
+								</SelectContent>
+							</Select>
+							{errors.incomeFrequency && <p className="text-sm text-red-500 mt-1">{errors.incomeFrequency.message}</p>}
+						</div>
+
+						<div>
+							<label htmlFor="salaryDate" className="block text-sm font-medium text-gray-800 mb-1">
+								Salary Date
+							</label>
+							<Input id="salaryDate" type="text" placeholder="e.g., 25th of each month" {...register("salaryDate")} />
+							{errors.salaryDate && <p className="text-sm text-red-500 mt-1">{errors.salaryDate.message}</p>}
+							<p className="text-xs text-gray-500 mt-1">Enter the day you typically receive payment</p>
+						</div>
+
+						<div>
+							<label htmlFor="payDay" className="block text-sm font-medium text-gray-800 mb-1">
+								Pay Day
+							</label>
+							<Input id="payDay" type="text" placeholder="e.g., 25" {...register("payDay")} />
+							{errors.payDay && <p className="text-sm text-red-500 mt-1">{errors.payDay.message}</p>}
+						</div>
+
+						<div>
+							<label htmlFor="incomeProvider" className="block text-sm font-medium text-gray-800 mb-1">
+								Income Provider
+							</label>
+							<Input
+								id="incomeProvider"
+								type="text"
+								placeholder="Who pays your salary?"
+								{...register("incomeProvider", {
+									onChange: () => {
+										incomeProviderManuallyEdited.current = true;
+									},
+								})}
+							/>
+							{errors.incomeProvider && <p className="text-sm text-red-500 mt-1">{errors.incomeProvider.message}</p>}
+							<p className="text-xs text-gray-500 mt-1">Usually the same as your employer</p>
+						</div>
+
+						{employmentStatus === "Employed" && (
+							<div>
+								<label htmlFor="spxConsent" className="block text-sm font-medium text-gray-800 mb-1">
+									SPX Consent
+								</label>
+								<Select value={watch("spxConsent") || ""} onValueChange={(value) => setValue("spxConsent", value, { shouldValidate: true })}>
+									<SelectTrigger className="w-full">
+										<SelectValue placeholder="Select SPX consent" />
+									</SelectTrigger>
+									<SelectContent>
+										<SelectItem value="Yes">Yes</SelectItem>
+										<SelectItem value="No">No</SelectItem>
+									</SelectContent>
+								</Select>
+								{errors.spxConsent && <p className="text-sm text-red-500 mt-1">{errors.spxConsent.message}</p>}
+							</div>
+						)}
+					</div>
+				)}
+
+				{currentStep === "review" &&
+					(() => {
+						const reviewData = getValues();
+						return (
+							<div className="space-y-6">
+								<div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
+									<h3 className="font-semibold text-gray-900 mb-2 flex items-center gap-2">
+										<Info className="w-5 h-5 text-amber-600" />
+										Document Upload Required
+									</h3>
+									<p className="text-sm text-gray-700 mb-3">After submitting this form, you&apos;ll need to upload the following documents:</p>
+									<ul className="text-sm text-gray-700 space-y-1">
+										<li className="flex items-start gap-2">
+											<span className="text-amber-600">•</span>
+											<span>
+												<span className="font-semibold">Copy of your ID</span> (copy of your ID book or card)
+											</span>
+										</li>
+										<li className="flex items-start gap-2">
+											<span className="text-amber-600">•</span>
+											<span>
+												<span className="font-semibold">Proof of address</span> (utility bill or bank statement from the last 3 months)
+											</span>
+										</li>
+										<li className="flex items-start gap-2">
+											<span className="text-amber-600">•</span>
+											<span>
+												<span className="font-semibold">Proof of banking details</span> (recent bank statement no older than 3 months)
+											</span>
+										</li>
+									</ul>
+								</div>
+
+								<div className="space-y-4">
+									<div>
+										<h3 className="font-semibold text-gray-900 mb-2">Banking Details</h3>
+										<div className="bg-gray-50 rounded-lg p-3 space-y-1 text-sm">
+											<div className="flex justify-between">
+												<span className="text-gray-600">Bank:</span>
+												<span className="font-medium">{reviewData.bankName}</span>
+											</div>
+											<div className="flex justify-between">
+												<span className="text-gray-600">Account Type:</span>
+												<span className="font-medium">{reviewData.accountType}</span>
+											</div>
+											<div className="flex justify-between">
+												<span className="text-gray-600">Account Number:</span>
+												<span className="font-medium">{reviewData.accountNumber}</span>
+											</div>
+											<div className="flex justify-between">
+												<span className="text-gray-600">Branch Code:</span>
+												<span className="font-medium">{reviewData.branchCode}</span>
+											</div>
+										</div>
+									</div>
+
+									<div>
+										<h3 className="font-semibold text-gray-900 mb-2">Employment & Income</h3>
+										<div className="bg-gray-50 rounded-lg p-3 space-y-1 text-sm">
+											<div className="flex justify-between">
+												<span className="text-gray-600">Employment Status:</span>
+												<span className="font-medium">{reviewData.employmentStatus}</span>
+											</div>
+											{reviewData.employmentType && (
+												<div className="flex justify-between">
+													<span className="text-gray-600">Employment Type:</span>
+													<span className="font-medium">{reviewData.employmentType}</span>
+												</div>
+											)}
+											{reviewData.selfEmployedDuration && (
+												<div className="flex justify-between">
+													<span className="text-gray-600">Self-employed Duration:</span>
+													<span className="font-medium">{reviewData.selfEmployedDuration}</span>
+												</div>
+											)}
+											<div className="flex justify-between">
+												<span className="text-gray-600">Employer:</span>
+												<span className="font-medium">{reviewData.employerName}</span>
+											</div>
+											<div className="flex justify-between">
+												<span className="text-gray-600">Sector:</span>
+												<span className="font-medium">{reviewData.sector}</span>
+											</div>
+											<div className="flex justify-between">
+												<span className="text-gray-600">Occupation:</span>
+												<span className="font-medium">{reviewData.occupation}</span>
+											</div>
+											<div className="flex justify-between">
+												<span className="text-gray-600">Income Frequency:</span>
+												<span className="font-medium">{reviewData.incomeFrequency}</span>
+											</div>
+											<div className="flex justify-between">
+												<span className="text-gray-600">Salary Date:</span>
+												<span className="font-medium">{reviewData.salaryDate}</span>
+											</div>
+											{reviewData.payDay && (
+												<div className="flex justify-between">
+													<span className="text-gray-600">Pay Day:</span>
+													<span className="font-medium">{reviewData.payDay}</span>
+												</div>
+											)}
+											<div className="flex justify-between">
+												<span className="text-gray-600">Income Provider:</span>
+												<span className="font-medium">{reviewData.incomeProvider}</span>
+											</div>
+											{reviewData.spxConsent && (
+												<div className="flex justify-between">
+													<span className="text-gray-600">SPX Consent:</span>
+													<span className="font-medium">{reviewData.spxConsent}</span>
+												</div>
+											)}
+										</div>
+									</div>
+								</div>
+							</div>
+						);
+					})()}
+
+				<div className="flex gap-3 pt-4">
+					{(currentStep !== "banking" || onBack) && (
+						<Button onClick={handleBack} variant="outline" className="flex-1 py-6 border-gray-300 text-gray-700 hover:bg-gray-50">
+							<ChevronLeft className="w-4 h-4 mr-1" />
+							Back
+						</Button>
+					)}
+
+					{currentStep === "review" ? (
+						<Button onClick={onFormSubmit} className="flex-1 py-6 bg-[#2c5f5d] hover:bg-[#234a48] text-white">
+							Confirm your details
+						</Button>
+					) : (
+						<Button onClick={handleNext} className="flex-1 py-6 text-white bg-[#2c5f5d] hover:bg-[#234a48]">
+							Continue
+							<ChevronRight className="w-4 h-4 ml-1" />
+						</Button>
+					)}
+				</div>
+			</CardContent>
+		</Card>
+	);
+}

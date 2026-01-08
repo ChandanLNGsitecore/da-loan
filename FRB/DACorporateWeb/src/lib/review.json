@@ -1,0 +1,148 @@
+{
+  "sections": [
+    {
+      "header": "CONTRACTING PARTIES",
+      "content": {
+        "credit_provider": {
+          "name": "FirstRand Bank Limited",
+          "company_registration_number": "1929/002336/06",
+          "national_credit_regulator_registration_number": "NCRP20",
+          "chosen_address_for_service": {
+            "line1": "4th Floor, 4 Merchant Place",
+            "line2": "1 Fredman Drive",
+            "line3": "Sandton",
+            "line4": "2196"
+          }
+        },
+        "borrower": {
+          "name": "Mr David Michael Thompson",
+          "contact_number": "0824567891",
+          "email_address": "david.thompson@example.com",
+          "residential_address": {
+            "line1": "42 Oak Street",
+            "line2": "Rosebank",
+            "line3": "2196",
+            "line4": "Johannesburg",
+            "line5": "Gauteng"
+          },
+          "postal_address": {
+            "line1": "42 Oak Street",
+            "line2": "Rosebank",
+            "line3": "2196",
+            "line4": "Johannesburg",
+            "line5": "Gauteng"
+          }
+        }
+      }
+    },
+    {
+      "header": "QUOTATION 1 - LOAN DETAIL",
+      "content": {
+        "loan_amount": 11500.00,
+        "initiation_fee_including_vat": 277.75,
+        "total_loan_amount": 11777.75,
+        "net_amount_deposited": 11500.00,
+        "monthly_loan_repayment": 380.65,
+        "monthly_service_fee_including_vat": 69.00,
+        "monthly_credit_life_insurance": {
+          "amount": 40.25,
+          "rate_per_r1000": 3.50
+        },
+        "instalment_amount": 489.90,
+        "number_of_monthly_instalments": 60,
+        "total_interest": {
+          "amount": 11061.25,
+          "annual_interest_rate_fixed": 29.25
+        },
+        "total_cost_of_fees_interest_and_insurance": 14498.00,
+        "total_cost_of_credit": 25998.00,
+        "credit_cost_multiple": 2.26
+      }
+    },
+    {
+      "header": "INITIATION FEE AND CREDIT LIFE",
+      "content": {
+        "choices": [
+          "Include the initiation fee in the total amount you're borrowing",
+          "Accept Credit Life Insurance with a monthly premium of R40.25",
+          "You acknowledge and agree that the Credit Provider may pay any unpaid credit life insurance premiums under this Agreement on your behalf and recover such payments from you. Past due interest on such payments might also be charged. The Credit Provider will notify you when the Plan and all cover has ended and cannot be re-instated. All payments received after the Plan has ended, will be allocated to your Agreement."
+        ]
+      }
+    },
+    {
+      "header": "NOTICE OF YOUR DEBIT ORDER AUTHORISATION AND MANDATE",
+      "content": {
+        "debit_details": {
+          "bank": "Tyme Bank",
+          "account_number": "62347891234",
+          "deduction_date": 25,
+          "frequency": "monthly"
+        },
+        "first_instalment": {
+          "amount": 502.45,
+          "description": "pro-rated",
+          "deduction_date": "November 2023 salary date",
+          "days_from_quotation": 21
+        },
+        "final_instalment": {
+          "deduction_date": "October 2028"
+        },
+        "terms": [
+          "Monthly instalments will be deducted by debit order from Tyme Bank account number 62347891234 on your salary date of 25 of every month. Where this date falls on a non-processing day (like Saturday, Sunday or official public holiday), we may process the payment up to two processing days before the deduction date.",
+          "If your salary payment date changes, you agree that we may change your deduction date to always be the same as your salary date. In December the deduction may take place before the due date in the event that your salary is paid earlier.",
+          "You agree that if we suspect that your salary or income is paid earlier, we may track your bank account in order to deduct on the earlier date. Please remember that if there are insufficient money in your bank account, we or your bank may track your account and deduct the payments due once money is available.",
+          "Your monthly instalments are fixed for the term of this agreement. If you do not pay the instalments when they are due, the debit order amount may fluctuate. Your contract reference number is included in your Agreement which will be sent to you."
+        ]
+      }
+    },
+    {
+      "header": "COMMUNICATION PREFERENCES",
+      "content": {
+        "language": "English",
+        "method": "email",
+        "statement_frequency": "monthly",
+        "agreement_language": "English",
+        "alternative_languages": ["isiXhosa", "isiZulu"]
+      }
+    },
+    {
+      "header": "REVIEW YOUR INFORMATION",
+      "content": {
+        "contact_number_for_errors": "021 7643404",
+        "name_and_contact_details": {
+          "id_number": "8501234567890",
+          "first_name": "David",
+          "middle_name": "Michael",
+          "surname": "Thompson",
+          "marital_status": "Single",
+          "home_language": "English"
+        },
+        "contact_details": {
+          "email_address": "david.thompson@example.com",
+          "work_number": "",
+          "home_number": "",
+          "cellphone_number": "0824567891"
+        }
+      }
+    },
+    {
+      "header": "DOCUMENTS",
+      "content": {
+        "documents": [
+          {
+            "name": "Copy of ID",
+            "status": "uploaded"
+          },
+          {
+            "name": "Proof of Address",
+            "status": "uploaded"
+          },
+          {
+            "name": "Proof of Banking Details",
+            "status": "uploaded"
+          }
+        ]
+      }
+    }
+  ]
+}
