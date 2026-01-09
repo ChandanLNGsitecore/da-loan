@@ -1,23 +1,22 @@
 "use client";
 
 import { useForm, useWatch, Controller } from "react-hook-form";
+import { useRouter } from "next/navigation";
 import { Button } from "components/da-loan/ui-premetive/button";
 import { Card, CardContent } from "components/da-loan/ui-premetive/card";
 import { ChevronLeft, ChevronRight, Info } from "lucide-react";
 import { DropDownList } from "components/da-loan/ui/drop-down-list";
 import { StandardNumberInput } from "components/da-loan/ui/standard-number-input";
 import { Text } from '@sitecore-content-sdk/nextjs';
-import { useRouter } from "next/navigation";
- 
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type SitecoreFields = Record<string, any>;
 
 type SitecoreOption = {
-	fields: {
-		Value: { value: string };
-		Text: { value: string };
-	};
+  fields: {
+    Value: { value: string };
+    Text: { value: string };
+  };
 };
 
 type Banking = {
@@ -41,7 +40,7 @@ export const Default = (props: BankingProps) => {
   const { onSubmit, initialData, onBack } = props;
   const { fields: propsFields = {} } = props;
   const fields = propsFields.fields || propsFields;
-debugger;
+  debugger;
   console.log("Props:", props);
   console.log("Fields:", fields);
 
@@ -66,7 +65,7 @@ debugger;
   const bankName = useWatch({ control, name: "bankName" });
   const accountType = useWatch({ control, name: "accountType" });
 
-   const onFormSubmit = handleSubmit((data) => {
+  const onFormSubmit = handleSubmit((data) => {
     console.log("Banking form submitted:", data);
     if (onSubmit && typeof onSubmit === 'function') {
       onSubmit(data);
@@ -82,6 +81,14 @@ debugger;
       return;
     }
     onFormSubmit();
+  };
+
+  const handleBack = () => {
+    if (onBack && typeof onBack === 'function') {
+      onBack();
+    } else {
+      router.back();
+    }
   };
 
   return (
@@ -145,7 +152,7 @@ debugger;
           <Controller
             name="accountNumber"
             control={control}
-            rules={{ 
+            rules={{
               required: fields?.AccountNumberRequiredMessage?.value,
               minLength: {
                 value: 5,
@@ -169,7 +176,7 @@ debugger;
           <Controller
             name="branchCode"
             control={control}
-            rules={{ 
+            rules={{
               required: fields?.BranchCodeRequiredMessage?.value,
               minLength: {
                 value: 3,
@@ -199,16 +206,14 @@ debugger;
         </div>
 
         <div className="flex gap-3 pt-4">
-          {onBack && (
-            <Button
-              onClick={onBack}
-              variant="outline"
-              className="flex-1 py-6 border-gray-300 text-gray-700 hover:bg-gray-50"
-            >
-              <ChevronLeft className="w-4 h-4 mr-1" />
-              <Text field={fields?.BackButtonText} />
-            </Button>
-          )}
+          <Button
+            onClick={handleBack}
+            variant="outline"
+            className="flex-1 py-6 border-gray-300 text-gray-700 hover:bg-gray-100 hover:text-gray-800">
+
+            <ChevronLeft className="w-4 h-4 mr-1" />
+            <Text field={fields?.BackButtonText} />
+          </Button>
 
           <Button
             onClick={handleNext}
@@ -222,4 +227,3 @@ debugger;
     </Card>
   );
 };
-

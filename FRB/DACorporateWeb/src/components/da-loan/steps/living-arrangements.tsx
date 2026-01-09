@@ -49,7 +49,8 @@ interface LivingArrangementsProps {
 
 export const Default = (props: LivingArrangementsProps) => {
 	"use no memo";
-	const router = useRouter();
+		const router = useRouter();
+
 	const { onSubmit, initialData, onBack } = props;
 	const { fields: propsFields = {} } = props;
 	const fields = propsFields.fields || propsFields;
@@ -82,7 +83,7 @@ export const Default = (props: LivingArrangementsProps) => {
 
 	const maritalStatus = useWatch({ control, name: "maritalStatus" });
 
-	const onFormSubmit = handleSubmit((data) => {
+		const onFormSubmit = handleSubmit((data) => {
 		console.log("Liveing Arrangement form submitted:", data);
 		if (onSubmit && typeof onSubmit === 'function') {
 			onSubmit(data);
@@ -91,6 +92,7 @@ export const Default = (props: LivingArrangementsProps) => {
 			router.push("/loans/affordability-detail");
 		}
 	});
+
 
 	const handleNext = async () => {
 		setHasAttemptedSubmit(true);
@@ -101,12 +103,20 @@ export const Default = (props: LivingArrangementsProps) => {
 		onFormSubmit();
 	};
 
+	const handleBack = () => {
+    if (onBack && typeof onBack === 'function') {
+      onBack();
+    } else {
+      router.back();
+    }
+  };
+
 	return (
 		<Card className="w-full mx-auto bg-white">
 			<CardContent className="p-6 md:p-8 space-y-6">
 				<div className="flex items-center justify-between mb-4">
-					<h2 className="text-2xl font-semibold text-gray-800"><Text field={fields?.JourneyStep_Heading} /></h2>
-					<div className="text-sm text-gray-600 font-medium"><Text field={fields?.StepCountText} /></div>
+						<h2 className="text-2xl font-semibold text-gray-800"><Text field={fields?.JourneyStep_Heading} /></h2>
+						<div className="text-sm text-gray-600 font-medium"><Text field={fields?.StepCountText} /></div>
 				</div>
 
 				<div className="space-y-6">
@@ -228,7 +238,7 @@ export const Default = (props: LivingArrangementsProps) => {
 							<Controller
 								name="maritalType"
 								control={control}
-								rules={{
+								rules={{ 
 									validate: (value) => {
 										if (maritalStatus === "Married" && !value) {
 											return fields?.MaritalTypeRequiredMessage?.value;
@@ -246,7 +256,7 @@ export const Default = (props: LivingArrangementsProps) => {
 											value: option.fields.Value.value,
 											label: option.fields.Text.value,
 											id: option.fields.Id.value
-										}))}
+										})) }
 										error={hasAttemptedSubmit ? errors.maritalType?.message : undefined}
 										required
 										wrapperClassName=""
@@ -258,12 +268,12 @@ export const Default = (props: LivingArrangementsProps) => {
 				</div>
 
 				<div className="flex gap-3 pt-4">
-					{onBack && (
-						<Button onClick={onBack} variant="outline" className="flex-1 py-6 border-gray-300 text-gray-700 hover:bg-gray-50">
+					
+						<Button onClick={handleBack} variant="outline" className="flex-1 py-6 border-gray-300 text-gray-700 hover:bg-gray-100 hover:text-gray-800">
 							<ChevronLeft className="w-4 h-4 mr-1" />
-							<Text field={fields?.BackButtonText?.value} />
+							<Text field={props.fields?.BackButtonText} />
 						</Button>
-					)}
+					
 
 					<Button onClick={handleNext} className="flex-1 py-6 text-white bg-[#2c5f5d] hover:bg-[#234a48]">
 						<Text field={props.fields?.SubmitButtonText} />
@@ -274,4 +284,3 @@ export const Default = (props: LivingArrangementsProps) => {
 		</Card>
 	);
 }
-

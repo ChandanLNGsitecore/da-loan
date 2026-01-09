@@ -5,7 +5,7 @@ import TermsModal from "components/da-loan/steps/terms-modal";
 import { Button } from "components/da-loan/ui-premetive/button";
 import { RangeSlider } from "components/da-loan/ui/range-slider";
 import { StandardTextInput } from "components/da-loan/ui/standard-text-input";
-import { SouthAfricanIDInput } from "components/da-loan/ui/south-african-id-input";
+import { SouthAfricanIDInput, validateSouthAfricanID } from "components/da-loan/ui/south-african-id-input";
 import { IncomeInput } from "components/da-loan/ui/income-input";
 import { Checkbox } from "components/da-loan/ui-premetive/checkbox";
 import { Label } from "components/da-loan/ui-premetive/label";
@@ -28,6 +28,7 @@ export const Default = (props: ApplicationFormProps) => {
   const { fields: propsFields = {} } = props;
   const fields = propsFields.fields || propsFields;
 
+  debugger;
   console.log("Props:", props);
   console.log("Fields:", fields);
 
@@ -49,11 +50,14 @@ export const Default = (props: ApplicationFormProps) => {
   const {
     register,
     handleSubmit,
+    trigger,
     control,
     setValue,
+    setError,
+    clearErrors,
     formState: { errors },
   } = useForm({
-    mode: "onSubmit",
+    mode: "onChange",
     reValidateMode: "onChange",
     defaultValues: {
       amount: Number(fields?.LoanAmountSlider_InitialValue?.value) || 0,
@@ -72,13 +76,23 @@ export const Default = (props: ApplicationFormProps) => {
   const repaymentMonths = useWatch({ control, name: "repaymentMonths" }) ?? 7;
 
   const onFormSubmit = handleSubmit((data) => {
+    console.log("Form submitted:", data);
     onSubmit(data);
   });
+
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const isValid = await trigger();
+    if (!isValid) {
+      return;
+    }
+    onFormSubmit();
+  };
 
   return (
     <Card className="w-full mx-auto bg-white">
       <CardContent className="p-6 md:p-8 space-y-6">
-        <form onSubmit={onFormSubmit} className="space-y-6">
+        <form onSubmit={handleFormSubmit} className="space-y-6">
           <div className="space-y-4">
             <h3 className="text-2xl font-medium text-gray-800 font-heading text-center">
               <Text field={fields?.JourneyStep_Heading} />
@@ -194,19 +208,55 @@ export const Default = (props: ApplicationFormProps) => {
               error={errors.surname?.message as string}
             />
 
-            <SouthAfricanIDInput
-              {...register("idNumber", {
+            <Controller
+              name="idNumber"
+              control={control}
+              rules={{
                 required:
                   fields?.IDNumber_RequiredErrorMessage?.value ||
                   "ID number is required",
-              })}
-              name={fields?.IDNumber_FieldID?.value}
-              label={<Text field={fields?.IDNumber_Label} />}
-              placeholder={fields?.IDNumber_Placeholder?.value}
-              containerClassName="space-y-2"
-              labelClassName="text-sm text-gray-800"
-              inputClassName="w-full"
-              error={errors.idNumber?.message as string}
+                validate: (value) => {
+                  if (!value || value.length !== 13) {
+                    return "ID number must be exactly 13 digits";
+                  }
+                  if (!/^\d{13}$/.test(value)) {
+                    return "ID number must contain only digits";
+                  }
+                  if (!validateSouthAfricanID(value)) {
+                    return fields?.IDNumber_ValidationErrorMessage?.value || "Invalid South African ID number";
+                  }
+                  return true;
+                },
+              }}
+              render={({ field }) => (
+                <SouthAfricanIDInput
+                  name={fields?.IDNumber_FieldID?.value}
+                  label={<Text field={fields?.IDNumber_Label} />}
+                  placeholder={fields?.IDNumber_Placeholder?.value}
+                  containerClassName="space-y-2"
+                  labelClassName="text-sm text-gray-800"
+                  inputClassName="w-full"
+                  value={field.value || ""}
+                  onChange={(e) => {
+                    field.onChange(e.target.value);
+                  }}
+                  onBlur={field.onBlur}
+                  onValidationChange={(isValid, errorMsg) => {
+                    if (!isValid && errorMsg) {
+                      setError("idNumber", {
+                        type: "manual",
+                        message: errorMsg,
+                      });
+                    } else {
+                      clearErrors("idNumber");
+                    }
+                  }}
+                  error={errors.idNumber?.message as string}
+                  customValidationError={
+                    fields?.IDNumber_ValidationErrorMessage?.value
+                  }
+                />
+              )}
             />
 
             <Controller
@@ -292,7 +342,13 @@ export const Default = (props: ApplicationFormProps) => {
           <div className="text-center text-sm text-gray-600">
             <Text field={fields?.AlreadyStartedText} />{" "}
             <ContentSdkLink
-              field={fields?.ResumeApplicationLink}
+              field={{
+                ...fields?.ResumeApplicationLink,
+                value: {
+                  ...fields?.ResumeApplicationLink?.value,
+                  text: fields?.ResumeApplicationLink?.value?.text || "Resume your application"
+                }
+              }}
               className="text-[#2c5f5d] underline"
             />
           </div>

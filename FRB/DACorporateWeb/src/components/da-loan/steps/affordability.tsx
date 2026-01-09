@@ -14,8 +14,8 @@ import { IncomeInput } from "../ui/income-input";
 export const Default = (props: AffordabilityComponentProps) => {
 	const [showDetails, setShowDetails] = useState(false);
 	const router = useRouter();
-	
-	
+
+
 
 	const {
 		register,
@@ -61,7 +61,7 @@ export const Default = (props: AffordabilityComponentProps) => {
 	};
 
 	return (
-	<Card className="w-full mx-auto bg-white">
+		<Card className="w-full mx-auto bg-white">
 			<CardContent className="p-6 md:p-8 space-y-6">
 				<div className="space-y-2">
 					<h2 className="text-2xl font-semibold text-gray-800"><Text field={props.fields.JourneyStep_Heading} /></h2>
@@ -78,89 +78,89 @@ export const Default = (props: AffordabilityComponentProps) => {
 				</div>
 
 				<div className="space-y-4">
-				<Controller
-					name="monthlyIncomeAfterTax"
-					control={control}
-					rules={{ 
-						required: props.fields?.NetIncome_ValidationErrorMessage?.value?.toString() || "Monthly income is required",
-						min: {
-							value: 1,
-							message: "Income must be greater than 0"
-						}
-					}}
-					render={({ field }) => (
-						<IncomeInput
-							{...field}
-							value={field.value || ""}
-							onChange={(e) => field.onChange(e.target.value ? Number(e.target.value) : undefined)}
-							label={<Text field={props?.fields?.NetIncome_Label} />}
-							placeholder={props?.fields?.NetIncome_Placeholder?.value?.toString() || "e.g. 39 908.00"}
-							prefix="R"
-							type="number"	
-							showHelpIcon={false}
-							containerClassName=""
-							labelContainerClassName=""
-							labelClassName="block text-sm font-medium text-gray-800 mb-1"
-							error={errors.monthlyIncomeAfterTax?.message}
-						/>
-					)}
-				/>
-				<Controller
-					name="monthlyCommitments"
-					control={control}
-					rules={{ 
-						required: props.fields?.MonthlyCommitment_ValidationErrorMessage?.value?.toString() || "Monthly commitments is required",
-						min: {
-							value: 0,
-							message: "Commitments cannot be negative"
-						}
-					}}
-					render={({ field }) => (
-						<IncomeInput
-							{...field}
-							value={field.value || ""}
-							onChange={(e) => field.onChange(e.target.value ? Number(e.target.value) : undefined)}
-							label={<Text field={props?.fields?.MonthlyCommitment_Label} />}
-							placeholder={props?.fields?.MonthlyCommitment_Placeholder?.value?.toString() || "e.g. 17 027.00"}
-							prefix="R"
-							type="number"	
-							showHelpIcon={false}
-							containerClassName=""
-							labelContainerClassName=""
-							labelClassName="block text-sm font-medium text-gray-800 mb-1"
-							error={errors.monthlyCommitments?.message}
-						/>
-					)}
-				/>
+					<Controller
+						name="monthlyIncomeAfterTax"
+						control={control}
+						rules={{
+							required: props.fields?.NetIncome_ValidationErrorMessage?.value?.toString() || "Monthly income is required",
+							min: {
+								value: 1,
+								message: "Income must be greater than 0"
+							}
+						}}
+						render={({ field }) => (
+							<IncomeInput
+								{...field}
+								value={field.value || ""}
+								onChange={(e) => field.onChange(e.target.value ? Number(e.target.value) : undefined)}
+								label={<Text field={props?.fields?.NetIncome_Label} />}
+								placeholder={props?.fields?.NetIncome_Placeholder?.value?.toString() || "e.g. 39 908.00"}
+								prefix="R"
+								type="number"
+								showHelpIcon={false}
+								containerClassName=""
+								labelContainerClassName=""
+								labelClassName="block text-sm font-medium text-gray-800 mb-1"
+								error={errors.monthlyIncomeAfterTax?.message}
+							/>
+						)}
+					/>
+					<Controller
+						name="monthlyCommitments"
+						control={control}
+						rules={{
+							required: props.fields?.MonthlyCommitment_ValidationErrorMessage?.value?.toString() || "Monthly commitments is required",
+							min: {
+								value: 0,
+								message: "Commitments cannot be negative"
+							}
+						}}
+						render={({ field }) => (
+							<IncomeInput
+								{...field}
+								value={field.value || ""}
+								onChange={(e) => field.onChange(e.target.value ? Number(e.target.value) : undefined)}
+								label={<Text field={props?.fields?.MonthlyCommitment_Label} />}
+								placeholder={props?.fields?.MonthlyCommitment_Placeholder?.value?.toString() || "e.g. 17 027.00"}
+								prefix="R"
+								type="number"
+								showHelpIcon={false}
+								containerClassName=""
+								labelContainerClassName=""
+								labelClassName="block text-sm font-medium text-gray-800 mb-1"
+								error={errors.monthlyCommitments?.message}
+							/>
+						)}
+					/>
 
-				<Controller
-					name="otherLivingExpenses"
-					control={control}
-					rules={{ 
-						required: props.fields?.LivingExpenses_ValidationErrorMessage?.value?.toString() || "Living expenses is required",
-						min: {
-							value: 0,
-							message: "Expenses cannot be negative"
-						}
-					}}
-					render={({ field }) => (
-						<IncomeInput
-							{...field}
-							value={field.value || ""}
-							onChange={(e) => field.onChange(e.target.value ? Number(e.target.value) : undefined)}
-							label={<Text field={props?.fields?.LivingExpenses_Label} />}
-							placeholder={props?.fields?.LivingExpenses_Placeholder?.value?.toString() || "e.g. 8 801.00"}
-							prefix="R"
-							type="number"							
-							showHelpIcon={false}
-							containerClassName=""
-							labelContainerClassName=""
-							labelClassName="block text-sm font-medium text-gray-800 mb-1"
-							error={errors.otherLivingExpenses?.message}
-						/>
-					)}
-				/>
-			</div>
+					<Controller
+						name="otherLivingExpenses"
+						control={control}
+						rules={{
+							required: props.fields?.LivingExpenses_ValidationErrorMessage?.value?.toString() || "Living expenses is required",
+							min: {
+								value: 0,
+								message: "Expenses cannot be negative"
+							}
+						}}
+						render={({ field }) => (
+							<IncomeInput
+								{...field}
+								value={field.value || ""}
+								onChange={(e) => field.onChange(e.target.value ? Number(e.target.value) : undefined)}
+								label={<Text field={props?.fields?.LivingExpenses_Label} />}
+								placeholder={props?.fields?.LivingExpenses_Placeholder?.value?.toString() || "e.g. 8 801.00"}
+								prefix="R"
+								type="number"
+								showHelpIcon={false}
+								containerClassName=""
+								labelContainerClassName=""
+								labelClassName="block text-sm font-medium text-gray-800 mb-1"
+								error={errors.otherLivingExpenses?.message}
+							/>
+						)}
+					/>
+				</div>
 				<div className="rounded-lg border border-gray-200 p-4 bg-gray-50 space-y-3">
 					<div className="flex items-center justify-between">
 						<p className="text-sm font-semibold text-gray-800"><Text field={props.fields.EstimatedDisposableTitle} /></p>
@@ -180,26 +180,25 @@ export const Default = (props: AffordabilityComponentProps) => {
 						<Text field={props.fields.ViewAffordabilityButtonText} />
 					</Button>
 
-					{showDetails && (
-						<div className="mt-4 space-y-3 text-sm text-gray-700 bg-white border border-gray-200 rounded-lg p-4">
-							<p><Text field={props.fields.ViewAffordabilityTitle} /></p>
-							<div className="[&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1">
-								<ContentSdkRichText field={props.fields.ViewAffordabilityDescription} />
-							</div>
-							<p className="text-xs text-gray-500">
-								<Text field={props.fields.ViewAffordabilitDisclaimer} />
-							</p>
+					<div className={`mt-4 space-y-3 text-sm text-gray-700 bg-white border border-gray-200 rounded-lg p-4 transition-all duration-300 ${showDetails ? 'block' : 'hidden'
+						}`}>
+						<p><Text field={props.fields.ViewAffordabilityTitle} /></p>
+						<div className="[&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1">
+							<ContentSdkRichText field={props.fields.ViewAffordabilityDescription} />
 						</div>
-					)}
+						<p className="text-xs text-gray-500">
+							<Text field={props.fields.ViewAffordabilitDisclaimer} />
+						</p>
+					</div>
 				</div>
 
 				<div className="flex gap-3 pt-2">
-					
-						<Button onClick={handleBack} variant="outline" className="flex-1 py-6 border-gray-300 text-gray-700 hover:bg-gray-100 hover:text-gray-800">
-							<ChevronLeft className="w-4 h-4 mr-1" />
-							<Text field={props.fields.BackBtnText} />
-						</Button>
-				
+
+					<Button onClick={handleBack} variant="outline" className="flex-1 py-6 border-gray-300 text-gray-700 hover:bg-gray-100 hover:text-gray-800">
+						<ChevronLeft className="w-4 h-4 mr-1" />
+						<Text field={props.fields.BackBtnText} />
+					</Button>
+
 					<Button onClick={handleNext} className="flex-1 py-6 text-white bg-[#2c5f5d] hover:bg-[#234a48]">
 						<Text field={props.fields.SubmitButtonText} />
 						<ChevronRight className="w-4 h-4 ml-1" />
@@ -209,4 +208,3 @@ export const Default = (props: AffordabilityComponentProps) => {
 		</Card>
 	);
 }
-
