@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { useForm, Controller } from "react-hook-form";
+import { useRouter } from "next/navigation";
 import { Button } from "components/da-loan/ui-premetive/button";
 import { Card, CardContent } from "components/da-loan/ui-premetive/card";
 import { Input } from "components/da-loan/ui-premetive/input";
@@ -10,7 +11,6 @@ import { DropDownList } from "components/da-loan/ui/drop-down-list";
 import { StandardTextInput } from "components/da-loan/ui/standard-text-input";
 import { StandardNumberInput } from "components/da-loan/ui/standard-number-input";
 import { Text } from '@sitecore-content-sdk/nextjs';
-import { useRouter } from "next/navigation";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type SitecoreFields = Record<string, any>;
@@ -80,8 +80,8 @@ const deriveSectorFromEmployer = (employerName: string): string => {
 
 export const Default = (props: EmploymentProps) => {
 	"use no memo";
-	 const router = useRouter();
 
+	const router = useRouter();
 	const { onSubmit, initialData, onBack } = props;
 	const { fields: propsFields = {} } = props;
 	const fields = propsFields.fields || propsFields;
@@ -139,14 +139,14 @@ export const Default = (props: EmploymentProps) => {
 	}, [employerName, sector, setValue]);
 
 	const onFormSubmit = handleSubmit((data) => {
-        console.log("Employment form submitted:", data);
-        if (onSubmit && typeof onSubmit === 'function') {
-            onSubmit(data);
-        } else {
-            // Navigate to banking details page if no onSubmit handler provided
-            router.push("/loans/banking-detail");
-        }
-    });
+		console.log("Employment form submitted:", data);
+		if (onSubmit && typeof onSubmit === 'function') {
+			onSubmit(data);
+		} else {
+			// Navigate to banking details page if no onSubmit handler provided
+			router.push("/loans/banking-detail");
+		}
+	});
 
 	const handleNext = async () => {
 		const isValid = await trigger();
@@ -327,38 +327,40 @@ export const Default = (props: EmploymentProps) => {
 					/>
 
 					<div>
-						<StandardNumberInput
-							{...register("salaryDate", {
-								required: fields?.SalaryDateRequiredErrorMessage?.value,
-								min: {
-									value: 1,
-									message: "Day must be at least 1"
-								},
-								max: {
-									value: 31,
-									message: "Day cannot be more than 31"
-								},
-								validate: (value) => {
-									const num = parseInt(value);
-									if (isNaN(num) || num < 1 || num > 31) {
-										return "Please enter a day between 1 and 31";
-									}
-									return true;
+					<Controller
+						name="salaryDate"
+						control={control}
+						rules={{
+							required: fields?.SalaryDateRequiredErrorMessage?.value || "Salary date is required",
+							validate: (value) => {
+								if (!value || value === "") {
+									return fields?.SalaryDateRequiredErrorMessage?.value || "Salary date is required";
 								}
-							})}
-							label={fields?.EmploymentSalaryDateLabel}
-							placeholder={fields?.EmploymentSalaryDatePlaceholder?.value}
-							maxLength={2}
-							inputRegex={/^\d{0,2}$/}
-							type="tel"
-							labelContainerClassName="flex items-center gap-2"
-							labelClassName="text-sm font-medium text-gray-800"
-							error={errors.salaryDate?.message}
-						/>
-						<p className="text-xs text-gray-500 mt-1">Enter the day you typically receive payment</p>
-					</div>
+								const num = parseInt(value);
+								if (isNaN(num) || num < 1 || num > 31) {
+									return "Please enter a day between 1 and 31";
+								}
+								return true;
+							}
+						}}
+						render={({ field }) => (
+							<StandardNumberInput
+								{...field}
+								label={fields?.EmploymentSalaryDateLabel}
+								placeholder={fields?.EmploymentSalaryDatePlaceholder?.value}
+								maxLength={2}
+								inputRegex={/^\d{0,2}$/}
+								type="tel"
+								labelContainerClassName="flex items-center gap-2"
+								labelClassName="text-sm font-medium text-gray-800"
+								error={errors.salaryDate?.message}
+							/>
+						)}
+				/>
+				<p className="text-xs text-gray-500 mt-1">Enter the day you typically receive payment</p>
+			</div>
 
-					<div className="space-y-1">
+			<div className="space-y-1">
 						<StandardTextInput
 							{...register("incomeProvider", {
 								required: fields?.IncomeProviderRequiredErrorMessage?.value,
