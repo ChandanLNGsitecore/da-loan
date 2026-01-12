@@ -187,7 +187,7 @@ export const Default = (props: ResidentialAddressProps) => {
                 value={field.value}
                 onChange={(e) => field.onChange(e.target.value)}
                 name={String(props?.fields?.AddressLine1_FieldID?.value ?? "")}
-                label={props?.fields?.AddressLine1_Label?.value}
+                label={String(props?.fields?.AddressLine1_Label?.value || '')}
                 placeholder={String(props?.fields?.AddressLine1_Placeholder?.value)}
                 showHelpIcon={true}
                 tooltipText="Enter street address, P.O. box, company name, c/o"
@@ -222,7 +222,7 @@ export const Default = (props: ResidentialAddressProps) => {
                 value={field.value}
                 onChange={(e) => field.onChange(e.target.value)}
                 name={String(props?.fields?.AddressLine2_FieldID?.value ?? "")}
-                label={props?.fields?.AddressLine2_Label?.value}
+                label={String(props?.fields?.AddressLine2_Label?.value || '')}
                 placeholder={String(props?.fields?.AddressLine2_Placeholder?.value)}
                 showHelpIcon={true}
                 tooltipText="Enter street address, P.O. box, company name, c/o"
@@ -250,7 +250,7 @@ export const Default = (props: ResidentialAddressProps) => {
                 value={field.value}
                 onChange={(e) => field.onChange(e.target.value)}
                 name={String(props.fields?.City_FieldID?.value ?? "")}
-                label={props.fields?.City_Label?.value}
+                label={String(props.fields?.City_Label?.value || '')}
                 placeholder={String(props.fields?.City_Placeholder?.value)}
                 showHelpIcon={true}
                 tooltipText="Enter your city"
