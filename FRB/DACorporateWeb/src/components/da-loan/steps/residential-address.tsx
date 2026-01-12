@@ -93,11 +93,14 @@ export type ResidentialAddressProps = ComponentProps & {
 };
 
 export const Default = (props: ResidentialAddressProps) => {
-  console.log("ResidentialAddressProps props:", props);
+  "use no memo";
 
   const router = useRouter();
   const { onSubmit, initialData, onBack } = props;
-  const { fields = {} } = props;
+
+  debugger;
+  console.log("Props:", props);
+  console.log("Fields:", props.fields);
 
   const {
     handleSubmit,
@@ -176,10 +179,10 @@ export const Default = (props: ResidentialAddressProps) => {
             name="streetLine1"
             control={control}
             rules={{
-              required: String(props.fields?.AddressLine1_ValidationErrorMessage?.value) || "Street line 1 is required",
+              required: String(props.fields?.AddressLine1_ValidationErrorMessage?.value),
               minLength: {
-                value: Number(props?.fields?.AddressLine1_MinLength) || 2,
-                message: props?.fields?.AddressLine1_MinLengthErrorMessage || `Street line 1 must be at least ${props?.fields?.AddressLine1_MinLength || 2} characters`,
+                value: Number(props?.fields?.AddressLine1_MinLength),
+                message: props?.fields?.AddressLine1_MinLengthErrorMessage,
               },
             }}
             render={({ field }) => (
@@ -187,7 +190,7 @@ export const Default = (props: ResidentialAddressProps) => {
                 value={field.value}
                 onChange={(e) => field.onChange(e.target.value)}
                 name={String(props?.fields?.AddressLine1_FieldID?.value ?? "")}
-                label={String(props?.fields?.AddressLine1_Label?.value || '')}
+                label={<Text field={props?.fields?.AddressLine1_Label} />}
                 placeholder={String(props?.fields?.AddressLine1_Placeholder?.value)}
                 showHelpIcon={true}
                 tooltipText="Enter street address, P.O. box, company name, c/o"
@@ -196,8 +199,8 @@ export const Default = (props: ResidentialAddressProps) => {
                 labelClassName="block text-sm font-medium text-gray-800 mb-1"
                 inputClassName="w-full"
                 helpIconClassName="w-4 h-4 text-gray-400"
-                maxLength={Number(props?.fields?.AddressLine1_MaxLength) || 300}
-                minLength={Number(props?.fields?.AddressLine1_MinLength) || 2}
+                maxLength={Number(props?.fields?.AddressLine1_MaxLength)}
+                minLength={Number(props?.fields?.AddressLine1_MinLength)}
                 minLengthErrorMessage={props?.fields?.AddressLine1_MinLengthErrorMessage}
                 error={errors.streetLine1?.message}
               />
@@ -209,12 +212,12 @@ export const Default = (props: ResidentialAddressProps) => {
             control={control}
             rules={{
               minLength: {
-                value: Number(props?.fields?.AddressLine2_MinLength) || 0,
-                message: props?.fields?.AddressLine2_MinLengthErrorMessage || `Street line 2 must be at least ${props?.fields?.AddressLine2_MinLength || 0} characters`,
+                value: Number(props?.fields?.AddressLine2_MinLength),
+                message: props?.fields?.AddressLine2_MinLengthErrorMessage,
               },
               maxLength: {
-                value: Number(props?.fields?.AddressLine2_MaxLength) || 300,
-                message: `Street line 2 must not exceed ${props?.fields?.AddressLine2_MaxLength || 300} characters`,
+                value: Number(props?.fields?.AddressLine2_MaxLength),
+                message: String(props?.fields?.AddressLine2_MaxLength),
               },
             }}
             render={({ field }) => (
@@ -222,7 +225,7 @@ export const Default = (props: ResidentialAddressProps) => {
                 value={field.value}
                 onChange={(e) => field.onChange(e.target.value)}
                 name={String(props?.fields?.AddressLine2_FieldID?.value ?? "")}
-                label={String(props?.fields?.AddressLine2_Label?.value || '')}
+                label={<Text field={props?.fields?.AddressLine2_Label} />}
                 placeholder={String(props?.fields?.AddressLine2_Placeholder?.value)}
                 showHelpIcon={true}
                 tooltipText="Enter street address, P.O. box, company name, c/o"
@@ -231,8 +234,8 @@ export const Default = (props: ResidentialAddressProps) => {
                 labelClassName="block text-sm font-medium text-gray-800 mb-1"
                 inputClassName="w-full"
                 helpIconClassName="w-4 h-4 text-gray-400"
-                maxLength={Number(props?.fields?.AddressLine2_MaxLength) || 300}
-                minLength={Number(props?.fields?.AddressLine2_MinLength) || 0}
+                maxLength={Number(props?.fields?.AddressLine2_MaxLength)}
+                minLength={Number(props?.fields?.AddressLine2_MinLength)}
                 minLengthErrorMessage={props?.fields?.AddressLine2_MinLengthErrorMessage}
                 error={errors.streetLine2?.message}
               />
@@ -243,14 +246,14 @@ export const Default = (props: ResidentialAddressProps) => {
             name="cityTown"
             control={control}
             rules={{
-              required: String(props.fields?.City_ValidationErrorMessage?.value) || "Enter your city",
+              required: String(props.fields?.City_ValidationErrorMessage?.value),
             }}
             render={({ field }) => (
               <StandardTextInput
                 value={field.value}
                 onChange={(e) => field.onChange(e.target.value)}
                 name={String(props.fields?.City_FieldID?.value ?? "")}
-                label={String(props.fields?.City_Label?.value || '')}
+                label={<Text field={props.fields?.City_Label} />}
                 placeholder={String(props.fields?.City_Placeholder?.value)}
                 showHelpIcon={true}
                 tooltipText="Enter your city"
@@ -272,7 +275,7 @@ export const Default = (props: ResidentialAddressProps) => {
               render={({ field }) => (
                 <DropDownList
                   id="province"
-                  label={String(props?.fields?.ProvinceLabelText?.value)}
+                  label={<Text field={props?.fields?.ProvinceLabelText} />}
                   value={field.value}
                   onValueChange={field.onChange}
                   options={props?.fields?.["Province List"]
@@ -294,7 +297,7 @@ export const Default = (props: ResidentialAddressProps) => {
             name="postalCode"
             control={control}
             rules={{
-              required: String(props.fields?.Postcode_ValidationErrorMessage?.value) || "Postcode is required",
+              required: String(props.fields?.Postcode_ValidationErrorMessage?.value),
             }}
             render={({ field }) => (
               <StandardNumberInput
