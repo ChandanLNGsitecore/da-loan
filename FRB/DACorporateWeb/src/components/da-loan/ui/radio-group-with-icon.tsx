@@ -3,9 +3,10 @@
 import { forwardRef } from "react";
 import * as LucideIcons from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import { Text } from '@sitecore-content-sdk/nextjs';
 
 export interface RadioOption {
-    label: string;
+    label: string | { value: string };
     id: string;
     value: string;
     icon: string;
@@ -42,7 +43,9 @@ export const RadioGroupWithIcon = forwardRef<HTMLDivElement, RadioGroupWithIconP
                                     <Icon className={`w-6 h-6 ${isSelected ? "text-white" : "text-gray-600"}`} />
                                 </div>
                                 <div className="flex-1 text-left">
-                                    <div className={`font-semibold text-base ${isSelected ? "text-white" : "text-gray-800"}`}>{label}</div>
+                                    <div className={`font-semibold text-base ${isSelected ? "text-white" : "text-gray-800"}`}>
+                                        {typeof label === 'string' ? label : <Text field={label} />}
+                                    </div>
                                 </div>
                             </button>
                         );

@@ -57,7 +57,7 @@ export const Default = (props: LoanPurposeProps) => {
 			onSubmit(data);
 		} else {
 			// Navigate to next page if no onSubmit handler provided
-			router.push("/loans/next-step");
+			router.push("/loans/confirm-cellphone");
 		}
 	});
 
@@ -70,7 +70,7 @@ export const Default = (props: LoanPurposeProps) => {
 	};
 
 	const loanPurposeOptions: RadioOption[] = fields?.LoanPurposeOptions?.map((option: SitecoreOption) => ({
-		label: option.fields.Text.value,
+		label: option.fields.Text,
 		id: option.fields.Id.value,
 		value: option.fields.Value.value,
 		icon: option.fields.Icon.value

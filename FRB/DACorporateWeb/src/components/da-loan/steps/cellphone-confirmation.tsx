@@ -68,7 +68,7 @@ const {
 		}
 		
 		// Redirect to next page (you can customize the URL)
-		router.push('/loans/validate-otp'); // Replace with your desired route
+		router.push('/loans/thank-you'); 
 	};
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const value = e.target.value.replace(/\D/g, "");
