@@ -284,3 +284,4 @@ export const Default = (props: LivingArrangementsProps) => {
 		</Card>
 	);
 }
+

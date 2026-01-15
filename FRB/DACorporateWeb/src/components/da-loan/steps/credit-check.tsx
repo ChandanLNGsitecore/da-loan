@@ -30,6 +30,7 @@ export const Default = (props: CreditCheckComponentProps) => {
 		register,
 		handleSubmit,
 		formState: { errors },
+		clearErrors,
 	} = useForm({
 		mode: "onSubmit",
 		reValidateMode: "onChange",
@@ -49,6 +50,18 @@ export const Default = (props: CreditCheckComponentProps) => {
 		
 		// Redirect to next page (you can customize the URL)
 		router.push('/loans/validate-otp'); // Replace with your desired route
+	};
+
+	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const value = e.target.value.replace(/\D/g, "");
+		
+		// Only clear validation errors when the input matches the regex pattern
+		if (errors.cellphone && value) {
+			const regex = getRegex(props.fields?.CellPhone_ValidationRegex?.value?.toString()) || /^0\d{9}$/;
+			if (regex.test(value)) {
+				clearErrors('cellphone');
+			}
+		}
 	};
 
 	return (
@@ -78,7 +91,9 @@ export const Default = (props: CreditCheckComponentProps) => {
 					label={props.fields?.CellPhone_Label}
 					placeholder={props.fields?.CellPhone_Placeholder?.value?.toString()}
 					type="tel"
+					showLabel={true}
 					maxLength={10}
+					onChange={handleInputChange}
 					inputRegex={getRegex(props.fields?.CellPhone_ValidationRegex?.value?.toString())}
 					formatErrorMessage={props.fields?.CellPhone_ValidationErrorMessage?.value?.toString()}
 					containerClassName="space-y-2"

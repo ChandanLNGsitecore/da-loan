@@ -27,6 +27,7 @@ interface StandardNumberInputProps extends Omit<React.ComponentProps<"input">, "
 	inputWrapperClassName?: string;
 	inputClassName?: string;
 	errorClassName?: string;
+	showLabel?: boolean;
 	showHelpIcon?: boolean;
 	helpIconClassName?: string;
 	tooltipText?: string;
@@ -57,6 +58,7 @@ export const StandardNumberInput = React.forwardRef<HTMLInputElement, StandardNu
 			inputWrapperClassName,
 			inputClassName = "w-full",
 			errorClassName = "text-sm text-red-500",
+			showLabel = true,
 			showHelpIcon = false,
 			helpIconClassName = "w-4 h-4 text-gray-400",
 			tooltipText,
@@ -125,13 +127,14 @@ export const StandardNumberInput = React.forwardRef<HTMLInputElement, StandardNu
 
 		return (
 			<div className={containerClassName}>
-				
+				{showLabel && (
 					<label htmlFor={name} className={labelClassName}>
 						<Text field={label} />
 					</label>
-					{showHelpIcon && (
-						<CircleHelp className={helpIconClassName} aria-label={tooltipText} />
-					)}
+				)}
+				{showHelpIcon && (
+					<CircleHelp className={helpIconClassName} aria-label={tooltipText} />
+				)}
 				
 			
 					{prefix && <span className={prefixClassName}>{prefix}</span>}

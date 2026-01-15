@@ -208,3 +208,4 @@ export const Default = (props: AffordabilityComponentProps) => {
 		</Card>
 	);
 }
+

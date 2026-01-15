@@ -227,3 +227,4 @@ export const Default = (props: BankingProps) => {
     </Card>
   );
 };
+
