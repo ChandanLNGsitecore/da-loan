@@ -409,14 +409,14 @@ export const Default = (props: EmploymentProps) => {
 				</div>
 				<div className="flex gap-3 pt-4">
 					
-						<Button onClick={onBack} variant="outline" className="flex-1 py-6 border-gray-300 text-gray-700 hover:bg-gray-50">
+						<Button onClick={onBack} variant="outline" className="flex-1 py-6 border-gray-300 text-gray-700 hover:bg-gray-100 hover:text-gray-800">
 							<ChevronLeft className="w-4 h-4 mr-1" />
-							<Text field={fields?.BackButtonText?.value} />
+							<Text field={fields?.BackButtonText} />
 						</Button>
 					
 
 					<Button onClick={handleNext} className="flex-1 py-6 text-white bg-[#2c5f5d] hover:bg-[#234a48]">
-						<Text field={props.fields?.SubmitButtonText} />
+						<Text field={fields?.SubmitButtonText} />
 						<ChevronRight className="w-4 h-4 ml-1" />
 					</Button>
 				</div>

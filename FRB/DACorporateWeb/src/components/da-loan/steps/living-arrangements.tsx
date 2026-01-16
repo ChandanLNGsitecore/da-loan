@@ -119,11 +119,15 @@ export const Default = (props: LivingArrangementsProps) => {
 						<div className="text-sm text-gray-600 font-medium"><Text field={fields?.StepCountText} /></div>
 				</div>
 
+				<div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+					<div className="h-full bg-[#2c5f5d] transition-all duration-300" style={{ width: "20%" }} />
+				</div>
+
 				<div className="space-y-6">
 					<Controller
 						name="race"
 						control={control}
-						rules={{ required: fields?.RaceRequiredMessage?.value || "Please select your race" }}
+						rules={{ required: fields?.RaceRequiredMessage?.value }}
 						render={({ field }) => (
 							<DropDownList
 								id="race"
@@ -145,7 +149,7 @@ export const Default = (props: LivingArrangementsProps) => {
 					<Controller
 						name="countryOfBirth"
 						control={control}
-						rules={{ required: fields?.CountryBirthRequiredMessage?.value || "Please select your country of birth" }}
+						rules={{ required: fields?.CountryBirthRequiredMessage?.value }}
 						render={({ field }) => (
 							<DropDownList
 								id="countryOfBirth"
@@ -166,7 +170,7 @@ export const Default = (props: LivingArrangementsProps) => {
 					<Controller
 						name="whereDoYouLive"
 						control={control}
-						rules={{ required: fields?.AccomodationTypeRequiredMessage?.value || "Please select where you live" }}
+						rules={{ required: fields?.AccomodationTypeRequiredMessage?.value}}
 						render={({ field }) => (
 							<RadioGroup
 								id="whereDoYouLive"
@@ -188,7 +192,7 @@ export const Default = (props: LivingArrangementsProps) => {
 					<Controller
 						name="homeLanguage"
 						control={control}
-						rules={{ required: fields?.HomeLanguageRequiredMessage?.value || "Please select your home language" }}
+						rules={{ required: fields?.HomeLanguageRequiredMessage?.value }}
 						render={({ field }) => (
 							<DropDownList
 								id="homeLanguage"
@@ -209,7 +213,7 @@ export const Default = (props: LivingArrangementsProps) => {
 					<Controller
 						name="maritalStatus"
 						control={control}
-						rules={{ required: fields?.MaritalStatusRequiredMessage?.value || "Please select your marital status" }}
+						rules={{ required: fields?.MaritalStatusRequiredMessage?.value }}
 						render={({ field }) => (
 							<RadioGroup
 								id="maritalStatus"
