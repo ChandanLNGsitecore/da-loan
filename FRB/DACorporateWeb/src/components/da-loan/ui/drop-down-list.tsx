@@ -66,12 +66,11 @@ export const DropDownList = ({
 
 	return (
 		<div>
-			<div className="flex items-center gap-2 mb-1">
-				<label htmlFor={id} className="block text-sm font-medium text-gray-800">
-					{label}
-					
-				</label>
-				{tooltip && (
+			{tooltip ? (
+				<div className="flex items-center gap-2 mb-1">
+					<label className="block text-sm text-gray-800">
+						{label}
+					</label>
 					<Tooltip>
 						<TooltipTrigger asChild>
 							<button type="button" className="inline-flex items-center">
@@ -82,8 +81,12 @@ export const DropDownList = ({
 							<p>{tooltip}</p>
 						</TooltipContent>
 					</Tooltip>
-				)}
-			</div>
+				</div>
+			) : (
+				<label className="block text-sm text-gray-800 mb-1">
+					{label}
+				</label>
+			)}
 			<Select value={value} onValueChange={handleValueChange} onOpenChange={handleOpenChange}>
 				<SelectTrigger className={className}>
 					<SelectValue placeholder={placeholder} />

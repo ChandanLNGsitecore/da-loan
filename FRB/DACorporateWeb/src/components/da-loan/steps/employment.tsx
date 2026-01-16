@@ -226,7 +226,7 @@ export const Default = (props: EmploymentProps) => {
 									error={errors.employmentType?.message}
 								/>
 							)}
-						/>					)}
+						/>)}
 
 					{employmentStatus === "Self-Employed" && (
 						<Controller
@@ -262,7 +262,7 @@ export const Default = (props: EmploymentProps) => {
 						inputRegex={/^[a-zA-Z\s]*$/}
 						containerClassName="space-y-2"
 						labelContainerClassName="flex items-center gap-2"
-						labelClassName="text-sm font-medium text-gray-800"
+						labelClassName="text-sm text-gray-800"
 						inputClassName="w-full"
 						error={errors.employerName?.message}
 					/>
@@ -301,8 +301,8 @@ export const Default = (props: EmploymentProps) => {
 						label={<Text field={fields?.EmploymentOccupationLabel} />}
 						placeholder={fields?.EmploymentOccupationPlaceholder?.value}
 						inputRegex={/^[a-zA-Z\s]*$/}
-						containerClassName="space-y-2"
-						inputClassName="w-full"
+						containerClassName="space-y-2" labelContainerClassName="flex items-center gap-2"
+						labelClassName="text-sm text-gray-800" inputClassName="w-full"
 						error={errors.occupation?.message}
 					/>
 
@@ -327,40 +327,40 @@ export const Default = (props: EmploymentProps) => {
 					/>
 
 					<div>
-					<Controller
-						name="salaryDate"
-						control={control}
-						rules={{
-							required: fields?.SalaryDateRequiredErrorMessage?.value || "Salary date is required",
-							validate: (value) => {
-								if (!value || value === "") {
-									return fields?.SalaryDateRequiredErrorMessage?.value || "Salary date is required";
+						<Controller
+							name="salaryDate"
+							control={control}
+							rules={{
+								required: fields?.SalaryDateRequiredErrorMessage?.value || "Salary date is required",
+								validate: (value) => {
+									if (!value || value === "") {
+										return fields?.SalaryDateRequiredErrorMessage?.value || "Salary date is required";
+									}
+									const num = parseInt(value);
+									if (isNaN(num) || num < 1 || num > 31) {
+										return "Please enter a day between 1 and 31";
+									}
+									return true;
 								}
-								const num = parseInt(value);
-								if (isNaN(num) || num < 1 || num > 31) {
-									return "Please enter a day between 1 and 31";
-								}
-								return true;
-							}
-						}}
-						render={({ field }) => (
-							<StandardNumberInput
-								{...field}
-								label={fields?.EmploymentSalaryDateLabel}
-								placeholder={fields?.EmploymentSalaryDatePlaceholder?.value}
-								maxLength={2}
-								inputRegex={/^\d{0,2}$/}
-								type="tel"
-								labelContainerClassName="flex items-center gap-2"
-								labelClassName="text-sm font-medium text-gray-800"
-								error={errors.salaryDate?.message}
-							/>
-						)}
-				/>
-				<p className="text-xs text-gray-500 mt-1">Enter the day you typically receive payment</p>
-			</div>
+							}}
+							render={({ field }) => (
+								<StandardNumberInput
+									{...field}
+									label={fields?.EmploymentSalaryDateLabel}
+									placeholder={fields?.EmploymentSalaryDatePlaceholder?.value}
+									maxLength={2}
+									inputRegex={/^\d{0,2}$/}
+									type="tel"
+									labelContainerClassName="flex items-center gap-2"
+									labelClassName="text-sm text-gray-800"
+									error={errors.salaryDate?.message}
+								/>
+							)}
+						/>
+						<p className="text-xs text-gray-500 mt-1">Enter the day you typically receive payment</p>
+					</div>
 
-			<div className="space-y-1">
+					<div className="space-y-1">
 						<StandardTextInput
 							{...register("incomeProvider", {
 								required: fields?.IncomeProviderRequiredErrorMessage?.value,
@@ -378,7 +378,7 @@ export const Default = (props: EmploymentProps) => {
 							inputRegex={/^[a-zA-Z\s]*$/}
 							containerClassName="space-y-2"
 							labelContainerClassName="flex items-center gap-2"
-							labelClassName="text-sm font-medium text-gray-800"
+							labelClassName="text-sm text-gray-800"
 							inputClassName="w-full"
 							error={errors.incomeProvider?.message}
 						/>
@@ -408,12 +408,12 @@ export const Default = (props: EmploymentProps) => {
 					)}
 				</div>
 				<div className="flex gap-3 pt-4">
-					
-						<Button onClick={onBack} variant="outline" className="flex-1 py-6 border-gray-300 text-gray-700 hover:bg-gray-100 hover:text-gray-800">
-							<ChevronLeft className="w-4 h-4 mr-1" />
-							<Text field={fields?.BackButtonText} />
-						</Button>
-					
+
+					<Button onClick={onBack} variant="outline" className="flex-1 py-6 border-gray-300 text-gray-700 hover:bg-gray-100 hover:text-gray-800">
+						<ChevronLeft className="w-4 h-4 mr-1" />
+						<Text field={fields?.BackButtonText} />
+					</Button>
+
 
 					<Button onClick={handleNext} className="flex-1 py-6 text-white bg-[#2c5f5d] hover:bg-[#234a48]">
 						<Text field={fields?.SubmitButtonText} />

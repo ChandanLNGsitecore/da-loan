@@ -167,7 +167,7 @@ export const Default = (props: BankingProps) => {
                 inputRegex={/^[0-9]*$/}
                 type="tel"
                 labelContainerClassName="flex items-center gap-2"
-                labelClassName="text-sm font-medium text-gray-800"
+                labelClassName="text-sm text-gray-800"
                 error={errors.accountNumber?.message}
               />
             )}
@@ -191,7 +191,7 @@ export const Default = (props: BankingProps) => {
                 inputRegex={/^[0-9]*$/}
                 type="tel"
                 labelContainerClassName="flex items-center gap-2"
-                labelClassName="text-sm font-medium text-gray-800"
+                labelClassName="text-sm text-gray-800"
                 error={errors.branchCode?.message}
               />
             )}

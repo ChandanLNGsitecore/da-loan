@@ -38,14 +38,14 @@ export const RadioGroup = ({
 	helperText,
 	required = false,
 	containerClassName = "",
-	labelClassName = "block text-sm font-medium text-gray-800 mb-2",
+	labelClassName = "block text-sm text-gray-800 mb-2",
 	itemContainerClassName = "flex items-center space-x-2",
-	itemLabelClassName = "text-sm font-medium text-gray-800 cursor-pointer",
+	itemLabelClassName = "text-sm text-gray-800 cursor-pointer",
 	wrapperClassName = "",
 }: RadioGroupProps) => {
 	return (
 		<div className={wrapperClassName}>
-			<LabelPrimitive.Root htmlFor={id} className={cn("flex items-center gap-2 text-sm leading-none font-medium select-none", labelClassName)}>
+			<LabelPrimitive.Root htmlFor={id} className={cn("flex items-center gap-2 text-sm leading-none select-none", labelClassName)}>
 				{label}
 			</LabelPrimitive.Root>
 			<RadioGroupPrimitive.Root value={value} onValueChange={onValueChange} className={cn("grid gap-3", containerClassName)}>
@@ -62,7 +62,7 @@ export const RadioGroup = ({
 								<CircleIcon className="fill-primary absolute top-1/2 left-1/2 size-2 -translate-x-1/2 -translate-y-1/2" />
 							</RadioGroupPrimitive.Indicator>
 						</RadioGroupPrimitive.Item>
-						<LabelPrimitive.Root htmlFor={option.id} className={cn("flex items-center gap-2 text-sm leading-none font-medium select-none cursor-pointer", itemLabelClassName)}>
+						<LabelPrimitive.Root htmlFor={option.id} className={cn("flex items-center gap-2 text-sm leading-none select-none cursor-pointer", itemLabelClassName)}>
 							{option.label}
 						</LabelPrimitive.Root>
 					</div>

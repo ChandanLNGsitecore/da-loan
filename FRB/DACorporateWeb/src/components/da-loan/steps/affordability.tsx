@@ -100,7 +100,7 @@ export const Default = (props: AffordabilityComponentProps) => {
 								showHelpIcon={false}
 								containerClassName=""
 								labelContainerClassName=""
-								labelClassName="block text-sm font-medium text-gray-800 mb-1"
+							labelClassName="text-sm text-gray-800"
 								error={errors.monthlyIncomeAfterTax?.message}
 							/>
 						)}
@@ -127,7 +127,7 @@ export const Default = (props: AffordabilityComponentProps) => {
 								showHelpIcon={false}
 								containerClassName=""
 								labelContainerClassName=""
-								labelClassName="block text-sm font-medium text-gray-800 mb-1"
+							labelClassName="text-sm text-gray-800"
 								error={errors.monthlyCommitments?.message}
 							/>
 						)}
@@ -155,7 +155,7 @@ export const Default = (props: AffordabilityComponentProps) => {
 								showHelpIcon={false}
 								containerClassName=""
 								labelContainerClassName=""
-								labelClassName="block text-sm font-medium text-gray-800 mb-1"
+							labelClassName="text-sm text-gray-800"
 								error={errors.otherLivingExpenses?.message}
 							/>
 						)}

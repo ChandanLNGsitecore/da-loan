@@ -196,7 +196,7 @@ export const Default = (props: ResidentialAddressProps) => {
                 tooltipText="Enter street address, P.O. box, company name, c/o"
                 containerClassName="space-y-2"
                 labelContainerClassName="flex items-center gap-2"
-                labelClassName="block text-sm font-medium text-gray-800 mb-1"
+                labelClassName="text-sm text-gray-800"
                 inputClassName="w-full"
                 helpIconClassName="w-4 h-4 text-gray-400"
                 maxLength={Number(props?.fields?.AddressLine1_MaxLength)}
@@ -231,7 +231,7 @@ export const Default = (props: ResidentialAddressProps) => {
                 tooltipText="Enter street address, P.O. box, company name, c/o"
                 containerClassName="space-y-2"
                 labelContainerClassName="flex items-center gap-2"
-                labelClassName="block text-sm font-medium text-gray-800 mb-1"
+                labelClassName="text-sm text-gray-800"
                 inputClassName="w-full"
                 helpIconClassName="w-4 h-4 text-gray-400"
                 maxLength={Number(props?.fields?.AddressLine2_MaxLength)}
@@ -259,7 +259,7 @@ export const Default = (props: ResidentialAddressProps) => {
                 tooltipText="Enter your city"
                 containerClassName="space-y-2"
                 labelContainerClassName="flex items-center gap-2"
-                labelClassName="block text-sm font-medium text-gray-800 mb-1"
+                labelClassName="text-sm text-gray-800"
                 inputClassName="w-full"
                 helpIconClassName="w-4 h-4 text-gray-400"
                 error={errors.cityTown?.message}
@@ -311,7 +311,7 @@ export const Default = (props: ResidentialAddressProps) => {
                 formatErrorMessage={String(props.fields?.Postcode_ValidationErrorMessage?.value)}
                 containerClassName="space-y-2"
                 labelContainerClassName="flex items-center gap-2"
-                labelClassName="block text-sm font-medium text-gray-800 mb-1"
+                labelClassName="text-sm text-gray-800"
                 error={errors.postalCode?.message as string}
               />
             )}
