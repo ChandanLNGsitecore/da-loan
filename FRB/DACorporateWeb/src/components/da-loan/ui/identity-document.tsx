@@ -155,7 +155,7 @@ export function IdentityDocument({
         </RadioGroup>
       </div>
 
-      {documents.idType === "book" ? (
+      <div className={documents.idType === "book" ? "" : "hidden"}>
         <FileUploadInput
           title={bookUploadTitle}
           description={bookUploadDescription}
@@ -168,33 +168,33 @@ export function IdentityDocument({
           autoUpload={true}
           initialFile={documents.idDocument}
         />
-      ) : (
-        <div className="space-y-6">
-          <FileUploadInput
-            title={cardFrontTitle}
-            description={cardFrontDescription}
-            numberPrefix={numberPrefix}
-            accept={accept}
-            maxSize={maxSize}
-            onFileChange={(file) => handleFileChange("idCardFront", file)}
-            onError={onError}
-            showButtons={false}
-            autoUpload={true}
-            initialFile={documents.idCardFront}
-          />
-          <FileUploadInput
-            title={cardBackTitle}
-            description={cardBackDescription}
-            accept={accept}
-            maxSize={maxSize}
-            onFileChange={(file) => handleFileChange("idCardBack", file)}
-            onError={onError}
-            showButtons={false}
-            autoUpload={true}
-            initialFile={documents.idCardBack}
-          />
-        </div>
-      )}
+      </div>
+
+      <div className={documents.idType === "card" ? "space-y-6" : "hidden"}>
+        <FileUploadInput
+          title={cardFrontTitle}
+          description={cardFrontDescription}
+          numberPrefix={numberPrefix}
+          accept={accept}
+          maxSize={maxSize}
+          onFileChange={(file) => handleFileChange("idCardFront", file)}
+          onError={onError}
+          showButtons={false}
+          autoUpload={true}
+          initialFile={documents.idCardFront}
+        />
+        <FileUploadInput
+          title={cardBackTitle}
+          description={cardBackDescription}
+          accept={accept}
+          maxSize={maxSize}
+          onFileChange={(file) => handleFileChange("idCardBack", file)}
+          onError={onError}
+          showButtons={false}
+          autoUpload={true}
+          initialFile={documents.idCardBack}
+        />
+      </div>
     </div>
   );
 }

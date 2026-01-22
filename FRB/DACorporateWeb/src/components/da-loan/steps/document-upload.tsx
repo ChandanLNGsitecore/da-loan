@@ -197,16 +197,6 @@ export const Default = (props: DocumentUploadProps) => {
                 cardBackDescription={fields?.cardBackDescription}
               />
             )}
-            
-            {/* Hidden Text components for Page Builder editability - nested ID upload fields */}
-            <div style={{ display: 'none' }}>
-              <Text field={fields?.bookUploadTitle} />
-              <Text field={fields?.bookUploadDescription} />
-              <Text field={fields?.cardFrontTitle} />
-              <Text field={fields?.cardFrontDescription} />
-              <Text field={fields?.cardBackTitle} />
-              <Text field={fields?.cardBackDescription} />
-            </div>
 
             {isAddressRequired && (
               <FileUploadInput
