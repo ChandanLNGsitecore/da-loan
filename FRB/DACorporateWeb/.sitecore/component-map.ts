@@ -36,20 +36,23 @@ import * as standardtextinput from 'src/components/da-loan/ui/standard-text-inpu
 import * as standardnumberinput from 'src/components/da-loan/ui/standard-number-input';
 import * as southafricanidinput from 'src/components/da-loan/ui/south-african-id-input';
 import * as rangeslider from 'src/components/da-loan/ui/range-slider';
+import * as radiogroupwithicon from 'src/components/da-loan/ui/radio-group-with-icon';
 import * as radiogroupinput from 'src/components/da-loan/ui/radio-group-input';
 import * as incomeinput from 'src/components/da-loan/ui/income-input';
+import * as identitydocument from 'src/components/da-loan/ui/identity-document';
+import * as fileuploadinput from 'src/components/da-loan/ui/file-upload-input';
 import * as dropdownlist from 'src/components/da-loan/ui/drop-down-list';
 import * as thankyou from 'src/components/da-loan/steps/thank-you';
 import * as termsmodal from 'src/components/da-loan/steps/terms-modal';
 import * as residentialaddress from 'src/components/da-loan/steps/residential-address';
 import * as otpverification from 'src/components/da-loan/steps/otp-verification';
+import * as OfferForm from 'src/components/da-loan/steps/OfferForm';
 import * as loanreview from 'src/components/da-loan/steps/loan-review';
 import * as loanpurpose from 'src/components/da-loan/steps/loan-purpose';
 import * as livingarrangements from 'src/components/da-loan/steps/living-arrangements';
 import * as employment from 'src/components/da-loan/steps/employment';
 import * as documentupload from 'src/components/da-loan/steps/document-upload';
 import * as creditcheck from 'src/components/da-loan/steps/credit-check';
-import * as congratulations from 'src/components/da-loan/steps/congratulations';
 import * as confirmation from 'src/components/da-loan/steps/confirmation';
 import * as cellphoneconfirmation from 'src/components/da-loan/steps/cellphone-confirmation';
 import * as banking from 'src/components/da-loan/steps/banking';
@@ -102,20 +105,23 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['standard-number-input', { ...standardnumberinput }],
   ['south-african-id-input', { ...southafricanidinput }],
   ['range-slider', { ...rangeslider }],
+  ['radio-group-with-icon', { ...radiogroupwithicon, componentType: 'client' }],
   ['radio-group-input', { ...radiogroupinput, componentType: 'client' }],
   ['income-input', { ...incomeinput }],
+  ['identity-document', { ...identitydocument, componentType: 'client' }],
+  ['file-upload-input', { ...fileuploadinput, componentType: 'client' }],
   ['drop-down-list', { ...dropdownlist, componentType: 'client' }],
   ['thank-you', { ...thankyou, componentType: 'client' }],
   ['terms-modal', { ...termsmodal, componentType: 'client' }],
   ['residential-address', { ...residentialaddress, componentType: 'client' }],
   ['otp-verification', { ...otpverification, componentType: 'client' }],
+  ['OfferForm', { ...OfferForm, componentType: 'client' }],
   ['loan-review', { ...loanreview, componentType: 'client' }],
   ['loan-purpose', { ...loanpurpose, componentType: 'client' }],
   ['living-arrangements', { ...livingarrangements, componentType: 'client' }],
   ['employment', { ...employment, componentType: 'client' }],
   ['document-upload', { ...documentupload, componentType: 'client' }],
   ['credit-check', { ...creditcheck, componentType: 'client' }],
-  ['congratulations', { ...congratulations, componentType: 'client' }],
   ['confirmation', { ...confirmation, componentType: 'client' }],
   ['cellphone-confirmation', { ...cellphoneconfirmation, componentType: 'client' }],
   ['banking', { ...banking, componentType: 'client' }],

@@ -94,8 +94,14 @@ export const StandardNumberInput = React.forwardRef<HTMLInputElement, StandardNu
 		// Call the onChange handler from props (like react-hook-form's register)
 		onChange?.(newEvent);
 		
-		// Clear validation error when typing
-		if (validationError) setValidationError("");
+		// Clear validation error if the input becomes valid
+		if (validationError && cleanedValue) {
+			if (inputRegex && inputRegex.test(cleanedValue)) {
+				setValidationError("");
+			} else if (minLength && cleanedValue.length >= minLength) {
+				setValidationError("");
+			}
+		}
 	};
 
 	const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {

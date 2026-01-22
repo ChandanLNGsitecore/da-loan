@@ -17,13 +17,13 @@ import {
 } from '@sitecore-content-sdk/nextjs';
 // Utility function to convert string regex to RegExp
 const getRegex = (regexString?: string): RegExp | undefined => {
-	if (!regexString) return /^0(?!000000000)\d{9}$/; // Default cellphone regex
+	if (!regexString) return /^0[678]\d{8}$/; // Default cellphone regex
 	try {
 		// Remove leading/trailing slashes if present and create RegExp
 		const cleaned = regexString.replace(/^\/|\/$/g, '');
 		return new RegExp(cleaned);
 	} catch {
-		return /^0(?!000000000)\d{9}$/; // Fallback to default
+		return /^0[678]\d{8}$/; // Fallback to default
 	}
 };
 
@@ -79,7 +79,7 @@ const {
 		
 		// Only clear validation errors when the input matches the regex pattern
 		if (errors.Confirmcellphone && value) {
-			const regex = getRegex(props.fields?.CellPhone_ValidationRegex?.value?.toString()) || /^0(?!000000000)\d{9}$/;
+			const regex = getRegex(props.fields?.CellPhone_ValidationRegex?.value?.toString()) || /^0[678]\d{8}$/;
 			if (regex.test(value)) {
 				clearErrors('Confirmcellphone');
 			}

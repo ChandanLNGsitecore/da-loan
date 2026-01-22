@@ -89,7 +89,7 @@ export const Default = (props: LivingArrangementsProps) => {
 			onSubmit(data);
 		} else {
 			// Navigate to banking details page if no onSubmit handler provided
-			router.push("/loans/affordability-detail");
+			router.push("/loans/offer-detail");
 		}
 	});
 
@@ -120,7 +120,7 @@ export const Default = (props: LivingArrangementsProps) => {
 				</div>
 
 				<div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
-					<div className="h-full bg-[#2c5f5d] transition-all duration-300" style={{ width: "20%" }} />
+					<div className="h-full bg-[#2c5f5d] transition-all duration-300" style={{ width: "80%" }} />
 				</div>
 
 				<div className="space-y-6">

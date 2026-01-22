@@ -1,26 +1,47 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "components/da-loan/ui-premetive/button";
 import { Card, CardContent } from "components/da-loan/ui-premetive/card";
 import { Slider } from "components/da-loan/ui-premetive/slider";
 import { type LoanOffer } from "lib/schemas";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-interface CongratulationsProps {
-	readonly initialOffer: LoanOffer;
-	readonly onSubmit: (offer: LoanOffer) => void;
-}
+import { useRouter } from "next/navigation";
+import { OfferComponentProps } from "src/types/Offer";
+import { Text, RichText as ContentSdkRichText } from "@sitecore-content-sdk/nextjs";
 
-export const Default = ({ initialOffer, onSubmit }: Readonly<CongratulationsProps>) =>  {
-	const { approvedAmount, requestedAmount, maxCredit } = initialOffer;
+
+export const Default = (props: OfferComponentProps) => {
+  const router = useRouter();
+
+  const redirectUrl = "/loans/documents-upload";
+
+  
+  // State for loan offer data from API
+  const [initialOffer, setInitialOffer] = useState<LoanOffer>({
+    approvedAmount: 15000,
+    requestedAmount: 20000,
+    maxCredit: 20000,
+    loanTerm: 11,
+    interestRate: 28.5,
+    monthlyRepayment: 1500
+  });
+  
+  // Initialize based on offer data
+  const hasShortfallInit = initialOffer.approvedAmount < initialOffer.requestedAmount;
+  const isOverQualifiedInit = initialOffer.approvedAmount > initialOffer.requestedAmount;
+  
+  const [selectedAmount, setSelectedAmount] = useState(
+    isOverQualifiedInit ? initialOffer.requestedAmount : initialOffer.approvedAmount
+  );
+  const [selectedMonths, setSelectedMonths] = useState(initialOffer.loanTerm);
+  
+  const { approvedAmount, requestedAmount, maxCredit } = initialOffer; 
 
 	const hasShortfall = approvedAmount < requestedAmount;
 	const isExactMatch = approvedAmount === requestedAmount;
 	const isOverQualified = approvedAmount > requestedAmount;
-
-	const [selectedAmount, setSelectedAmount] = useState(isOverQualified ? requestedAmount : approvedAmount);
-	const [selectedMonths, setSelectedMonths] = useState(initialOffer.loanTerm);
 
 	const approvedPercentage = (approvedAmount / maxCredit) * 100;
 	const requestedPercentage = (requestedAmount / maxCredit) * 100;
@@ -42,20 +63,21 @@ export const Default = ({ initialOffer, onSubmit }: Readonly<CongratulationsProp
 	return (
 		<Card className="w-full mx-auto bg-white">
 			<CardContent className="p-6 space-y-6">
-				<h2 className="text-2xl font-semibold text-gray-800">Congratulations!</h2>
+				<h2 className="text-2xl font-semibold text-gray-800"><Text field={props.fields.JourneyStep_Heading} /></h2>
 
 				<div className="space-y-1">
 					<p>
-						Based on the information you provided, we can offer you the below indicative amount<sup>*</sup>
+						<Text field={props.fields.JourneyStep_SubHeading} /><sup>*</sup>
 					</p>
 					<p className="text-3xl font-bold text-gray-900">{formatAmount(approvedAmount)}</p>
 					{hasShortfall && (
-						<p className="text-sm text-gray-600">Unfortunately you do not qualify for your requested amount of {formatAmount(requestedAmount)}</p>
+						<p className="text-sm text-gray-600"><Text field={props.fields.ShortfallFallMessage} />{formatAmount(requestedAmount)}</p>
 					)}
-					{isExactMatch && <p className="text-sm text-green-600 font-medium">✓ You received the full amount you requested</p>}
+					{isExactMatch && <p className="text-sm text-green-600 font-medium">✓ <Text field={props.fields.ExactMatchMessage} /></p>}
 					{isOverQualified && (
 						<p className="text-sm text-green-600 font-medium">
-							Great news! You requested {formatAmount(requestedAmount)}, but you qualify for {formatAmount(approvedAmount)}
+							✓ 
+							{props.fields.OverQualifiedMessage.value?.toString().replace("[requestedAmount]", formatAmount(requestedAmount)).replace(" [approvedAmount]", formatAmount(approvedAmount))}
 						</p>
 					)}
 				</div>
@@ -247,34 +269,41 @@ export const Default = ({ initialOffer, onSubmit }: Readonly<CongratulationsProp
 				)}
 				<div className="bg-gray-100 rounded-lg p-4 space-y-2">
 					<div className="flex justify-between text-sm">
-						<span className="text-gray-600">Monthly Repayment:</span>
+						<span className="text-gray-600"><Text field={props.fields.MonthlyRepayment} /></span>
 						<span className="font-semibold text-gray-900">R{currentLoanDetails.monthlyRepayment.toLocaleString("en-ZA").replace(/,/g, " ")}</span>
 					</div>
 					<div className="flex justify-between text-sm">
-						<span className="text-gray-600">Loan Term:</span>
+						<span className="text-gray-600"><Text field={props.fields.LoanTerm} /></span>
 						<span className="font-semibold text-gray-900">{currentLoanDetails.loanTerm} months</span>
 					</div>
 					<div className="flex justify-between text-sm">
-						<span className="text-gray-600">Interest Rate:</span>
+						<span className="text-gray-600"><Text field={props.fields.IntrestRate} /></span>
 						<span className="font-semibold text-gray-900">{initialOffer.interestRate}%</span>
 					</div>
 				</div>
 				<p className="text-sm text-gray-600">
-					Like what you see? Go to the next step, and we&apos;ll confirm some details about your <span className="font-bold">income</span> and{" "}
-					<span className="font-bold">expenses</span>
+					<ContentSdkRichText field={props.fields.IncomeExpenseMessage} />
+					
 				</p>
 				<Button
-					onClick={() =>
-						onSubmit({
+					onClick={(e) => {
+						e.preventDefault();
+						
+						// Prepare final offer data
+						const finalOffer: LoanOffer = {
 							...initialOffer,
 							approvedAmount: selectedAmount,
 							loanTerm: selectedMonths,
 							monthlyRepayment: currentLoanDetails.monthlyRepayment,
-						})
-					}
+						};
+						
+					
+						// Redirect to next page
+						router.push(redirectUrl);
+					}}
 					className="w-full bg-[#2c5f5d] hover:bg-[#234a48] text-white py-6 text-base font-medium uppercase"
 				>
-					Continue with {formatAmount(selectedAmount)}
+					<Text field={props.fields.SubmitButtonText} /> {formatAmount(selectedAmount)}
 				</Button>
 			</CardContent>
 		</Card>
