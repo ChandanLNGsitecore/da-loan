@@ -1,0 +1,459 @@
+"use client";
+
+import { Button } from "components/da-loan/ui-premetive/button";
+import { Card, CardContent } from "components/da-loan/ui-premetive/card";
+import { ChevronRight } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { ThankYouComponentProps } from "src/types/ThankYou";
+import { Text } from "@sitecore-content-sdk/nextjs";
+
+import {
+  Alert,
+  AlertTitle,
+  AlertDescription,
+  AlertDetail,
+  AlertSummary,
+} from "components/da-loan/ui/alert";
+import { Info, Clock, Phone, Mail, CheckCircle2 } from "lucide-react";
+
+/**
+ * Example 1: Simple Info Alert
+ * Original: banking.tsx, residential-address.tsx
+ */
+export const InfoAlertExample = () => (
+  <Alert variant="info" icon={Info}>
+    Later in the process, you&apos;ll need to upload{" "}
+    <span className="font-semibold">proof of address</span>
+    {" "}(utility bill or bank statement).
+  </Alert>
+);  
+
+/**
+ * Example 2: Success Alert with Message
+ * Original: affordability.tsx
+ */
+export const SuccessAlertExample = () => (
+  <Alert variant="success" icon={Info}>
+    Accurate affordability details help us confirm that your monthly instalment
+    stays comfortable alongside your other commitments.
+  </Alert>
+);
+
+/**
+ * Example 3: Disposable Income Summary
+ * Original: affordability.tsx
+ */
+export const DisposableIncomeSummaryExample = ({
+  disposableIncome,
+}: {
+  disposableIncome: number;
+}) => {
+  const formatCurrency = (amount: number) =>
+    `R ${amount.toLocaleString("en-ZA")}`;
+
+  return (
+    <Alert variant="secondary" asCard>
+      <AlertSummary
+        title="Estimated disposable income"
+        value={formatCurrency(disposableIncome || 0)}
+        variant={disposableIncome >= 0 ? "success" : "danger"}
+      />
+      <p className="text-xs text-gray-600 mt-3">
+        This is the amount left over each month after deducting your commitments
+        and living expenses.
+      </p>
+    </Alert>
+  );
+};
+
+/**
+ * Example 4: Alternative Languages with Tags
+ * Original: loan-review.tsx (conceptual)
+ */
+export const AlternativeLanguagesExample = () => (
+  <Alert
+    variant="info"
+    title="Alternative Languages Available:"
+    tags={["English", "Afrikaans", "Zulu", "Xhosa"]}
+  />
+);
+
+/**
+ * Example 5: Contact Details
+ * Original: loan-review.tsx (conceptual)
+ */
+export const ContactDetailsExample = ({
+  contactDetails,
+}: {
+  contactDetails: { email_address: string; cellphone_number: string };
+}) => (
+  <Alert variant="info" title="Contact Details">
+    <div className="space-y-2">
+      <AlertDetail
+        icon={Mail}
+        label="Email"
+        value={contactDetails.email_address}
+      />
+      <AlertDetail
+        icon={Phone}
+        label="Cellphone"
+        value={contactDetails.cellphone_number}
+      />
+    </div>
+  </Alert>
+);
+
+/**
+ * Example 6: Single Contact Number
+ * Original: loan-review.tsx (conceptual)
+ */
+export const ContactNumberExample = ({
+  contactNumber,
+}: {
+  contactNumber: string;
+}) => (
+  <Alert variant="warning" icon={Phone}>
+    <div>
+      <p className="text-xs text-gray-600">Contact Number for Errors:</p>
+      <p className="text-sm font-semibold text-gray-900">{contactNumber}</p>
+    </div>
+  </Alert>
+);
+
+/**
+ * Example 7: Expected Timeline Card
+ * Original: confirmation.tsx
+ */
+export const ExpectedTimelineExample = () => (
+  <Alert variant="warning" asCard>
+    <div className="flex items-start gap-2">
+      <Clock className="w-5 h-5 text-amber-600 mt-0.5 shrink-0" />
+      <div>
+        <h4 className="text-sm font-semibold text-gray-900">
+          Expected Timeline
+        </h4>
+        <p className="text-sm text-gray-700 mt-1">
+          Most applications are processed within{" "}
+          <span className="font-semibold">2-3 business days</span>. You&apos;ll
+          receive regular updates via SMS and email.
+        </p>
+      </div>
+    </div>
+  </Alert>
+);
+
+/**
+ * Example 8: Important Information with Multiple Paragraphs
+ * Original: loan-review.tsx
+ */
+export const ImportantInfoExample = () => (
+  <Alert variant="warning" asCard>
+    <div className="flex items-start gap-3">
+      <Info className="w-5 h-5 text-amber-600 mt-0.5 shrink-0" />
+      <div className="space-y-2">
+        <h4 className="text-sm font-semibold text-gray-900">
+          Important Information
+        </h4>
+        <p className="text-sm text-gray-700">
+          By confirming this application, you agree to all the terms and
+          conditions outlined above. Please ensure all information is correct
+          before proceeding.
+        </p>
+        <p className="text-sm text-gray-700">
+          If you notice any errors, please contact us at{" "}
+          <span className="font-semibold">021 7643404</span> before confirming.
+        </p>
+      </div>
+    </div>
+  </Alert>
+);
+
+/**
+ * Example 9: Application Reference Card
+ * Original: confirmation.tsx
+ */
+export const ApplicationReferenceExample = ({
+  applicationReference,
+  loanAmount,
+}: {
+  applicationReference: string;
+  loanAmount?: number;
+}) => {
+  const formatAmount = (amount: number) => `R${amount.toLocaleString("en-ZA")}`;
+
+  return (
+    <Alert variant="secondary" asCard>
+      <div className="flex items-center justify-between">
+        <div>
+          <p className="text-xs text-gray-600">Application Reference</p>
+          <p className="text-lg font-bold text-gray-900 mt-1">
+            {applicationReference}
+          </p>
+        </div>
+        {loanAmount && (
+          <div className="text-right">
+            <p className="text-xs text-gray-600">Loan Amount</p>
+            <p className="text-lg font-bold text-[#2c5f5d] mt-1">
+              {formatAmount(loanAmount)}
+            </p>
+          </div>
+        )}
+      </div>
+    </Alert>
+  );
+};
+
+/**
+ * Example 10: Monthly Payments Breakdown
+ * Original: loan-review.tsx (conceptual)
+ */
+export const MonthlyPaymentsExample = ({
+  loanRepayment,
+  serviceFee,
+  creditLife,
+  totalInstalment,
+}: {
+  loanRepayment: number;
+  serviceFee: number;
+  creditLife: number;
+  totalInstalment: number;
+}) => {
+  const formatAmount = (amount: number) =>
+    `R ${amount.toLocaleString("en-ZA")}`;
+
+  return (
+    <Alert variant="info" title="Monthly Payments">
+      <div className="space-y-2">
+        <div className="flex justify-between text-sm">
+          <span className="text-gray-600">Loan Repayment:</span>
+          <span className="font-semibold text-gray-900">
+            {formatAmount(loanRepayment)}
+          </span>
+        </div>
+        <div className="flex justify-between text-sm">
+          <span className="text-gray-600">Service Fee (incl. VAT):</span>
+          <span className="font-semibold text-gray-900">
+            {formatAmount(serviceFee)}
+          </span>
+        </div>
+        <div className="flex justify-between text-sm">
+          <span className="text-gray-600">Credit Life Insurance:</span>
+          <span className="font-semibold text-gray-900">
+            {formatAmount(creditLife)}
+          </span>
+        </div>
+        <div className="pt-2 border-t border-blue-200 flex justify-between">
+          <span className="text-sm font-semibold text-gray-900">
+            Total Instalment:
+          </span>
+          <span className="text-lg font-bold text-[#2c5f5d]">
+            {formatAmount(totalInstalment)}
+          </span>
+        </div>
+      </div>
+    </Alert>
+  );
+};
+
+/**
+ * Example 11: Base Alert with Title and Description
+ */
+export const BaseAlertExample = () => (
+  <Alert variant="success">
+    <AlertTitle>Application Submitted!</AlertTitle>
+    <AlertDescription>
+      Thank you for applying. Your application has been received and is being
+      processed.
+    </AlertDescription>
+  </Alert>
+);
+
+export const Default = (props: ThankYouComponentProps) => {
+  const router = useRouter();
+  const redirectUrl = "/";
+
+  return (
+    <Card className="w-full mx-auto bg-white">
+      <CardContent className="p-6 md:p-8 space-y-6">
+        <div className="max-w-4xl mx-auto p-6 space-y-8">
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">
+              Alert Components Usage Examples
+            </h1>
+            <p className="text-gray-600">
+              Demonstrations of all alert component patterns from the DA Loan
+              application
+            </p>
+          </div>
+
+          {/* Example 1 */}
+          <section className="space-y-3">
+            <div>
+              <h2 className="text-xl font-semibold text-gray-900">
+                1. Simple Info Alert
+              </h2>
+              <p className="text-sm text-gray-600">
+                Original: banking.tsx, residential-address.tsx - Basic
+                informational alert with icon
+              </p>
+            </div>
+            <InfoAlertExample />
+          </section>
+
+          {/* Example 2 */}
+          <section className="space-y-3">
+            <div>
+              <h2 className="text-xl font-semibold text-gray-900">
+                2. Success Alert with Message
+              </h2>
+              <p className="text-sm text-gray-600">
+                Original: affordability.tsx - Success variant alert for guidance
+                messages
+              </p>
+            </div>
+            <SuccessAlertExample />
+          </section>
+
+          {/* Example 3 */}
+          <section className="space-y-3">
+            <div>
+              <h2 className="text-xl font-semibold text-gray-900">
+                3. Disposable Income Summary
+              </h2>
+              <p className="text-sm text-gray-600">
+                Original: affordability.tsx - Card with summary showing
+                calculated values with color-coded variants
+              </p>
+            </div>
+            <DisposableIncomeSummaryExample disposableIncome={5000} />
+          </section>
+
+          {/* Example 4 */}
+          <section className="space-y-3">
+            <div>
+              <h2 className="text-xl font-semibold text-gray-900">
+                4. Alternative Languages with Tags
+              </h2>
+              <p className="text-sm text-gray-600">
+                Original: loan-review.tsx - Alert with badge-style tags for
+                displaying options
+              </p>
+            </div>
+            <AlternativeLanguagesExample />
+          </section>
+
+          {/* Example 5 */}
+          <section className="space-y-3">
+            <div>
+              <h2 className="text-xl font-semibold text-gray-900">
+                5. Contact Details
+              </h2>
+              <p className="text-sm text-gray-600">
+                Original: loan-review.tsx - Alert with structured details using
+                icons and labels
+              </p>
+            </div>
+            <ContactDetailsExample
+              contactDetails={{
+                email_address: "customer@example.com",
+                cellphone_number: "+27 12 345 6789",
+              }}
+            />
+          </section>
+
+          {/* Example 6 */}
+          <section className="space-y-3">
+            <div>
+              <h2 className="text-xl font-semibold text-gray-900">
+                6. Single Contact Number
+              </h2>
+              <p className="text-sm text-gray-600">
+                Original: loan-review.tsx - Warning variant with single contact
+                detail
+              </p>
+            </div>
+            <ContactNumberExample contactNumber="021 7643404" />
+          </section>
+
+          {/* Example 7 */}
+          <section className="space-y-3">
+            <div>
+              <h2 className="text-xl font-semibold text-gray-900">
+                7. Expected Timeline Card
+              </h2>
+              <p className="text-sm text-gray-600">
+                Original: confirmation.tsx - Warning card with icon and
+                formatted content
+              </p>
+            </div>
+            <ExpectedTimelineExample />
+          </section>
+
+          {/* Example 8 */}
+          <section className="space-y-3">
+            <div>
+              <h2 className="text-xl font-semibold text-gray-900">
+                8. Important Information with Multiple Paragraphs
+              </h2>
+              <p className="text-sm text-gray-600">
+                Original: loan-review.tsx - Warning card with multiple
+                paragraphs and formatted text
+              </p>
+            </div>
+            <ImportantInfoExample />
+          </section>
+
+          {/* Example 9 */}
+          <section className="space-y-3">
+            <div>
+              <h2 className="text-xl font-semibold text-gray-900">
+                9. Application Reference Card
+              </h2>
+              <p className="text-sm text-gray-600">
+                Original: confirmation.tsx - Secondary card displaying key
+                application details
+              </p>
+            </div>
+            <ApplicationReferenceExample
+              applicationReference="LN-2026-001234"
+              loanAmount={50000}
+            />
+          </section>
+
+          {/* Example 10 */}
+          <section className="space-y-3">
+            <div>
+              <h2 className="text-xl font-semibold text-gray-900">
+                10. Monthly Payments Breakdown
+              </h2>
+              <p className="text-sm text-gray-600">
+                Original: loan-review.tsx - Detailed breakdown with calculations
+                and totals
+              </p>
+            </div>
+            <MonthlyPaymentsExample
+              loanRepayment={2500}
+              serviceFee={150}
+              creditLife={200}
+              totalInstalment={2850}
+            />
+          </section>
+
+          {/* Example 11 */}
+          <section className="space-y-3">
+            <div>
+              <h2 className="text-xl font-semibold text-gray-900">
+                11. Base Alert with Title and Description
+              </h2>
+              <p className="text-sm text-gray-600">
+                Basic alert structure using AlertTitle and AlertDescription
+                components
+              </p>
+            </div>
+            <BaseAlertExample />
+          </section>
+        </div>
+      </CardContent>
+    </Card>
+  );
+};

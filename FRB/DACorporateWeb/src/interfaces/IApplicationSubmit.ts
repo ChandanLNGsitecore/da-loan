@@ -149,5 +149,9 @@ export interface IApplicationSubmit {
    * @example "We'll notify you of our decision within 24 hours"
    */
   FinalDecisionSubtitle: TextField;
+  
+    AlertTitle: TextField;
+
+   AlertDescription: RichTextField;
 
 }

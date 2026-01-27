@@ -13,6 +13,8 @@ import {
   Text,
   RichText as ContentSdkRichText,
 } from '@sitecore-content-sdk/nextjs';
+import { Alert } from "../ui/alert";
+
 
 
 
@@ -124,23 +126,18 @@ export const Default = (props: ApplicationSubmitComponentProps) => {
           </div>
         </div>
 
-        <Card className="bg-amber-50 border-amber-200">
-          <CardContent className="p-4">
-            <div className="flex items-start gap-2">
-              <Clock className="w-5 h-5 text-amber-600 mt-0.5 shrink-0" />
-              <div>
-                <h4 className="text-sm font-semibold text-gray-900">
-                  Expected Timeline
-                </h4>
-                <p className="text-sm text-gray-700 mt-1">
-                  Most applications are processed within{" "}
-                  <span className="font-semibold">2-3 business days</span>.
-                  You&apos;ll receive regular updates via SMS and email.
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        <Alert variant="warning" asCard >
+           <div className="flex items-start gap-2">
+    <Clock className="w-5 h-5 text-amber-600 mt-0.5 shrink-0" />
+    <div>
+      <h4 className="text-sm font-semibold text-gray-900"><Text field={props.fields.AlertTitle} /></h4>
+      <p className="text-sm text-gray-700 mt-1">
+       <ContentSdkRichText field={props.fields.AlertDescription} />
+      </p>
+    </div>
+  </div>
+         
+        </Alert>
 
         <div className="space-y-3">
           <h3 className="text-sm font-semibold text-gray-800"> <Text field={props.fields.NeedHelptxt} /></h3>
