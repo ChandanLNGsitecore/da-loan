@@ -45,7 +45,7 @@ export const Default = (props: AffordabilityComponentProps) => {
 
 	const onFormSubmit = handleSubmit((data) => {
 		console.log("Affordability form submitted:", data);
-		router.push("/loans/loan-reason");
+		router.push("/loans/documents-upload");
 	});
 
 	const handleBack = () => {

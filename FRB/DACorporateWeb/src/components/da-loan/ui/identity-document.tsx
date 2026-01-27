@@ -85,10 +85,7 @@ export function IdentityDocument({
     const updatedDocuments = {
       ...documents,
       idType: value,
-      // Reset opposite type files
-      ...(value === "book"
-        ? { idCardFront: null, idCardBack: null }
-        : { idDocument: null }),
+      // Keep all files - validation logic will determine which ones are needed
     };
     setDocuments(updatedDocuments);
     onDocumentsChange?.(updatedDocuments);

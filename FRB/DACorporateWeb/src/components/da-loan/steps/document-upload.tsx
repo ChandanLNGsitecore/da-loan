@@ -79,7 +79,7 @@ export const Default = (props: DocumentUploadProps) => {
 
   // Parse identity document settings from fields
   const identityAccept = parseAcceptField(fields?.ProofofIdentity_Accept?.value);
-  const identityMaxSize = fields?.Address_MaxSize?.value;
+  const identityMaxSize = fields?.proofOfIdentityMaxSize?.value;
 
   const [requiredDocs, setRequiredDocs] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
