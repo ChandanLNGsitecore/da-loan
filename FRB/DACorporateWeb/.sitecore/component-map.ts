@@ -45,6 +45,7 @@ import * as dropdownlist from 'src/components/da-loan/ui/drop-down-list';
 import * as thankyou from 'src/components/da-loan/steps/thank-you';
 import * as termsmodal from 'src/components/da-loan/steps/terms-modal';
 import * as residentialaddress from 'src/components/da-loan/steps/residential-address';
+import * as pulsecard from 'src/components/da-loan/steps/pulsecard';
 import * as otpverification from 'src/components/da-loan/steps/otp-verification';
 import * as OfferForm from 'src/components/da-loan/steps/OfferForm';
 import * as loanreview from 'src/components/da-loan/steps/loan-review';
@@ -114,6 +115,7 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['thank-you', { ...thankyou, componentType: 'client' }],
   ['terms-modal', { ...termsmodal, componentType: 'client' }],
   ['residential-address', { ...residentialaddress, componentType: 'client' }],
+  ['pulsecard', { ...pulsecard, componentType: 'client' }],
   ['otp-verification', { ...otpverification, componentType: 'client' }],
   ['OfferForm', { ...OfferForm, componentType: 'client' }],
   ['loan-review', { ...loanreview, componentType: 'client' }],

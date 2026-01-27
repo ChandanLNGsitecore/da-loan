@@ -1,15 +1,14 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "components/da-loan/ui-premetive/button";
 import { Card, CardContent } from "components/da-loan/ui-premetive/card";
 import { Slider } from "components/da-loan/ui-premetive/slider";
 import { type LoanOffer } from "lib/schemas";
-import { ArrowRight } from "lucide-react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { OfferComponentProps } from "src/types/Offer";
 import { Text, RichText as ContentSdkRichText } from "@sitecore-content-sdk/nextjs";
+import { AppPlaceholder } from "@sitecore-content-sdk/nextjs";
 
 
 export const Default = (props: OfferComponentProps) => {
@@ -170,26 +169,13 @@ export const Default = (props: OfferComponentProps) => {
 					</div>
 				</div>
 
-				{hasShortfall && (
-					<Card className="bg-blue-50 border-green-300 mt-24">
-						<CardContent className="p-4 space-y-3">
-							<div className="flex items-start gap-2">
-								<div className="space-y-2">
-									<h3 className="font-semibold text-gray-900">Want to qualify for more?</h3>
-									<p className="text-sm text-gray-700">
-										<span className="font-bold">Pulse</span>, our free credit score can show you what to improve. Small changes today could mean higher limits
-										tomorrow.
-									</p>
-								</div>
-							</div>
-							<Button asChild variant="outline" className="w-full hover:bg-gray-50 border-green-900 text-green-700 hover:text-primary font-medium shadow-none">
-								<Link href="https://www.directaxis.co.za/pulse">
-									Check My Credit Score
-									<ArrowRight className="w-4 h-4" />
-								</Link>
-							</Button>
-						</CardContent>
-					</Card>
+{hasShortfall && props.componentMap && (
+					<AppPlaceholder
+						name="loan-card"
+						rendering={props.rendering}
+						page={props.page}
+						componentMap={props.componentMap}
+					/>
 				)}
 
 				{isExactMatch && (

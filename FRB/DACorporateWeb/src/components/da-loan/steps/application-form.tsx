@@ -146,15 +146,11 @@ export const Default = (props: ApplicationFormProps) => {
             <StandardTextInput
               {...register("firstName", {
                 required:
-                  fields?.FirstName_RequiredErrorMessage?.value ||
-                  "First name is required",
+                  fields?.FirstName_ValidationErrorMessage?.value,
                 minLength: {
-                  value: fields?.FirstName_MinLength?.value || 2,
+                  value: fields?.FirstName_MinLength?.value,
                   message:
-                    fields?.FirstName_MinLengthErrorMessage?.value ||
-                    `First name must be at least ${
-                      fields?.FirstName_MinLength?.value || 2
-                    } characters`,
+                    fields?.FirstName_MinLengthErrorMessage?.value,
                 },
               })}
               name={fields?.FirstName_FieldID?.value}
@@ -178,15 +174,11 @@ export const Default = (props: ApplicationFormProps) => {
             <StandardTextInput
               {...register("surname", {
                 required:
-                  fields?.LastName_RequiredErrorMessage?.value ||
-                  "Surname is required",
+                  fields?.LastName_ValidationErrorMessage?.value,
                 minLength: {
-                  value: fields?.LastName_MinLength?.value || 2,
+                  value: fields?.LastName_MinLength?.value,
                   message:
-                    fields?.LastName_MinLengthErrorMessage?.value ||
-                    `Surname must be at least ${
-                      fields?.LastName_MinLength?.value || 2
-                    } characters`,
+                    fields?.LastName_MinLengthErrorMessage?.value,
                 },
               })}
               name={fields?.LastName_FieldID?.value}
@@ -213,17 +205,16 @@ export const Default = (props: ApplicationFormProps) => {
               control={control}
               rules={{
                 required:
-                  fields?.IDNumber_RequiredErrorMessage?.value ||
-                  "ID number is required",
+                  fields?.IDNumber_RequiredErrorMessage?.value,
                 validate: (value) => {
                   if (!value || value.length !== 13) {
-                    return "ID number must be exactly 13 digits";
+                    return fields?.IDNumber_ValidationErrorMessage?.value;
                   }
                   if (!/^\d{13}$/.test(value)) {
-                    return "ID number must contain only digits";
+                    return fields?.IDNumber_ValidationErrorMessage?.value;
                   }
                   if (!validateSouthAfricanID(value)) {
-                    return fields?.IDNumber_ValidationErrorMessage?.value || "Invalid South African ID number";
+                    return fields?.IDNumber_ValidationErrorMessage?.value;
                   }
                   return true;
                 },
@@ -265,8 +256,7 @@ export const Default = (props: ApplicationFormProps) => {
               rules={{
                 validate: (value) =>
                   (value && value > 0) ||
-                  fields?.NetIncome_RequiredErrorMessage?.value ||
-                  "Monthly income is required",
+                  fields?.NetIncome_ValidationErrorMessage?.value,
               }}
               render={({ field }) => (
                 <IncomeInput
@@ -304,8 +294,7 @@ export const Default = (props: ApplicationFormProps) => {
               control={control}
               rules={{
                 required:
-                  fields?.BureauConsent_ValidationErrorMessage?.value ||
-                  "You must consent to the background check",
+                  fields?.BureauConsent_ValidationErrorMessage?.value,
               }}
               render={({ field }) => (
                 <div className="flex items-start gap-2">
@@ -342,15 +331,11 @@ export const Default = (props: ApplicationFormProps) => {
           <div className="text-center text-sm text-gray-600">
             <Text field={fields?.AlreadyStartedText} />{" "}
             <ContentSdkLink
-              field={{
-                ...fields?.ResumeApplicationLink,
-                value: {
-                  ...fields?.ResumeApplicationLink?.value,
-                  text: fields?.ResumeApplicationLink?.value?.text || "Resume your application"
-                }
-              }}
+              field={fields?.ResumeApplicationLink}
               className="text-[#2c5f5d] underline"
-            />
+            >
+              <Text field={fields?.ResumeApplicationLinkText} />
+            </ContentSdkLink>
           </div>
         </form>
       </CardContent>

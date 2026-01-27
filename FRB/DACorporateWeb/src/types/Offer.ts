@@ -33,4 +33,9 @@ export interface OfferComponentProps extends ComponentProps {
    * that are managed through Sitecore for the offer step.
    */
   fields: IOffer;
+  /**
+   * Component map for rendering nested Sitecore components
+   * Passed from parent to avoid circular dependency
+   */
+  componentMap?: Map<string, React.ComponentType<unknown>>;
 }
