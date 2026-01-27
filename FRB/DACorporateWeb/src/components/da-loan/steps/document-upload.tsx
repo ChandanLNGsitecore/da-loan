@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "components/da-loan/ui-premetive/button";
 import { Card, CardContent } from "components/da-loan/ui-premetive/card";
 import { FileUploadInput } from "components/da-loan/ui/file-upload-input";
@@ -57,6 +58,7 @@ export interface UploadedDocuments {
 }
 
 export const Default = (props: DocumentUploadProps) => {
+  const router = useRouter();
   const { onSubmit, onBack } = props;
   const { fields: propsFields = {} } = props;
   const fields = propsFields.fields || propsFields;
@@ -142,6 +144,14 @@ export const Default = (props: DocumentUploadProps) => {
   const handleSubmit = () => {
     if (canSubmit) {
       onSubmit(documents);
+    }
+  };
+
+  const handleBack = () => {
+    if (onBack && typeof onBack === "function") {
+      onBack();
+    } else {
+      router.back();
     }
   };
 
@@ -250,8 +260,8 @@ export const Default = (props: DocumentUploadProps) => {
           <div className="text-center mt-4">
             <button
               type="button"
-              onClick={onBack}
-              className="text-sm text-gray-600 hover:text-[#2c5f5d] underline transition-colors"
+              onClick={handleBack}
+              className="text-sm text-gray-600 hover:text-[#2c5f5d] underline transition-colors cursor-pointer"
             >
               <Text field={fields?.BackBtnText} />
             </button>
