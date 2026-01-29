@@ -42,7 +42,7 @@ type SitecoreFields = Record<string, any>;
 
 interface DocumentUploadProps {
   fields?: SitecoreFields;
-  readonly onSubmit: (documents: UploadedDocuments) => void;
+  readonly onSubmit?: (documents: UploadedDocuments) => void;
   readonly onBack?: () => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
@@ -143,7 +143,11 @@ export const Default = (props: DocumentUploadProps) => {
 
   const handleSubmit = () => {
     if (canSubmit) {
-      onSubmit(documents);
+      console.log("Documents submitted:", documents);
+      if (onSubmit && typeof onSubmit === "function") {
+        onSubmit(documents);
+      }
+      router.push("/loans/application-submitted");
     }
   };
 
