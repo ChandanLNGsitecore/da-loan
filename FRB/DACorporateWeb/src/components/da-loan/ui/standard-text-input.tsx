@@ -169,7 +169,7 @@ export const StandardTextInput = React.forwardRef<HTMLInputElement, StandardText
 		return (
 			<div className={containerClassName}>
 				<div className={labelContainerClassName}>
-					<label htmlFor={name} className={labelClassName}>
+					<label className={labelClassName}>
 						{label}
 					</label>
 					{showHelpIcon && (

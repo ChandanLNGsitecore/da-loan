@@ -112,6 +112,39 @@ export const StandardNumberInput = React.forwardRef<HTMLInputElement, StandardNu
 		}
 	};
 
+	const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+		e.preventDefault();
+		const pastedText = e.clipboardData.getData('text');
+		// Remove all non-digit characters from pasted content
+		const cleanedValue = pastedText.replace(/\D/g, "");
+		
+		// Apply maxLength if specified
+		const finalValue = maxLength ? cleanedValue.slice(0, maxLength) : cleanedValue;
+		
+		// Update the input value
+		if (e.currentTarget instanceof HTMLInputElement) {
+			e.currentTarget.value = finalValue;
+			
+			// Trigger the onChange event manually with the cleaned value
+			const changeEvent = {
+				...e,
+				target: e.currentTarget,
+				currentTarget: e.currentTarget,
+			} as unknown as React.ChangeEvent<HTMLInputElement>;
+			
+			onChange?.(changeEvent);
+			
+			// Clear validation error if the pasted value matches the regex pattern
+			if (validationError && finalValue) {
+				if (inputRegex && inputRegex.test(finalValue)) {
+					setValidationError("");
+				} else if (minLength && finalValue.length >= minLength) {
+					setValidationError("");
+				}
+			}
+		}
+	};
+
 	const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
 		const inputValue = e.target.value;
 		
@@ -134,7 +167,7 @@ export const StandardNumberInput = React.forwardRef<HTMLInputElement, StandardNu
 		return (
 			<div className={containerClassName}>
 				{showLabel && (
-					<label htmlFor={name} className={labelClassName}>
+					<label className={labelClassName}>
 						<Text field={label} />
 					</label>
 				)}
@@ -153,6 +186,7 @@ export const StandardNumberInput = React.forwardRef<HTMLInputElement, StandardNu
 						placeholder={placeholder}
 						onChange={handleChange}
 						onKeyPress={handleKeyPress}
+						onPaste={handlePaste}
 						onFocus={onFocus}
 						onBlur={handleBlur}
 						required={required}

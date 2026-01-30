@@ -83,7 +83,7 @@ export const IncomeInput = React.forwardRef<HTMLInputElement, IncomeInputProps>(
 		return (
 			<div className={containerClassName}>
 				<div className={labelContainerClassName}>
-					<label htmlFor={name} className={labelClassName}>
+					<label className={labelClassName}>
 						{label}
 					</label>
 					{showHelpIcon && (
