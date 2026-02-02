@@ -148,7 +148,7 @@ export const Default = (props: ApplicationSubmitComponentProps) => {
               <div>
                 <span className="text-gray-600"><Text field={props.fields.CallUsTxt} /></span>
                 <Link
-                  href="tel:0860345678"
+                  href={`tel:${props.fields.CallUsNumber.value}`}
                   className="text-[#2c5f5d] font-medium hover:underline"
                 >
                   <Text field={props.fields.CallUsNumber} />
@@ -161,7 +161,7 @@ export const Default = (props: ApplicationSubmitComponentProps) => {
               <div>
                 <span className="text-gray-600"><Text field={props.fields.EmailTxt} /></span>
                 <Link
-                  href="mailto:info@directaxis.co.za"
+                  href={`mailto:${props.fields.EmailID.value}`}
                   className="text-[#2c5f5d] font-medium hover:underline"
                 >
                  <Text field={props.fields.EmailID} />
