@@ -151,6 +151,62 @@ export const StandardTextInput = React.forwardRef<HTMLInputElement, StandardText
 		}
 	};
 
+	const handleDrop = (e: React.DragEvent<HTMLInputElement>) => {
+		if (inputRegex || maxLength) {
+			e.preventDefault();
+			
+			const droppedText = e.dataTransfer.getData('text');
+			const input = e.target as HTMLInputElement;
+			const currentValue = input.value;
+			const selectionStart = input.selectionStart || 0;
+			const selectionEnd = input.selectionEnd || 0;
+			
+			// Filter dropped text to only include valid characters (if regex provided)
+			let filteredText = droppedText;
+			if (inputRegex) {
+				filteredText = droppedText.split('').filter(char => {
+					const testValue = currentValue.substring(0, selectionStart) + char;
+					return inputRegex.test(testValue);
+				}).join('');
+			}
+			
+			// Calculate the new value with filtered text
+			let newValue = 
+				currentValue.substring(0, selectionStart) + 
+				filteredText + 
+				currentValue.substring(selectionEnd);
+			
+			// Trim to maxLength if needed
+			if (maxLength && newValue.length > maxLength) {
+				const excessLength = newValue.length - maxLength;
+				filteredText = filteredText.substring(0, filteredText.length - excessLength);
+				newValue = 
+					currentValue.substring(0, selectionStart) + 
+					filteredText + 
+					currentValue.substring(selectionEnd);
+			}
+			
+			// Manually update the input value
+			input.value = newValue;
+			
+			// Set cursor position after the dropped text
+			const newCursorPosition = selectionStart + filteredText.length;
+			input.setSelectionRange(newCursorPosition, newCursorPosition);
+			
+			// Trigger onChange event manually
+			const changeEvent = new Event('change', { bubbles: true });
+			input.dispatchEvent(changeEvent);
+			
+			// Call onChange handler if provided
+			if (onChange) {
+				onChange({
+					target: input,
+					currentTarget: input,
+				} as React.ChangeEvent<HTMLInputElement>);
+			}
+		}
+	};
+
 	const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
 		const inputValue = e.target.value;
 		
@@ -187,8 +243,7 @@ export const StandardTextInput = React.forwardRef<HTMLInputElement, StandardText
 						placeholder={placeholder}
 						onChange={handleChange}
 					onKeyPress={handleKeyPress}
-					onPaste={handlePaste}
-					onFocus={onFocus}
+					onPaste={handlePaste}					onDrop={handleDrop}					onFocus={onFocus}
 				onBlur={handleBlur}
 				required={required}
 				maxLength={maxLength}

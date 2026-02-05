@@ -167,17 +167,7 @@ export interface IAffordability {
    */
   NetIncome_ValidationErrorMessage: TextField;
 
-  /**
-   * Minimum character length for net income input
-   * Enforces minimum input length validation
-   */
-  NetIncome_MinLength: TextField;
-
-  /**
-   * Maximum character length for net income input
-   * Enforces maximum input length validation
-   */
-  NetIncome_MaxLength: TextField;
+ 
 
   /**
    * Placeholder text for the net income input field

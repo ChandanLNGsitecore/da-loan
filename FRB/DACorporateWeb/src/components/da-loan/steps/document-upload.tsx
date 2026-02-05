@@ -32,20 +32,31 @@ const fetchRequiredDocuments = async (): Promise<RequiredDocumentsResponse> => {
       // resolve({ requiredDocs: ["ProofofBankingDetails"] });
 
       // Identity and address
-      // resolve({ requiredDocs: ["ProofOfIdentity", "ProofofAddress"] });
+       //resolve({ requiredDocs: ["ProofofBankingDetails", "ProofofAddress"] });
     }, 0);
   });
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type SitecoreFields = Record<string, any>;
-
 interface DocumentUploadProps {
-  fields?: SitecoreFields;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  fields?: any;
   readonly onSubmit?: (documents: UploadedDocuments) => void;
   readonly onBack?: () => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
+}
+
+interface DocumentOption {
+  id: string;
+  url: string;
+  name: string;
+  displayName: string;
+  fields: {
+    title?: { value: string };
+    description?: { value: string };
+    accept?: { value: string };
+    maxSize?: { value: number };
+  };
 }
 
 export interface UploadedDocuments {
@@ -53,8 +64,7 @@ export interface UploadedDocuments {
   idDocument: File | null;
   idCardFront: File | null;
   idCardBack: File | null;
-  proofOfAddress: File | null;
-  proofOfBanking: File | null;
+  [key: string]: File | null | string; // Allow dynamic document properties
 }
 
 export const Default = (props: DocumentUploadProps) => {
@@ -62,22 +72,19 @@ export const Default = (props: DocumentUploadProps) => {
   const { onSubmit, onBack } = props;
   const { fields: propsFields = {} } = props;
   const fields = propsFields.fields || propsFields;
+  debugger;
+  console.log("Document Upload Props:", props);
+  console.log("Document Upload Fields:", fields);
 
   // Helper function to parse accept field (removes quotes and splits by comma)
   const parseAcceptField = (acceptValue: string): string[] => {
+    if (!acceptValue) return [];
     return acceptValue
+      .replace(/['"]/g, '') // Remove quotes
       .split(',') // Split by comma
       .map(ext => ext.trim()) // Trim whitespace
       .filter(ext => ext); // Remove empty strings
   };
-
-  // Parse address document settings from fields
-  const addressAccept = parseAcceptField(fields?.Address_Accept?.value);
-  const addressMaxSize = fields?.Address_MaxSize?.value;
-
-  // Parse banking document settings from fields
-  const bankingAccept = parseAcceptField(fields?.["Proof of Banking Details_Accept"]?.value);
-  const bankingMaxSize = fields?.["Proof of Banking Details_MaxSize"]?.value;
 
   // Parse identity document settings from fields
   const identityAccept = parseAcceptField(fields?.ProofofIdentity_Accept?.value);
@@ -91,8 +98,6 @@ export const Default = (props: DocumentUploadProps) => {
     idDocument: null,
     idCardFront: null,
     idCardBack: null,
-    proofOfAddress: null,
-    proofOfBanking: null,
   });
 
   useEffect(() => {
@@ -124,22 +129,26 @@ export const Default = (props: DocumentUploadProps) => {
   };
 
   const isIdentityRequired = requiredDocs.includes("ProofOfIdentity");
-  const isAddressRequired = requiredDocs.includes("ProofofAddress");
-  const isBankingRequired = requiredDocs.includes("ProofofBankingDetails");
+  
+  // Get non-identity required documents
+  const nonIdentityRequiredDocs = requiredDocs.filter(doc => doc !== "ProofOfIdentity");
+  
+  // Get document options for required non-identity docs from Sitecore (case-insensitive match)
+  const documentOptions = ((fields?.DocumentTypeOptions as DocumentOption[]) || []).filter((option: DocumentOption) =>
+    nonIdentityRequiredDocs.some(docName => docName.toLowerCase() === option.name.toLowerCase())
+  );
 
   // Calculate dynamic numbering
   let currentNumber = 1;
   const identityNumber = isIdentityRequired ? currentNumber++ : 0;
-  const addressNumber = isAddressRequired ? currentNumber++ : 0;
-  const bankingNumber = isBankingRequired ? currentNumber++ : 0;
 
+  // Validate that all required documents are uploaded
   const canSubmit =
     (!isIdentityRequired ||
       (documents.idType === "book"
         ? Boolean(documents.idDocument)
         : Boolean(documents.idCardFront && documents.idCardBack))) &&
-    (!isAddressRequired || Boolean(documents.proofOfAddress)) &&
-    (!isBankingRequired || Boolean(documents.proofOfBanking));
+    documentOptions.every((option: DocumentOption) => Boolean(documents[option.name]));
 
   const handleSubmit = () => {
     if (canSubmit) {
@@ -212,35 +221,26 @@ export const Default = (props: DocumentUploadProps) => {
               />
             )}
 
-            {isAddressRequired && (
-              <FileUploadInput
-                title={fields?.Address_Title}
-                description={fields?.Address_Description}
-                numberPrefix={`${addressNumber}.`}
-                accept={addressAccept}
-                maxSize={addressMaxSize}
-                onFileChange={(file) => handleFileChange("proofOfAddress", file)}
-                onError={handleFileError}
-                showButtons={false}
-                autoUpload={true}
-                initialFile={documents.proofOfAddress}
-              />
-            )}
-
-            {isBankingRequired && (
-              <FileUploadInput
-                title={fields?.["Proof of Banking Details_Title"]}
-                description={fields?.["Proof of Banking Details_Description"]}
-                numberPrefix={`${bankingNumber}.`}
-                accept={bankingAccept}
-                maxSize={bankingMaxSize}
-                onFileChange={(file) => handleFileChange("proofOfBanking", file)}
-                onError={handleFileError}
-                showButtons={false}
-                autoUpload={true}
-                initialFile={documents.proofOfBanking}
-              />
-            )}
+            {/* Render dynamic documents from DocumentTypeOptions */}
+            {documentOptions.map((option: DocumentOption) => {
+              const docNumber = currentNumber++;
+              const initialFile = documents[option.name];
+              return (
+                <FileUploadInput
+                  key={option.name}
+                  title={option.fields?.title}
+                  description={option.fields?.description}
+                  numberPrefix={`${docNumber}.`}
+                  accept={parseAcceptField(option.fields?.accept?.value || "")}
+                  maxSize={option.fields?.maxSize?.value}
+                  onFileChange={(file) => handleFileChange(option.name, file)}
+                  onError={handleFileError}
+                  showButtons={false}
+                  autoUpload={true}
+                  initialFile={initialFile instanceof File || initialFile === null ? initialFile : null}
+                />
+              );
+            })}
           </div>
         )}
 

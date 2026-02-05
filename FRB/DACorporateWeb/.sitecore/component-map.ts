@@ -42,6 +42,7 @@ import * as incomeinput from 'src/components/da-loan/ui/income-input';
 import * as identitydocument from 'src/components/da-loan/ui/identity-document';
 import * as fileuploadinput from 'src/components/da-loan/ui/file-upload-input';
 import * as dropdownlist from 'src/components/da-loan/ui/drop-down-list';
+import * as alert from 'src/components/da-loan/ui/alert';
 import * as thankyou from 'src/components/da-loan/steps/thank-you';
 import * as termsmodal from 'src/components/da-loan/steps/terms-modal';
 import * as residentialaddress from 'src/components/da-loan/steps/residential-address';
@@ -112,6 +113,7 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['identity-document', { ...identitydocument, componentType: 'client' }],
   ['file-upload-input', { ...fileuploadinput, componentType: 'client' }],
   ['drop-down-list', { ...dropdownlist, componentType: 'client' }],
+  ['alert', { ...alert }],
   ['thank-you', { ...thankyou, componentType: 'client' }],
   ['terms-modal', { ...termsmodal, componentType: 'client' }],
   ['residential-address', { ...residentialaddress, componentType: 'client' }],
