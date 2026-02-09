@@ -7,7 +7,7 @@ import {
   RichText as ContentSdkRichText,
 } from "@sitecore-content-sdk/nextjs";
 import { ComponentProps } from "lib/component-props";
-import { useForm, useWatch, Controller } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { Button } from "components/da-loan/ui-premetive/button";
 import { Card, CardContent } from "components/da-loan/ui-premetive/card";
@@ -15,6 +15,8 @@ import { ChevronLeft, ChevronRight, Info } from "lucide-react";
 import { DropDownList } from "components/da-loan/ui/drop-down-list";
 import { StandardNumberInput } from "components/da-loan/ui/standard-number-input";
 import { Text } from "@sitecore-content-sdk/nextjs";
+import { useJsApiLoader } from "@react-google-maps/api";
+import { useEffect, useRef } from "react";
 import { StandardTextInput } from "components/da-loan/ui/standard-text-input";
 
 type SitecoreOption = {
@@ -92,21 +94,34 @@ export type ResidentialAddressProps = ComponentProps & {
   readonly onBack?: () => void;
 };
 
+const libraries: ("places")[] = ["places"];
+
 export const Default = (props: ResidentialAddressProps) => {
   "use no memo";
 
   const router = useRouter();
   const { onSubmit, initialData, onBack } = props;
+  const googleMapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY || "";
 
-  debugger;
-  console.log("Props:", props);
-  console.log("Fields:", props.fields);
+  if (!googleMapsApiKey) {
+    console.warn("Google Maps API key is not set. Address autocomplete will not work.");
+  }
+  
+  // Load Google Maps API
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: googleMapsApiKey,
+    libraries: libraries,
+  });
 
+  const addressInputRef = useRef<HTMLInputElement | null>(null);
+
+  // Form setup
   const {
     handleSubmit,
     control,
     trigger,
     getValues,
+    setValue,
     formState: { errors },
   } = useForm<ResidentialAddressFormData>({
     mode: "onChange",
@@ -120,12 +135,69 @@ export const Default = (props: ResidentialAddressProps) => {
     },
   });
 
+  // Parse address components
+  const parseAddress = (place: google.maps.places.PlaceResult) => {
+    const get = (type: string) =>
+      place.address_components?.find((c) => c.types.includes(type))?.long_name || "";
+    console.log("Address components:", place.address_components);
+
+
+    const point_of_interest = get("point_of_interest") ?? "";
+    const sublocality_level_1 = get("sublocality_level_1") ?? "";
+
+    return {
+      street: `${get("street_number")} ${get("route")} ${point_of_interest} ${sublocality_level_1}`.trim(),
+      city: get("locality") || get("sublocality"),
+      province: get("administrative_area_level_1"),
+      postalCode: get("postal_code"),
+    };
+  };
+
+  // Setup Google Places Autocomplete
+  useEffect(() => {
+    if (!isLoaded || !addressInputRef.current) return;
+
+    const autocomplete = new google.maps.places.Autocomplete(
+      addressInputRef.current,
+      {
+        types: ["address"],
+        componentRestrictions: { country: "za" },
+      }
+    );
+
+    autocomplete.addListener("place_changed", () => {
+      const place = autocomplete.getPlace();
+      if (!place.address_components) return;
+
+      const parsed = parseAddress(place);
+      setValue("streetLine1", parsed.street, { shouldValidate: true });
+      setValue("cityTown", parsed.city, { shouldValidate: true });
+      setValue("postalCode", parsed.postalCode, { shouldValidate: true });
+
+      // Match province
+      const provinceOption = props.fields["Province List"]?.find(
+        (p) => p.fields.Text?.value === parsed.province ||
+          p.fields.Value?.value === parsed.province
+      );
+
+      if (provinceOption) {
+        setValue("province", provinceOption.fields.Value.value, {
+          shouldValidate: true,
+        });
+      }
+    });
+
+    return () => {
+      // Cleanup if needed
+      google.maps.event.clearInstanceListeners(autocomplete);
+    };
+  }, [isLoaded, setValue, props.fields]);
+
   const onFormSubmit = handleSubmit((data) => {
-    console.log("Banking form submitted:", data);
-    if (onSubmit && typeof onSubmit === 'function') {
+    console.log("Form submitted:", data);
+    if (onSubmit && typeof onSubmit === "function") {
       onSubmit(data);
     } else {
-      // Navigate to address details page if no onSubmit handler provided
       router.push("/loans/living-arrangement");
     }
   });
@@ -146,15 +218,6 @@ export const Default = (props: ResidentialAddressProps) => {
       onBack();
     } else {
       router.back();
-    }
-  };
-
-  const getRegex = (regexString: string | undefined) => {
-    if (!regexString) return undefined;
-    try {
-      return new RegExp(regexString);
-    } catch {
-      return undefined;
     }
   };
 
@@ -187,8 +250,10 @@ export const Default = (props: ResidentialAddressProps) => {
             }}
             render={({ field }) => (
               <StandardTextInput
+                ref={addressInputRef}
                 value={field.value}
-                onChange={(e) => field.onChange(e.target.value)}
+                onChange={field.onChange}
+                onBlur={field.onBlur}
                 name={String(props?.fields?.AddressLine1_FieldID?.value ?? "")}
                 label={<Text field={props?.fields?.AddressLine1_Label} />}
                 placeholder={String(props?.fields?.AddressLine1_Placeholder?.value)}
@@ -206,6 +271,7 @@ export const Default = (props: ResidentialAddressProps) => {
               />
             )}
           />
+
           {/* Address Line 2 */}
           <Controller
             name="streetLine2"
@@ -241,6 +307,7 @@ export const Default = (props: ResidentialAddressProps) => {
               />
             )}
           />
+
           {/* City */}
           <Controller
             name="cityTown"
@@ -284,9 +351,7 @@ export const Default = (props: ResidentialAddressProps) => {
                       label: option.fields.Text?.value || "",
                     }))
                     .filter((opt) => opt.value !== "")}
-                  placeholder={String(
-                    props?.fields?.ProvincePlaceholderText?.value
-                  )}
+                  placeholder={String(props?.fields?.ProvincePlaceholderText?.value)}
                   error={errors.province?.message}
                 />
               )}
@@ -320,29 +385,27 @@ export const Default = (props: ResidentialAddressProps) => {
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 flex gap-2">
             <Info className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
             <p className="text-sm text-gray-700">
-              <ContentSdkRichText
-                field={props.fields["Proof of Address Message"]}
-              />
+              <ContentSdkRichText field={props.fields["Proof of Address Message"]} />
             </p>
           </div>
 
           <div className="flex gap-3 pt-4">
             <Button
-            onClick={handleBack}
-            variant="outline"
-            className="flex-1 py-6 border-gray-300 text-gray-700 hover:bg-gray-100 hover:text-gray-800">
+              onClick={handleBack}
+              variant="outline"
+              className="flex-1 py-6 border-gray-300 text-gray-700 hover:bg-gray-100 hover:text-gray-800"
+            >
+              <ChevronLeft className="w-4 h-4 mr-1" />
+              <Text field={props?.fields?.BackButtonText} />
+            </Button>
 
-            <ChevronLeft className="w-4 h-4 mr-1" />
-            <Text field={props?.fields?.BackButtonText} />
-          </Button>
-
-          <Button
-            onClick={handleNext}
-            className="flex-1 py-6 text-white bg-[#2c5f5d] hover:bg-[#234a48]"
-          >
-            <Text field={props?.fields?.SubmitButtonText} />
-            <ChevronRight className="w-4 h-4 ml-1" />
-          </Button>
+            <Button
+              onClick={handleNext}
+              className="flex-1 py-6 text-white bg-[#2c5f5d] hover:bg-[#234a48]"
+            >
+              <Text field={props?.fields?.SubmitButtonText} />
+              <ChevronRight className="w-4 h-4 ml-1" />
+            </Button>
           </div>
         </div>
       </CardContent>
