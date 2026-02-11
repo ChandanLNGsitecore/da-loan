@@ -205,7 +205,7 @@ export const Default = (props: ApplicationFormProps) => {
               control={control}
               rules={{
                 required:
-                  fields?.IDNumber_RequiredErrorMessage?.value,
+                  fields?.IDNumber_ValidationErrorMessage?.value,
                 validate: (value) => {
                   if (!value || value.length !== 13) {
                     return fields?.IDNumber_ValidationErrorMessage?.value;
