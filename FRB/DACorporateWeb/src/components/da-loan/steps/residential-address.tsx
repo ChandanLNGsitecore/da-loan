@@ -106,7 +106,7 @@ export const Default = (props: ResidentialAddressProps) => {
   if (!googleMapsApiKey) {
     console.warn("Google Maps API key is not set. Address autocomplete will not work.");
   }
-  
+
   // Load Google Maps API
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: googleMapsApiKey,
@@ -134,6 +134,15 @@ export const Default = (props: ResidentialAddressProps) => {
       postalCode: initialData?.postalCode || "",
     },
   });
+
+  const getRegex = (regexString: string | undefined) => {
+    if (!regexString) return undefined;
+    try {
+      return new RegExp(regexString);
+    } catch {
+      return undefined;
+    }
+  };
 
   // Parse address components
   const parseAddress = (place: google.maps.places.PlaceResult) => {
@@ -194,7 +203,6 @@ export const Default = (props: ResidentialAddressProps) => {
   }, [isLoaded, setValue, props.fields]);
 
   const onFormSubmit = handleSubmit((data) => {
-    console.log("Form submitted:", data);
     if (onSubmit && typeof onSubmit === "function") {
       onSubmit(data);
     } else {
@@ -203,6 +211,11 @@ export const Default = (props: ResidentialAddressProps) => {
   });
 
   const handleNext = async () => {
+    setValue("streetLine1", getValues("streetLine1").trim(), { shouldValidate: true });
+    setValue("streetLine2", getValues("streetLine2").trim(), { shouldValidate: false });
+    setValue("cityTown", getValues("cityTown").trim(), { shouldValidate: true });
+    setValue("postalCode", getValues("postalCode").trim(), { shouldValidate: true });
+
     const isValid = await trigger();
     console.log("Form validation status:", isValid);
     console.log("Form errors:", errors);
@@ -246,7 +259,7 @@ export const Default = (props: ResidentialAddressProps) => {
               minLength: {
                 value: Number(props?.fields?.AddressLine1_MinLength),
                 message: props?.fields?.AddressLine1_MinLengthErrorMessage,
-              },
+              }
             }}
             render={({ field }) => (
               <StandardTextInput
@@ -254,9 +267,13 @@ export const Default = (props: ResidentialAddressProps) => {
                 value={field.value}
                 onChange={field.onChange}
                 onBlur={field.onBlur}
+                onPaste={(e) => e.preventDefault()}
+                onDrop={(e) => e.preventDefault()}
+                onDragOver={(e) => e.preventDefault()}
                 name={String(props?.fields?.AddressLine1_FieldID?.value ?? "")}
                 label={<Text field={props?.fields?.AddressLine1_Label} />}
                 placeholder={String(props?.fields?.AddressLine1_Placeholder?.value)}
+                inputRegex={getRegex(`^[a-zA-Z0-9 -]+$`)} // <= Need to change here Get Value from Data Source Item, Example: inputRegex={getRegex(fields?.FirstName_ValidationRegex?.value)}
                 showHelpIcon={true}
                 tooltipText="Enter street address, P.O. box, company name, c/o"
                 containerClassName="space-y-2"
@@ -290,6 +307,10 @@ export const Default = (props: ResidentialAddressProps) => {
               <StandardTextInput
                 value={field.value}
                 onChange={(e) => field.onChange(e.target.value)}
+                onBlur={field.onBlur}
+                onPaste={(e) => e.preventDefault()}
+                onDrop={(e) => e.preventDefault()}
+                onDragOver={(e) => e.preventDefault()}
                 name={String(props?.fields?.AddressLine2_FieldID?.value ?? "")}
                 label={<Text field={props?.fields?.AddressLine2_Label} />}
                 placeholder={String(props?.fields?.AddressLine2_Placeholder?.value)}
@@ -319,6 +340,9 @@ export const Default = (props: ResidentialAddressProps) => {
               <StandardTextInput
                 value={field.value}
                 onChange={(e) => field.onChange(e.target.value)}
+                onPaste={(e) => e.preventDefault()}
+                onDrop={(e) => e.preventDefault()}
+                onDragOver={(e) => e.preventDefault()}
                 name={String(props.fields?.City_FieldID?.value ?? "")}
                 label={<Text field={props.fields?.City_Label} />}
                 placeholder={String(props.fields?.City_Placeholder?.value)}
@@ -368,6 +392,9 @@ export const Default = (props: ResidentialAddressProps) => {
               <StandardNumberInput
                 value={field.value}
                 onChange={(e) => field.onChange(e.target.value)}
+                onPaste={(e) => e.preventDefault()}
+                onDrop={(e) => e.preventDefault()}
+                onDragOver={(e) => e.preventDefault()}
                 name={String(props?.fields?.Postcode_FieldID?.value ?? "")}
                 label={props?.fields?.Postcode_Label}
                 placeholder={String(props.fields?.Postcode_Placeholder?.value)}

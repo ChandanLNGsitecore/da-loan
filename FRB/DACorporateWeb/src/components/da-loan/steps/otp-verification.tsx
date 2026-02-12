@@ -49,6 +49,7 @@ export const Default = (props: OTPVerificationProps) => {
   const [countdown, setCountdown] = useState(45);
   const [canResend, setCanResend] = useState(false);
   const [cellphone, setCellphone] = useState<string | null>(null);
+  const [isEditorMode, setIsEditorMode] = useState(false);
 
   const {
     register,
@@ -75,6 +76,18 @@ export const Default = (props: OTPVerificationProps) => {
   useEffect(() => {
     const storedCellphone = localStorage.getItem("cellphone");
     setCellphone(storedCellphone);
+  }, []);
+
+  useEffect(() => {
+    // Detect Sitecore Experience Editor (sc_mode=edit) to avoid submitting/focusing
+    if (typeof window !== "undefined") {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        setIsEditorMode(params.get("sc_site") === "corporate-website" && params.get("mode") != "preview");
+      } catch {
+        setIsEditorMode(false);
+      }
+    }
   }, []);
 
   const handleResend = () => {
@@ -136,7 +149,7 @@ export const Default = (props: OTPVerificationProps) => {
             error={errors.otp?.message as string}
           />
           <Button
-            type="submit"
+            type={isEditorMode ? "button" : "submit"}
             className="w-full bg-[#2c5f5d] hover:bg-[#234a48] text-white py-6 text-base font-medium"
           >
             <ContentSdkText field={props.fields?.SubmitButtonText} />
