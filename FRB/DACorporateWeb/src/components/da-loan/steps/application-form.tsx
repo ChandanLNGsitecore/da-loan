@@ -274,6 +274,7 @@ export const Default = (props: ApplicationFormProps) => {
                   helpIconClassName="w-4 h-4 text-gray-400"
                   prefixClassName="absolute left-3 top-1/2 -translate-y-1/2 text-gray-900"
                   value={field.value || ""}
+                  maxLength={fields?.NetIncome_MaxLength?.value}
                   onChange={(e) => {
                     const numValue = e.target.value
                       ? parseInt(e.target.value, 10)
