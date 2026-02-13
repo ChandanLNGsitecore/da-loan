@@ -41,6 +41,15 @@ const getRegex = (regexString?: string): RegExp | undefined => {
   }
 };
 
+const interpolateCountdownMessage = (
+  htmlContent: string | undefined,
+  countdown: number,
+): string => {
+  if (!htmlContent) return "";
+  // Replace ##countdown## placeholder with actual countdown value
+  return htmlContent.replace(/##countdown##/g, countdown.toString());
+};
+
 export const Default = (props: OTPVerificationProps) => {
   console.log("OTPVerificationProps:", props);
 
@@ -83,7 +92,10 @@ export const Default = (props: OTPVerificationProps) => {
     if (typeof window !== "undefined") {
       try {
         const params = new URLSearchParams(window.location.search);
-        setIsEditorMode(params.get("sc_site") === "corporate-website" && params.get("mode") != "preview");
+        setIsEditorMode(
+          params.get("sc_site") === "corporate-website" &&
+            params.get("mode") != "preview",
+        );
       } catch {
         setIsEditorMode(false);
       }
@@ -130,8 +142,9 @@ export const Default = (props: OTPVerificationProps) => {
                 "OTP is required",
               pattern: {
                 value:
-                  getRegex(props.fields?.OTP_ValidationRegex?.value?.toString()) ||
-                  /^\d{6}$/,
+                  getRegex(
+                    props.fields?.OTP_ValidationRegex?.value?.toString(),
+                  ) || /^\d{6}$/,
                 message:
                   props.fields?.OTP_ValidationErrorMessage?.value?.toString() ||
                   "Invalid OTP format",
@@ -141,7 +154,9 @@ export const Default = (props: OTPVerificationProps) => {
             placeholder={props.fields?.OTP_Placeholder?.value?.toString()}
             type="text"
             maxLength={6}
-            inputRegex={getRegex(props.fields?.OTP_ValidationRegex?.value?.toString())}
+            inputRegex={getRegex(
+              props.fields?.OTP_ValidationRegex?.value?.toString(),
+            )}
             formatErrorMessage={props.fields?.OTP_ValidationErrorMessage?.value?.toString()}
             containerClassName="space-y-2"
             labelContainerClassName="flex items-center gap-2"
@@ -157,20 +172,34 @@ export const Default = (props: OTPVerificationProps) => {
 
           <div className="text-center text-sm text-gray-600">
             {canResend ? (
-              <button
-                type="button"
-                onClick={handleResend}
-                className="text-[#2c5f5d] underline"
-              >
-                <ContentSdkText field={props.fields?.["Send Again Message 2"]} />
-              </button>
+              <div>
+                {isEditorMode ? (
+                  <ContentSdkText field={props.fields?.["Send Again Message 2"]} />
+                ) : (
+                  <button
+                    type="button"
+                    onClick={handleResend}
+                    className="text-[#2c5f5d] underline"
+                  >
+                    {props.fields?.["Send Again Message 2"]?.value?.toString()}
+                  </button>
+                )}
+              </div>
             ) : (
-              <span>
-                Haven&apos;t received a PIN?{" "}
-                <span className="text-[#2c5f5d]">
-                  Send again in {countdown} seconds
-                </span>
-              </span>
+              <div>
+                {isEditorMode ? (
+                  <ContentSdkText field={props.fields?.["Send Again Message 1"]} />
+                ) : (
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: interpolateCountdownMessage(
+                        props.fields?.["Send Again Message 1"]?.value?.toString(),
+                        countdown,
+                      ),
+                    }}
+                  />
+                )}
+              </div>
             )}
           </div>
         </form>

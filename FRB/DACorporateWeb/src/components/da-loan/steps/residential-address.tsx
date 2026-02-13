@@ -54,30 +54,32 @@ export type ResidentialAddressProps = ComponentProps & {
     AddressLine1_FieldID: TextField;
     AddressLine1_Label: TextField;
     AddressLine1_Required: boolean;
-    AddressLine1_ValidationRegex: string;
+    AddressLine1_ValidationRegex: TextField;
     AddressLine1_ValidationErrorMessage: TextField;
     AddressLine1_Placeholder: TextField;
-    AddressLine1_MinLength: string;
-    AddressLine1_MaxLength: string;
-    AddressLine1_MinLengthErrorMessage: string;
+    AddressLine1_MinLength: TextField;
+    AddressLine1_MaxLength: TextField;
+    AddressLine1_MinLengthErrorMessage: TextField;
 
     AddressLine2_FieldID: TextField;
     AddressLine2_Label: TextField;
     AddressLine2_Required: boolean;
-    AddressLine2_ValidationRegex: string;
+    AddressLine2_ValidationRegex: TextField;
     AddressLine2_ValidationErrorMessage: TextField;
     AddressLine2_Placeholder: TextField;
-    AddressLine2_MinLength: string;
-    AddressLine2_MaxLength: string;
-    AddressLine2_MinLengthErrorMessage: string;
+    AddressLine2_MinLength: TextField;
+    AddressLine2_MaxLength: TextField;
+    AddressLine2_MinLengthErrorMessage: TextField;
 
     City_FieldID: TextField;
     City_Label: TextField;
     City_Required: boolean;
-    City_ValidationRegex: string;
+    City_ValidationRegex: TextField;
     City_ValidationErrorMessage: TextField;
     City_Placeholder: TextField;
-    City_MinLengthErrorMessage: string;
+    City_MinLength : TextField;
+    City_MaxLength : TextField;
+    City_MinLengthErrorMessage: TextField;
 
     Postcode_FieldID: TextField;
     Postcode_Label: TextField;
@@ -257,8 +259,8 @@ export const Default = (props: ResidentialAddressProps) => {
             rules={{
               required: String(props.fields?.AddressLine1_ValidationErrorMessage?.value),
               minLength: {
-                value: Number(props?.fields?.AddressLine1_MinLength),
-                message: props?.fields?.AddressLine1_MinLengthErrorMessage,
+                value: Number(props?.fields?.AddressLine1_MinLength?.value),
+                message: String(props?.fields?.AddressLine1_MinLengthErrorMessage?.value),
               }
             }}
             render={({ field }) => (
@@ -273,7 +275,7 @@ export const Default = (props: ResidentialAddressProps) => {
                 name={String(props?.fields?.AddressLine1_FieldID?.value ?? "")}
                 label={<Text field={props?.fields?.AddressLine1_Label} />}
                 placeholder={String(props?.fields?.AddressLine1_Placeholder?.value)}
-                inputRegex={getRegex(`^[a-zA-Z0-9 -]+$`)} // <= Need to change here Get Value from Data Source Item, Example: inputRegex={getRegex(fields?.FirstName_ValidationRegex?.value)}
+                inputRegex={getRegex(String(props?.fields?.AddressLine1_ValidationRegex?.value))} // <= Need to change here Get Value from Data Source Item, Example: inputRegex={getRegex(fields?.FirstName_ValidationRegex?.value)}
                 showHelpIcon={true}
                 tooltipText="Enter street address, P.O. box, company name, c/o"
                 containerClassName="space-y-2"
@@ -281,9 +283,9 @@ export const Default = (props: ResidentialAddressProps) => {
                 labelClassName="text-sm text-gray-800"
                 inputClassName="w-full"
                 helpIconClassName="w-4 h-4 text-gray-400"
-                maxLength={Number(props?.fields?.AddressLine1_MaxLength)}
-                minLength={Number(props?.fields?.AddressLine1_MinLength)}
-                minLengthErrorMessage={props?.fields?.AddressLine1_MinLengthErrorMessage}
+                maxLength={Number(props?.fields?.AddressLine1_MaxLength?.value)}
+                minLength={Number(props?.fields?.AddressLine1_MinLength?.value)}
+                minLengthErrorMessage={String(props?.fields?.AddressLine1_MinLengthErrorMessage?.value)}
                 error={errors.streetLine1?.message}
               />
             )}
@@ -295,13 +297,9 @@ export const Default = (props: ResidentialAddressProps) => {
             control={control}
             rules={{
               minLength: {
-                value: Number(props?.fields?.AddressLine2_MinLength),
-                message: props?.fields?.AddressLine2_MinLengthErrorMessage,
-              },
-              maxLength: {
-                value: Number(props?.fields?.AddressLine2_MaxLength),
-                message: String(props?.fields?.AddressLine2_MaxLength),
-              },
+                value: Number(props?.fields?.AddressLine2_MinLength?.value),
+                message: String(props?.fields?.AddressLine2_MinLengthErrorMessage?.value),
+              }
             }}
             render={({ field }) => (
               <StandardTextInput
@@ -314,6 +312,7 @@ export const Default = (props: ResidentialAddressProps) => {
                 name={String(props?.fields?.AddressLine2_FieldID?.value ?? "")}
                 label={<Text field={props?.fields?.AddressLine2_Label} />}
                 placeholder={String(props?.fields?.AddressLine2_Placeholder?.value)}
+                inputRegex={getRegex(String(props?.fields?.AddressLine2_ValidationRegex?.value))}
                 showHelpIcon={true}
                 tooltipText="Enter street address, P.O. box, company name, c/o"
                 containerClassName="space-y-2"
@@ -321,9 +320,9 @@ export const Default = (props: ResidentialAddressProps) => {
                 labelClassName="text-sm text-gray-800"
                 inputClassName="w-full"
                 helpIconClassName="w-4 h-4 text-gray-400"
-                maxLength={Number(props?.fields?.AddressLine2_MaxLength)}
-                minLength={Number(props?.fields?.AddressLine2_MinLength)}
-                minLengthErrorMessage={props?.fields?.AddressLine2_MinLengthErrorMessage}
+                maxLength={Number(props?.fields?.AddressLine2_MaxLength?.value)}
+                minLength={Number(props?.fields?.AddressLine2_MinLength?.value)}
+                minLengthErrorMessage={String(props?.fields?.AddressLine2_MinLengthErrorMessage?.value)}
                 error={errors.streetLine2?.message}
               />
             )}
@@ -335,6 +334,10 @@ export const Default = (props: ResidentialAddressProps) => {
             control={control}
             rules={{
               required: String(props.fields?.City_ValidationErrorMessage?.value),
+               minLength: {
+                value: Number(props?.fields?.City_MinLength?.value),
+                message: String(props?.fields?.City_MinLengthErrorMessage?.value),
+              }
             }}
             render={({ field }) => (
               <StandardTextInput
@@ -346,6 +349,7 @@ export const Default = (props: ResidentialAddressProps) => {
                 name={String(props.fields?.City_FieldID?.value ?? "")}
                 label={<Text field={props.fields?.City_Label} />}
                 placeholder={String(props.fields?.City_Placeholder?.value)}
+                inputRegex={getRegex(String(props?.fields?.City_ValidationRegex?.value))}
                 showHelpIcon={true}
                 tooltipText="Enter your city"
                 containerClassName="space-y-2"
@@ -353,6 +357,9 @@ export const Default = (props: ResidentialAddressProps) => {
                 labelClassName="text-sm text-gray-800"
                 inputClassName="w-full"
                 helpIconClassName="w-4 h-4 text-gray-400"
+                maxLength={Number(props?.fields?.City_MaxLength?.value)}
+                minLength={Number(props?.fields?.City_MinLength?.value)}
+                minLengthErrorMessage={String(props?.fields?.City_MinLengthErrorMessage?.value)}
                 error={errors.cityTown?.message}
               />
             )}
