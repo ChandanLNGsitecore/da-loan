@@ -136,6 +136,9 @@ export const Default = (props: ApplicationFormProps) => {
 						<h3 className="text-2xl font-medium text-gray-800 font-heading text-center">
 							<Text field={fields?.LoanPurposeLabel} />
 						</h3>
+            <p className="text-gray-800 text-center">
+              <Text field={fields?.LoanPurposeDescription} />
+            </p>
 						<Controller
 							name="loanPurpose"
 							control={control}
