@@ -1,20 +1,24 @@
 "use client";
 
-import { Controller, useForm, useWatch } from "react-hook-form";
-import TermsModal from "components/da-loan/steps/terms-modal";
+import { useForm, useWatch, Controller } from "react-hook-form";
 import { Button } from "components/da-loan/ui-premetive/button";
 import { RangeSlider } from "components/da-loan/ui/range-slider";
-import { StandardTextInput } from "components/da-loan/ui/standard-text-input";
-import { SouthAfricanIDInput, validateSouthAfricanID } from "components/da-loan/ui/south-african-id-input";
-import { IncomeInput } from "components/da-loan/ui/income-input";
-import { Checkbox } from "components/da-loan/ui-premetive/checkbox";
-import { Label } from "components/da-loan/ui-premetive/label";
+import { RadioGroupWithIcon, RadioOption } from "components/da-loan/ui/radio-group-with-icon";
 import { Card, CardContent } from "components/da-loan/ui-premetive/card";
 import { Link as ContentSdkLink, Text } from "@sitecore-content-sdk/nextjs";
 import { useRouter } from "next/navigation";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type SitecoreFields = Record<string, any>;
+
+type SitecoreOption = {
+  fields: {
+    Value: { value: string };
+    Text: { value: string };
+    Id: { value: string };
+    Icon: { value: string };
+  };
+};
 
 interface ApplicationFormProps {
   fields?: SitecoreFields;
@@ -37,24 +41,11 @@ export const Default = (props: ApplicationFormProps) => {
     router.push("/loans/request-otp");
   };
 
-  // Convert string regex to RegExp object
-  const getRegex = (regexString: string | undefined) => {
-    if (!regexString) return undefined;
-    try {
-      return new RegExp(regexString);
-    } catch {
-      return undefined;
-    }
-  };
-
   const {
-    register,
     handleSubmit,
     trigger,
     control,
     setValue,
-    setError,
-    clearErrors,
     formState: { errors },
   } = useForm({
     mode: "onChange",
@@ -62,18 +53,19 @@ export const Default = (props: ApplicationFormProps) => {
     defaultValues: {
       amount: Number(fields?.LoanAmountSlider_InitialValue?.value) || 0,
       repaymentMonths: Number(fields?.LoanTermSlider_InitialValue?.value) || 0,
-      loanPurpose: "PENDING",
-      firstName: "",
-      surname: "",
-      idNumber: "",
-      monthlyIncome: 0,
-      acceptTerms: false,
-      backgroundCheckConsent: false,
+      loanPurpose: "",
     },
   });
 
   const amount = useWatch({ control, name: "amount" });
   const repaymentMonths = useWatch({ control, name: "repaymentMonths" }) ?? 7;
+
+  const loanPurposeOptions: RadioOption[] = fields?.LoanPurposeOptions?.map((option: SitecoreOption) => ({
+    label: option.fields.Text,
+    id: option.fields.Id.value,
+    value: option.fields.Value.value,
+    icon: option.fields.Icon.value
+  })) || [];
 
   const onFormSubmit = handleSubmit((data) => {
     console.log("Form submitted:", data);
@@ -139,189 +131,25 @@ export const Default = (props: ApplicationFormProps) => {
             minLabel={fields?.LoanTermSlider_MinValue?.value}
             maxLabel={fields?.LoanTermSlider_MaxValue?.value}
           />
+          
           <div className="space-y-4">
-            <h3 className="text-xl font-medium text-gray-800 font-heading text-center">
-              <Text field={fields?.JourneyStep_SubHeading} />
-            </h3>
-            <StandardTextInput
-              {...register("firstName", {
-                required:
-                  fields?.FirstName_ValidationErrorMessage?.value,
-                minLength: {
-                  value: fields?.FirstName_MinLength?.value,
-                  message:
-                    fields?.FirstName_MinLengthErrorMessage?.value,
-                },
-              })}
-              name={fields?.FirstName_FieldID?.value}
-              label={<Text field={fields?.FirstName_Label} />}
-              placeholder={fields?.FirstName_Placeholder?.value}
-              inputRegex={getRegex(fields?.FirstName_ValidationRegex?.value)}
-              showHelpIcon={true}
-              tooltipText="Enter your first name(s) as shown on your ID"
-              containerClassName="space-y-2"
-              labelContainerClassName="flex items-center gap-2"
-              labelClassName="text-sm text-gray-800"
-              inputClassName="w-full"
-              helpIconClassName="w-4 h-4 text-gray-400"
-              maxLength={fields?.FirstName_MaxLength?.value}
-              minLength={fields?.FirstName_MinLength?.value}
-              minLengthErrorMessage={
-                fields?.FirstName_MinLengthErrorMessage?.value
-              }
-              error={errors.firstName?.message as string}
-            />
-            <StandardTextInput
-              {...register("surname", {
-                required:
-                  fields?.LastName_ValidationErrorMessage?.value,
-                minLength: {
-                  value: fields?.LastName_MinLength?.value,
-                  message:
-                    fields?.LastName_MinLengthErrorMessage?.value,
-                },
-              })}
-              name={fields?.LastName_FieldID?.value}
-              label={<Text field={fields?.LastName_Label} />}
-              placeholder={fields?.LastName_Placeholder?.value}
-              inputRegex={getRegex(fields?.LastName_ValidationRegex?.value)}
-              showHelpIcon={true}
-              tooltipText="Enter your surname as shown on your ID"
-              containerClassName="space-y-2"
-              labelContainerClassName="flex items-center gap-2"
-              labelClassName="text-sm text-gray-800"
-              inputClassName="w-full"
-              helpIconClassName="w-4 h-4 text-gray-400"
-              minLength={fields?.LastName_MinLength?.value}
-              maxLength={fields?.LastName_MaxLength?.value}
-              minLengthErrorMessage={
-                fields?.LastName_MinLengthErrorMessage?.value
-              }
-              error={errors.surname?.message as string}
-            />
-
-            <Controller
-              name="idNumber"
-              control={control}
-              rules={{
-                required:
-                  fields?.IDNumber_ValidationErrorMessage?.value,
-                validate: (value) => {
-                  if (!value || value.length !== 13) {
-                    return fields?.IDNumber_ValidationErrorMessage?.value;
-                  }
-                  if (!/^\d{13}$/.test(value)) {
-                    return fields?.IDNumber_ValidationErrorMessage?.value;
-                  }
-                  if (!validateSouthAfricanID(value)) {
-                    return fields?.IDNumber_ValidationErrorMessage?.value;
-                  }
-                  return true;
-                },
-              }}
-              render={({ field }) => (
-                <SouthAfricanIDInput
-                  name={fields?.IDNumber_FieldID?.value}
-                  label={<Text field={fields?.IDNumber_Label} />}
-                  placeholder={fields?.IDNumber_Placeholder?.value}
-                  containerClassName="space-y-2"
-                  labelClassName="text-sm text-gray-800"
-                  inputClassName="w-full"
-                  value={field.value || ""}
-                  onChange={(e) => {
-                    field.onChange(e.target.value);
-                  }}
-                  onBlur={field.onBlur}
-                  onValidationChange={(isValid, errorMsg) => {
-                    if (!isValid && errorMsg) {
-                      setError("idNumber", {
-                        type: "manual",
-                        message: errorMsg,
-                      });
-                    } else {
-                      clearErrors("idNumber");
-                    }
-                  }}
-                  error={errors.idNumber?.message as string}
-                  customValidationError={
-                    fields?.IDNumber_ValidationErrorMessage?.value
-                  }
-                />
-              )}
-            />
-
-            <Controller
-              name="monthlyIncome"
-              control={control}
-              rules={{
-                validate: (value) =>
-                  (value && value > 0) ||
-                  fields?.NetIncome_ValidationErrorMessage?.value,
-              }}
-              render={({ field }) => (
-                <IncomeInput
-                  name={fields?.NetIncome_FieldID?.value}
-                  label={<Text field={fields?.NetIncome_Label} />}
-                  placeholder={fields?.NetIncome_Placeholder?.value}
-                  prefix="R"
-                  showHelpIcon={true}
-                  tooltipText="Enter your total monthly income after tax"
-                  containerClassName="space-y-2"
-                  labelContainerClassName="flex items-center gap-2"
-                  labelClassName="text-sm text-gray-800"
-                  inputWrapperClassName="relative"
-                  inputClassName="pl-8 w-full"
-                  helpIconClassName="w-4 h-4 text-gray-400"
-                  prefixClassName="absolute left-3 top-1/2 -translate-y-1/2 text-gray-900"
-                  value={field.value || ""}
-                  maxLength={fields?.NetIncome_MaxLength?.value}
-                  onChange={(e) => {
-                    const numValue = e.target.value
-                      ? parseInt(e.target.value, 10)
-                      : 0;
-                    field.onChange(numValue);
-                  }}
-                  onBlur={field.onBlur}
-                  error={errors.monthlyIncome?.message as string}
-                />
-              )}
-            />
-          </div>
-          <TermsModal control={control} errors={errors} />
-
-          <div className="space-y-2">
-            <Controller
-              name="backgroundCheckConsent"
-              control={control}
-              rules={{
-                required:
-                  fields?.BureauConsent_ValidationErrorMessage?.value,
-              }}
-              render={({ field }) => (
-                <div className="flex items-start gap-2">
-                  <Checkbox
-                    id="background-check-consent"
-                    checked={field.value}
-                    onCheckedChange={(checked) =>
-                      field.onChange(checked === true)
-                    }
-                  />
-                  <Label
-                    htmlFor="background-check-consent"
-                    className="text-sm text-gray-800 leading-snug"
-                  >
-                    <Text field={fields?.BureauConsent} />
-                  </Label>
-                </div>
-              )}
-            />
-            {errors.backgroundCheckConsent && (
-              <p className="text-sm text-red-500">
-                {(errors.backgroundCheckConsent.message as string) ||
-                  fields?.BureauConsent_ValidationErrorMessage?.value}
-              </p>
-            )}
-          </div>
+						<h3 className="text-2xl font-medium text-gray-800 font-heading text-center">
+							<Text field={fields?.LoanPurposeLabel} />
+						</h3>
+						<Controller
+							name="loanPurpose"
+							control={control}
+							rules={{ required: fields?.LoanPurposeErrorMessage?.value }}
+							render={({ field }) => (
+								<RadioGroupWithIcon
+									options={loanPurposeOptions}
+									value={field.value}
+									onChange={field.onChange}
+									error={errors.loanPurpose?.message}
+								/>
+							)}
+						/>
+					</div>
 
           <Button
             type="submit"
