@@ -154,4 +154,6 @@ export interface IApplicationSubmit {
 
    AlertDescription: RichTextField;
 
+   Cancel: LinkField;
+
 }

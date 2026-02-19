@@ -10,6 +10,7 @@ import { ChevronDown, ChevronLeft, ChevronRight, ChevronUp, Info } from "lucide-
 import { AffordabilityComponentProps } from "src/types/Affordability";
 import { RichText, Text,RichText as ContentSdkRichText } from "@sitecore-content-sdk/nextjs";
 import { IncomeInput } from "../ui/income-input";
+import { formatCurrency } from "lib/format";
 
 export const Default = (props: AffordabilityComponentProps) => {
 	const [showDetails, setShowDetails] = useState(false);
@@ -40,8 +41,7 @@ export const Default = (props: AffordabilityComponentProps) => {
 	const disposableIncome =
 		(monthlyIncomeAfterTax || 0) - (monthlyCommitments || 0) - (otherLivingExpenses || 0);
 
-	const formatCurrency = (value: number) =>
-		`R${value.toLocaleString("en-ZA", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+	
 
 	const onFormSubmit = handleSubmit((data) => {
 		console.log("Affordability form submitted:", data);

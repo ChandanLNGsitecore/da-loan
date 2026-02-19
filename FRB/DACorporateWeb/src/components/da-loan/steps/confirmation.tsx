@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useState, useEffect } from "react";
 import { Button } from "components/da-loan/ui-premetive/button";
 import { Card, CardContent } from "components/da-loan/ui-premetive/card";
 import { CheckCircle2, Clock, FileCheck, Phone, Mail, Home } from "lucide-react";
@@ -15,6 +16,9 @@ import {
 } from '@sitecore-content-sdk/nextjs';
 import { Alert } from "../ui/alert";
 
+import { formatCurrency } from "lib/format";
+
+
 
 
 
@@ -22,9 +26,7 @@ export const Default = (props: ApplicationSubmitComponentProps) => {
 
   const applicationrefrence="DA4N528U4QQ";
 
-  const formatAmount = (amount: number) => {
-    return `R${amount.toLocaleString("en-ZA").replace(/,/g, " ")}`;
-  };
+ const [showCancelConfirmation, setShowCancelConfirmation] = useState(false);
 
    const router = useRouter();
 
@@ -62,7 +64,7 @@ export const Default = (props: ApplicationSubmitComponentProps) => {
                 <div className="text-right">
                   <p className="text-xs text-gray-600"> <Text field={props.fields.LoanAmountTxt} /></p>
                   <p className="text-lg font-bold text-[#2c5f5d] mt-1">
-                    {formatAmount(2000)}
+                   {formatCurrency(2000, { fractionDigits: 0 })}
                   </p>
                 </div>
               
@@ -172,6 +174,9 @@ export const Default = (props: ApplicationSubmitComponentProps) => {
         </div>
 
         <div className="space-y-3 pt-4">
+          <Button variant="outline" className="w-full py-6" >
+						 <ContentSdkLink field={props.fields.Cancel} />
+					</Button>
           <Link href="/" className="block">
             <Button variant="default" className="w-full py-6 border-gray-300">
               <Home className="w-4 h-4 mr-2" />
