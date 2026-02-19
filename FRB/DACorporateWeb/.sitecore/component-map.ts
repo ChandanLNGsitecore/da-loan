@@ -60,13 +60,48 @@ import * as cellphoneconfirmation from 'src/components/da-loan/steps/cellphone-c
 import * as banking from 'src/components/da-loan/steps/banking';
 import * as applicationform from 'src/components/da-loan/steps/application-form';
 import * as affordability from 'src/components/da-loan/steps/affordability';
-import * as pulse from 'src/components/da-loan/layout/pulse';
-import * as navigationmenu from 'src/components/da-loan/layout/navigation-menu';
-import * as loanproducts from 'src/components/da-loan/layout/loan-products';
-import * as loanapplicationflow from 'src/components/da-loan/layout/loan-application-flow';
-import * as herocarousel from 'src/components/da-loan/layout/hero-carousel';
-import * as header from 'src/components/da-loan/layout/header';
-import * as footer from 'src/components/da-loan/layout/footer';
+import * as tools from 'src/components/da-loan/layout/tools/tools';
+import * as toolsloancalculator from 'src/components/da-loan/layout/tools/loan-calculator/tools-loan-calculator';
+import * as toolsconsolidationcalculator from 'src/components/da-loan/layout/tools/consolidation-calculator/tools-consolidation-calculator';
+import * as pulse from 'src/components/da-loan/layout/pulse/pulse';
+import * as personalloans from 'src/components/da-loan/layout/personal-loans/personal-loans';
+import * as navigationmenu from 'src/components/da-loan/layout/navigation-menu/navigation-menu';
+import * as makeaplan from 'src/components/da-loan/layout/make-a-plan/make-a-plan';
+import * as makeaplanoptionstoconsiderifyouarefeelingfinancialpressure from 'src/components/da-loan/layout/make-a-plan/articles/options-to-consider-if-you-are-feeling-financial-pressure/make-a-plan-options-to-consider-if-you-are-feeling-financial-pressure';
+import * as loanuismallalt from 'src/components/da-loan/layout/loan-ui-small-alt/loan-ui-small-alt';
+import * as loanui from 'src/components/da-loan/layout/loan-ui/loan-ui';
+import * as loanproducts from 'src/components/da-loan/layout/loan-products/loan-products';
+import * as loanapplicationflowalt from 'src/components/da-loan/layout/loan-application-flow-alt/loan-application-flow-alt';
+import * as loanapplicationflow from 'src/components/da-loan/layout/loan-application-flow/loan-application-flow';
+import * as imagine from 'src/components/da-loan/layout/imagine/imagine';
+import * as imaginearticlesusingaloantoconsolidateyourcredit from 'src/components/da-loan/layout/imagine/articles/using-a-loan-to-consolidate-your-credit/imagine-articles-using-a-loan-to-consolidate-your-credit';
+import * as herocarousel from 'src/components/da-loan/layout/hero-carousel/hero-carousel';
+import * as header from 'src/components/da-loan/layout/header/header';
+import * as footer from 'src/components/da-loan/layout/footer/footer';
+import * as topicsdata from 'src/components/da-loan/layout/direct-talk/topics-data';
+import * as directtalk from 'src/components/da-loan/layout/direct-talk/direct-talk';
+import * as articlessingleparentfinances from 'src/components/da-loan/layout/direct-talk/articles/single-parent-finances/articles-single-parent-finances';
+import * as consolidationloans from 'src/components/da-loan/layout/consolidation-loans/consolidation-loans';
+import * as altslider from 'src/components/da-loan/layout/alt-slider/alt-slider';
+import * as statistics from 'src/components/da-loan/blocks/statistics';
+import * as staggeredreviews from 'src/components/da-loan/blocks/staggered-reviews';
+import * as slidercomponent from 'src/components/da-loan/blocks/slider-component';
+import * as pulseblock from 'src/components/da-loan/blocks/pulse-block';
+import * as promocard from 'src/components/da-loan/blocks/promo-card';
+import * as offerslider from 'src/components/da-loan/blocks/offer-slider';
+import * as loansummary from 'src/components/da-loan/blocks/loan-summary';
+import * as loanproductsblock from 'src/components/da-loan/blocks/loan-products-block';
+import * as loancalculator from 'src/components/da-loan/blocks/loan-calculator';
+import * as homearticles from 'src/components/da-loan/blocks/home-articles';
+import * as herocarouselfeatured from 'src/components/da-loan/blocks/hero-carousel-featured';
+import * as herocarouselblock from 'src/components/da-loan/blocks/hero-carousel-block';
+import * as financialcardcarousel from 'src/components/da-loan/blocks/financial-card-carousel';
+import * as faqaccordion from 'src/components/da-loan/blocks/faq-accordion';
+import * as documentuploadblock from 'src/components/da-loan/blocks/document-upload-block';
+import * as consolidationsummary from 'src/components/da-loan/blocks/consolidation-summary';
+import * as consolidationcalculator from 'src/components/da-loan/blocks/consolidation-calculator';
+import * as consolidationbenefits from 'src/components/da-loan/blocks/consolidation-benefits';
+import * as accountselectionform from 'src/components/da-loan/blocks/account-selection-form';
 import * as ContentBlock from 'src/components/content-block/ContentBlock';
 import * as Container from 'src/components/container/Container';
 import * as ColumnSplitter from 'src/components/column-splitter/ColumnSplitter';
@@ -131,13 +166,48 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['banking', { ...banking, componentType: 'client' }],
   ['application-form', { ...applicationform, componentType: 'client' }],
   ['affordability', { ...affordability, componentType: 'client' }],
+  ['tools', { ...tools }],
+  ['tools-loan-calculator', { ...toolsloancalculator }],
+  ['tools-consolidation-calculator', { ...toolsconsolidationcalculator }],
   ['pulse', { ...pulse, componentType: 'client' }],
+  ['personal-loans', { ...personalloans }],
   ['navigation-menu', { ...navigationmenu, componentType: 'client' }],
+  ['make-a-plan', { ...makeaplan }],
+  ['make-a-plan-options-to-consider-if-you-are-feeling-financial-pressure', { ...makeaplanoptionstoconsiderifyouarefeelingfinancialpressure }],
+  ['loan-ui-small-alt', { ...loanuismallalt }],
+  ['loan-ui', { ...loanui }],
   ['loan-products', { ...loanproducts }],
+  ['loan-application-flow-alt', { ...loanapplicationflowalt, componentType: 'client' }],
   ['loan-application-flow', { ...loanapplicationflow }],
+  ['imagine', { ...imagine }],
+  ['imagine-articles-using-a-loan-to-consolidate-your-credit', { ...imaginearticlesusingaloantoconsolidateyourcredit }],
   ['hero-carousel', { ...herocarousel }],
   ['header', { ...header, componentType: 'client' }],
   ['footer', { ...footer }],
+  ['topics-data', { ...topicsdata }],
+  ['direct-talk', { ...directtalk }],
+  ['articles-single-parent-finances', { ...articlessingleparentfinances }],
+  ['consolidation-loans', { ...consolidationloans }],
+  ['alt-slider', { ...altslider, componentType: 'client' }],
+  ['statistics', { ...statistics, componentType: 'client' }],
+  ['staggered-reviews', { ...staggeredreviews, componentType: 'client' }],
+  ['slider-component', { ...slidercomponent, componentType: 'client' }],
+  ['pulse-block', { ...pulseblock, componentType: 'client' }],
+  ['promo-card', { ...promocard }],
+  ['offer-slider', { ...offerslider, componentType: 'client' }],
+  ['loan-summary', { ...loansummary }],
+  ['loan-products-block', { ...loanproductsblock, componentType: 'client' }],
+  ['loan-calculator', { ...loancalculator, componentType: 'client' }],
+  ['home-articles', { ...homearticles }],
+  ['hero-carousel-featured', { ...herocarouselfeatured, componentType: 'client' }],
+  ['hero-carousel-block', { ...herocarouselblock, componentType: 'client' }],
+  ['financial-card-carousel', { ...financialcardcarousel, componentType: 'client' }],
+  ['faq-accordion', { ...faqaccordion, componentType: 'client' }],
+  ['document-upload-block', { ...documentuploadblock, componentType: 'client' }],
+  ['consolidation-summary', { ...consolidationsummary, componentType: 'client' }],
+  ['consolidation-calculator', { ...consolidationcalculator, componentType: 'client' }],
+  ['consolidation-benefits', { ...consolidationbenefits }],
+  ['account-selection-form', { ...accountselectionform, componentType: 'client' }],
   ['ContentBlock', { ...ContentBlock }],
   ['Container', { ...Container }],
   ['ColumnSplitter', { ...ColumnSplitter }],

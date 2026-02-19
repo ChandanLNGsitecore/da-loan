@@ -50,11 +50,7 @@ export interface ICreditCheck {
    */
   CellPhone_Label: TextField;
 
-  /**
-   * Indicates whether the cellphone field is mandatory
-   * When true, the field must be completed before form submission
-   */
-  CellPhone_Required: boolean;
+
 
   /**
    * Regular expression pattern for cellphone number validation

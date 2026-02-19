@@ -15,7 +15,7 @@ interface PulseProps {
 	ctaLink: string;
 }
 
-export function Pulse({ heading = "Pulse", description, loginText, loginLink, imageUrl, ctaText, ctaLink }: Readonly<PulseProps>) {
+export function PulseBlock({ heading = "Pulse", description, loginText, loginLink, imageUrl, ctaText, ctaLink }: Readonly<PulseProps>) {
 	return (
 		<section className="relative w-full bg-white p-4 md:p-12 py-12 md:py-20">
 			<div className="w-full max-w-[1500px] mx-auto">
@@ -70,7 +70,7 @@ export function Pulse({ heading = "Pulse", description, loginText, loginLink, im
 									<div className="flex items-start gap-3">
 										<CheckCircle2 className="h-6 w-6 text-white shrink-0 mt-0.5" />
 										<div className="flex-1">
-											<h3 className="text-xl font-semibold text-white mb-2 group-hover:underline">Free Credit Check</h3>
+											<h3 className="text-xl font-semibold text-white mb-2">Free Credit Check</h3>
 											<p className="text-sm text-gray-200 leading-relaxed">
 												Check your credit rating and learn how to improve your financial health with Pulse.
 											</p>

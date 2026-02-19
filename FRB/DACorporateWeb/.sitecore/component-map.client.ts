@@ -28,9 +28,26 @@ import * as cellphoneconfirmation from 'src/components/da-loan/steps/cellphone-c
 import * as banking from 'src/components/da-loan/steps/banking';
 import * as applicationform from 'src/components/da-loan/steps/application-form';
 import * as affordability from 'src/components/da-loan/steps/affordability';
-import * as pulse from 'src/components/da-loan/layout/pulse';
-import * as navigationmenu from 'src/components/da-loan/layout/navigation-menu';
-import * as header from 'src/components/da-loan/layout/header';
+import * as pulse from 'src/components/da-loan/layout/pulse/pulse';
+import * as navigationmenu from 'src/components/da-loan/layout/navigation-menu/navigation-menu';
+import * as loanapplicationflowalt from 'src/components/da-loan/layout/loan-application-flow-alt/loan-application-flow-alt';
+import * as header from 'src/components/da-loan/layout/header/header';
+import * as altslider from 'src/components/da-loan/layout/alt-slider/alt-slider';
+import * as statistics from 'src/components/da-loan/blocks/statistics';
+import * as staggeredreviews from 'src/components/da-loan/blocks/staggered-reviews';
+import * as slidercomponent from 'src/components/da-loan/blocks/slider-component';
+import * as pulseblock from 'src/components/da-loan/blocks/pulse-block';
+import * as offerslider from 'src/components/da-loan/blocks/offer-slider';
+import * as loanproductsblock from 'src/components/da-loan/blocks/loan-products-block';
+import * as loancalculator from 'src/components/da-loan/blocks/loan-calculator';
+import * as herocarouselfeatured from 'src/components/da-loan/blocks/hero-carousel-featured';
+import * as herocarouselblock from 'src/components/da-loan/blocks/hero-carousel-block';
+import * as financialcardcarousel from 'src/components/da-loan/blocks/financial-card-carousel';
+import * as faqaccordion from 'src/components/da-loan/blocks/faq-accordion';
+import * as documentuploadblock from 'src/components/da-loan/blocks/document-upload-block';
+import * as consolidationsummary from 'src/components/da-loan/blocks/consolidation-summary';
+import * as consolidationcalculator from 'src/components/da-loan/blocks/consolidation-calculator';
+import * as accountselectionform from 'src/components/da-loan/blocks/account-selection-form';
 
 export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['BYOCWrapper', BYOCClientWrapper],
@@ -63,7 +80,24 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['affordability', { ...affordability }],
   ['pulse', { ...pulse }],
   ['navigation-menu', { ...navigationmenu }],
+  ['loan-application-flow-alt', { ...loanapplicationflowalt }],
   ['header', { ...header }],
+  ['alt-slider', { ...altslider }],
+  ['statistics', { ...statistics }],
+  ['staggered-reviews', { ...staggeredreviews }],
+  ['slider-component', { ...slidercomponent }],
+  ['pulse-block', { ...pulseblock }],
+  ['offer-slider', { ...offerslider }],
+  ['loan-products-block', { ...loanproductsblock }],
+  ['loan-calculator', { ...loancalculator }],
+  ['hero-carousel-featured', { ...herocarouselfeatured }],
+  ['hero-carousel-block', { ...herocarouselblock }],
+  ['financial-card-carousel', { ...financialcardcarousel }],
+  ['faq-accordion', { ...faqaccordion }],
+  ['document-upload-block', { ...documentuploadblock }],
+  ['consolidation-summary', { ...consolidationsummary }],
+  ['consolidation-calculator', { ...consolidationcalculator }],
+  ['account-selection-form', { ...accountselectionform }],
 ]);
 
 export default componentMap;

@@ -8,6 +8,7 @@ export const loanApplicationSchema = z.object({
     .refine((val) => val % 1000 === 0, "Loan amount must be in increments of R1,000"),
   repaymentMonths: z.number().min(7, "Minimum repayment period is 7 months").max(24, "Maximum repayment period is 24 months"),
   loanPurpose: z.string().min(1, "Please select a loan purpose"),
+  email: z.string().min(1, "Email is required").pipe(z.email({ message: "Please enter a valid email address" })),
   firstName: z.string().min(2, "First name must be at least 2 characters").max(100),
   surname: z.string().min(2, "Surname must be at least 2 characters").max(100),
   idNumber: z.string().regex(/^\d{13}$/, "ID number must be 13 digits"),
@@ -34,6 +35,7 @@ export const loanApplicationStep1Schema = z.object({
 
 // Step 2 schema (personal details)
 export const loanApplicationStep2Schema = z.object({
+  email: z.string().min(1, "Email is required").pipe(z.email({ message: "Please enter a valid email address" })),
   firstName: z.string().min(2, "First name must be at least 2 characters").max(100),
   surname: z.string().min(2, "Surname must be at least 2 characters").max(100),
   idNumber: z.string().regex(/^\d{13}$/, "ID number must be 13 digits"),
@@ -152,6 +154,10 @@ export const livingArrangementsSchema = z.object({
   homeLanguage: z.string().min(1, "Please select your home language"),
   maritalStatus: z.string().min(1, "Please select your marital status"),
   maritalType: z.string().optional(),
+  monthlyRent: z
+    .number({ message: "Please enter your monthly rent" })
+    .min(0, "Monthly rent must be zero or more")
+    .optional(),
   numberOfDependents: z.number().optional(), // Hidden field with default value in backend
 }).refine((data) => {
   // Marital Type is required if Marital Status is "Married"
@@ -162,6 +168,14 @@ export const livingArrangementsSchema = z.object({
 }, {
   message: "Please select a marital type",
   path: ["maritalType"],
+}).refine((data) => {
+  if (data.whereDoYouLive === "I am renting") {
+    return Number.isFinite(data.monthlyRent);
+  }
+  return true;
+}, {
+  message: "Please enter your monthly rent",
+  path: ["monthlyRent"],
 });
 
 export type LivingArrangements = z.infer<typeof livingArrangementsSchema>;
@@ -225,4 +239,19 @@ export function calculateLoanOffer(requestedAmount: number, months: number, appr
     interestRate,
   };
 }
+
+// Pulse registration schema
+export const pulseRegistrationSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters").max(100, "Name must be less than 100 characters"),
+  surname: z.string().min(2, "Surname must be at least 2 characters").max(100, "Surname must be less than 100 characters"),
+  cellPhone: z.string()
+    .regex(/^0\d{9}$/, "Cellphone number must be 10 digits starting with 0")
+    .min(10, "Cellphone number must be 10 digits")
+    .max(10, "Cellphone number must be 10 digits"),
+  email: z.string().pipe(z.email({ message: "Please enter a valid email address" })),
+  idNumber: z.string().regex(/^\d{13}$/, "ID number must be 13 digits"),
+  password: z.string().min(8, "Password must be at least 8 characters"),
+});
+
+export type PulseRegistration = z.infer<typeof pulseRegistrationSchema>;
 

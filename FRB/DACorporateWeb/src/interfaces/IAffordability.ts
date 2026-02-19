@@ -97,11 +97,6 @@ export interface IAffordability {
    */
   LivingExpenses_Label: TextField;
 
-  /**
-   * Indicates whether the living expenses field is required
-   * Controls form validation for this field
-   */
-  LivingExpenses_Required: boolean;
 
   /**
    * Validation regex pattern for living expenses field
@@ -149,11 +144,7 @@ export interface IAffordability {
    */
   NetIncome_Label: TextField;
 
-  /**
-   * Indicates whether the net income field is required
-   * Controls form validation for this field
-   */
-  NetIncome_Required: boolean;
+ 
 
   /**
    * Validation regex pattern for net income field
@@ -191,11 +182,6 @@ export interface IAffordability {
    */
   MonthlyCommitment_Label: TextField;
 
-  /**
-   * Indicates whether the monthly commitment field is required
-   * Controls form validation for this field
-   */
-  MonthlyCommitment_Required: boolean;
 
   /**
    * Validation regex pattern for monthly commitment field
