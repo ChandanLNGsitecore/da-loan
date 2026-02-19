@@ -57,6 +57,7 @@ import * as documentupload from 'src/components/da-loan/steps/document-upload';
 import * as creditcheck from 'src/components/da-loan/steps/credit-check';
 import * as confirmation from 'src/components/da-loan/steps/confirmation';
 import * as cellphoneconfirmation from 'src/components/da-loan/steps/cellphone-confirmation';
+import * as cancelapplication from 'src/components/da-loan/steps/cancel-application';
 import * as banking from 'src/components/da-loan/steps/banking';
 import * as applicationform from 'src/components/da-loan/steps/application-form';
 import * as affordability from 'src/components/da-loan/steps/affordability';
@@ -163,6 +164,7 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['credit-check', { ...creditcheck, componentType: 'client' }],
   ['confirmation', { ...confirmation, componentType: 'client' }],
   ['cellphone-confirmation', { ...cellphoneconfirmation, componentType: 'client' }],
+  ['cancel-application', { ...cancelapplication, componentType: 'client' }],
   ['banking', { ...banking, componentType: 'client' }],
   ['application-form', { ...applicationform, componentType: 'client' }],
   ['affordability', { ...affordability, componentType: 'client' }],
