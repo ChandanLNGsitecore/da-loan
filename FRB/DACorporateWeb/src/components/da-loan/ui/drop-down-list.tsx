@@ -1,6 +1,6 @@
 "use client";
 
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui-premetive/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./select";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui-premetive/tooltip";
 import { HelpCircle } from "lucide-react";
 import React, { useState } from "react";

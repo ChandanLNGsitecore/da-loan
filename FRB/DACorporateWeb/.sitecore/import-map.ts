@@ -33,7 +33,7 @@ import { Slider } from 'components/da-loan/ui-premetive/slider';
 import { Label } from 'components/da-loan/ui-premetive/label';
 import { RadioGroup, RadioGroupItem } from 'components/da-loan/ui-premetive/radio-group';
 import { FileUploadInput } from 'components/da-loan/ui/file-upload-input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from 'src/components/da-loan/ui-premetive/select';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from 'components/da-loan/ui/select';
 import { Tooltip, TooltipContent, TooltipTrigger } from 'src/components/da-loan/ui-premetive/tooltip';
 import { useRouter } from 'next/navigation';
 import { ScrollArea } from 'components/da-loan/ui-premetive/scroll-area';
@@ -53,11 +53,8 @@ import { RadioGroupWithIcon } from 'components/da-loan/ui/radio-group-with-icon'
 import { RadioGroup as RadioGroup_fe7f30ab2ac350afceb40375b326155b191dbbb4 } from 'components/da-loan/ui/radio-group-input';
 import { IdentityDocument } from 'components/da-loan/ui/identity-document';
 import { Alert } from 'src/components/da-loan/ui/alert';
-import TermsModal from 'components/da-loan/steps/terms-modal';
 import { RangeSlider } from 'components/da-loan/ui/range-slider';
-import { SouthAfricanIDInput, validateSouthAfricanID } from 'components/da-loan/ui/south-african-id-input';
-import { IncomeInput } from 'components/da-loan/ui/income-input';
-import { IncomeInput as IncomeInput_24b3169fe3ee539e8d45512dc2dfe583feecac17 } from 'src/components/da-loan/ui/income-input';
+import { IncomeInput } from 'src/components/da-loan/ui/income-input';
 import Image_5d8ce56058442d94361877e28c501c951a554a6a from 'next/image';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetClose } from 'components/da-loan/ui-premetive/sheet';
 import { Logo } from 'components/da-loan/ui-premetive/logo';
@@ -413,34 +410,15 @@ const importMap = [
     ]
   },
   {
-    module: 'components/da-loan/steps/terms-modal',
-    exports: [
-      { name: 'default', value: TermsModal },
-    ]
-  },
-  {
     module: 'components/da-loan/ui/range-slider',
     exports: [
       { name: 'RangeSlider', value: RangeSlider },
     ]
   },
   {
-    module: 'components/da-loan/ui/south-african-id-input',
-    exports: [
-      { name: 'SouthAfricanIDInput', value: SouthAfricanIDInput },
-      { name: 'validateSouthAfricanID', value: validateSouthAfricanID },
-    ]
-  },
-  {
-    module: 'components/da-loan/ui/income-input',
-    exports: [
-      { name: 'IncomeInput', value: IncomeInput },
-    ]
-  },
-  {
     module: 'src/components/da-loan/ui/income-input',
     exports: [
-      { name: 'IncomeInput', value: IncomeInput_24b3169fe3ee539e8d45512dc2dfe583feecac17 },
+      { name: 'IncomeInput', value: IncomeInput },
     ]
   },
   {

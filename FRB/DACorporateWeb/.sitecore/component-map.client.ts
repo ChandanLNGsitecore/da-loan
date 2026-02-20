@@ -6,6 +6,7 @@ import { Form } from '@sitecore-content-sdk/nextjs';
 import * as Navigation from 'src/components/navigation/Navigation';
 import * as upload from 'src/components/da-loan/ui-premetive/upload';
 import * as carousel from 'src/components/da-loan/ui-premetive/carousel';
+import * as select from 'src/components/da-loan/ui/select';
 import * as radiogroupwithicon from 'src/components/da-loan/ui/radio-group-with-icon';
 import * as radiogroupinput from 'src/components/da-loan/ui/radio-group-input';
 import * as identitydocument from 'src/components/da-loan/ui/identity-document';
@@ -57,6 +58,7 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['Navigation', { ...Navigation }],
   ['upload', { ...upload }],
   ['carousel', { ...carousel }],
+  ['select', { ...select }],
   ['radio-group-with-icon', { ...radiogroupwithicon }],
   ['radio-group-input', { ...radiogroupinput }],
   ['identity-document', { ...identitydocument }],

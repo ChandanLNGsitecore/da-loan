@@ -7,7 +7,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "components/da-loan/ui-premetive/select";
+} from "components/da-loan/ui/select";
 import { Input } from "components/da-loan/ui-premetive/input";
 import { Button } from "components/da-loan/ui-premetive/button";
 import { Label } from "components/da-loan/ui-premetive/label";

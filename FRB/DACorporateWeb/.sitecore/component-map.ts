@@ -19,7 +19,6 @@ import * as timer from 'src/components/da-loan/ui-premetive/timer';
 import * as sonner from 'src/components/da-loan/ui-premetive/sonner';
 import * as slider from 'src/components/da-loan/ui-premetive/slider';
 import * as sheet from 'src/components/da-loan/ui-premetive/sheet';
-import * as select from 'src/components/da-loan/ui-premetive/select';
 import * as scrollarea from 'src/components/da-loan/ui-premetive/scroll-area';
 import * as radiogroup from 'src/components/da-loan/ui-premetive/radio-group';
 import * as progress from 'src/components/da-loan/ui-premetive/progress';
@@ -35,6 +34,7 @@ import * as button from 'src/components/da-loan/ui-premetive/button';
 import * as standardtextinput from 'src/components/da-loan/ui/standard-text-input';
 import * as standardnumberinput from 'src/components/da-loan/ui/standard-number-input';
 import * as southafricanidinput from 'src/components/da-loan/ui/south-african-id-input';
+import * as select from 'src/components/da-loan/ui/select';
 import * as rangeslider from 'src/components/da-loan/ui/range-slider';
 import * as radiogroupwithicon from 'src/components/da-loan/ui/radio-group-with-icon';
 import * as radiogroupinput from 'src/components/da-loan/ui/radio-group-input';
@@ -126,7 +126,6 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['sonner', { ...sonner }],
   ['slider', { ...slider }],
   ['sheet', { ...sheet }],
-  ['select', { ...select }],
   ['scroll-area', { ...scrollarea }],
   ['radio-group', { ...radiogroup }],
   ['progress', { ...progress }],
@@ -142,6 +141,7 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['standard-text-input', { ...standardtextinput }],
   ['standard-number-input', { ...standardnumberinput }],
   ['south-african-id-input', { ...southafricanidinput }],
+  ['select', { ...select, componentType: 'client' }],
   ['range-slider', { ...rangeslider }],
   ['radio-group-with-icon', { ...radiogroupwithicon, componentType: 'client' }],
   ['radio-group-input', { ...radiogroupinput, componentType: 'client' }],
