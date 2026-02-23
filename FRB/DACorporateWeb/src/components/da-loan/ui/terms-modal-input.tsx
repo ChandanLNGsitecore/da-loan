@@ -6,11 +6,14 @@ import { ScrollArea } from "components/da-loan/ui-premetive/scroll-area";
 import { Checkbox } from "components/da-loan/ui-premetive/checkbox";
 import { Label } from "components/da-loan/ui-premetive/label";
 import { useState } from "react";
-
+import {
+	TextField,
+	Text
+} from '@sitecore-content-sdk/nextjs';
 
 interface TermsModalInputProps extends Omit<React.ComponentProps<"input">, "onChange" | "type"> {
 	name: string;
-	label: React.ReactNode;
+	label: TextField;
 	value?: string | number;
 	onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 	error?: string;
@@ -20,10 +23,10 @@ interface TermsModalInputProps extends Omit<React.ComponentProps<"input">, "onCh
 	labelClassName?: string;
 	checkboxClassName?: string;
 	errorClassName?: string;
-	TermsAndConditions_InnerHTMLContentHeading?: string;
-	TermsAndConditions_InnerHTMLContent?: string;
-	TermsAndConditions_TermsAcceptButtonText?: string;
-	TermsAndConditions_TermsDeclineButtonText?: string;
+	TermsAndConditions_InnerHTMLContentHeading?: TextField;
+	TermsAndConditions_InnerHTMLContent?: TextField;
+	TermsAndConditions_TermsAcceptButtonText?: TextField;
+	TermsAndConditions_TermsDeclineButtonText?: TextField;
 	TermsAndConditions_TermsInputText?: string;
 	children?: React.ReactNode;
 }
@@ -52,7 +55,7 @@ export const TermsModalInput = React.forwardRef<HTMLInputElement, TermsModalInpu
 		},
 		ref
 	) => {
-        // const [isError, setError] = useState(false);
+		// const [isError, setError] = useState(false);
 		const [isTermsVisible, setIsTermsVisible] = useState(false);
 		const isChecked = value === "1" || value === 1;
 
@@ -107,7 +110,7 @@ export const TermsModalInput = React.forwardRef<HTMLInputElement, TermsModalInpu
 						aria-describedby={error ? name + "-terms-checkbox-error" : undefined}
 					/>
 					<Label htmlFor={name + "-terms-checkbox"} className={labelClassName}>
-						{label}
+						<Text field={label} />
 					</Label>
 				</div>
 				{error && (
@@ -119,20 +122,32 @@ export const TermsModalInput = React.forwardRef<HTMLInputElement, TermsModalInpu
 					<div className="space-y-3">
 						<ScrollArea className="h-[140px] w-full rounded-md border border-gray-200 p-4">
 							<div className="space-y-2">
-										<p className="text-xs font-medium">{TermsAndConditions_InnerHTMLContentHeading}</p>
-										<p className="text-[11px] text-gray-600">
-											{TermsAndConditions_InnerHTMLContent}
-										</p>
+								<p className="text-xs font-medium">
+									{TermsAndConditions_InnerHTMLContentHeading && (
+										<Text field={TermsAndConditions_InnerHTMLContentHeading} />
+									)}
+								</p>
+								<p className="text-[11px] text-gray-600">
+									{TermsAndConditions_InnerHTMLContent && (
+										<Text field={TermsAndConditions_InnerHTMLContent} />
+									)}
+								</p>
 								{children}
 							</div>
 						</ScrollArea>
 						<div className="flex justify-end gap-2">
-							<Button type="button" size="sm" variant="outline" onClick={handleDecline}>
-								{TermsAndConditions_TermsDeclineButtonText}
-							</Button>
-							<Button type="button" size="sm" onClick={handleAccept} disabled={!isChecked}>
-								{TermsAndConditions_TermsAcceptButtonText}
-							</Button>
+
+							{TermsAndConditions_TermsDeclineButtonText && (
+								<Button type="button" size="sm" variant="outline" onClick={handleDecline}>
+									<Text field={TermsAndConditions_TermsDeclineButtonText} />
+								</Button>
+							)}
+
+							{TermsAndConditions_TermsAcceptButtonText && (
+								<Button type="button" size="sm" onClick={handleAccept} disabled={!isChecked}>
+									<Text field={TermsAndConditions_TermsAcceptButtonText} />
+								</Button>
+							)}
 						</div>
 					</div>
 				)}

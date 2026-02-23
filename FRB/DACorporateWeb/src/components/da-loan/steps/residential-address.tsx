@@ -440,14 +440,14 @@ export const Default = (props: ResidentialAddressProps) => {
             render={({ field }) => (
               <TermsModalInput
                 name={String(props?.fields?.TermsAndConditions_FieldID?.value ?? "")}
-                label={String(props?.fields?.TermsAndConditions_TermsInputText?.value ?? "")}
+                label={props?.fields?.TermsAndConditions_TermsInputText}
                 value={typeof field.value === "boolean" ? (field.value ? "1" : "") : field.value}
                 onChange={(e) => field.onChange(e.target.value)}
                 error={errors.termsModalInput?.message as string}
-                TermsAndConditions_InnerHTMLContentHeading={String(props?.fields?.TermsAndConditions_InnerHTMLContentHeading?.value ?? "")}
-                TermsAndConditions_InnerHTMLContent={String(props?.fields?.TermsAndConditions_InnerHTMLContent?.value ?? "")}
-                TermsAndConditions_TermsAcceptButtonText={String(props?.fields?.TermsAndConditions_TermsAcceptButtonText?.value ?? "")}
-                TermsAndConditions_TermsDeclineButtonText={String(props?.fields?.TermsAndConditions_TermsDeclineButtonText?.value ?? "")}
+                TermsAndConditions_InnerHTMLContentHeading={props?.fields?.TermsAndConditions_InnerHTMLContentHeading}
+                TermsAndConditions_InnerHTMLContent={props?.fields?.TermsAndConditions_InnerHTMLContent}
+                TermsAndConditions_TermsAcceptButtonText={props?.fields?.TermsAndConditions_TermsAcceptButtonText}
+                TermsAndConditions_TermsDeclineButtonText={props?.fields?.TermsAndConditions_TermsDeclineButtonText}
               />
             )}
           />
