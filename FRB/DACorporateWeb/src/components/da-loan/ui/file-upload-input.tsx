@@ -27,6 +27,11 @@ interface FileUploadInputProps {
   initialFile?: File | null;
   className?: string;
 }
+// Format percentage with two decimals
+export function formatPercentage(value: number) {
+  const safeValue = Number.isFinite(value) ? value : 0;
+  return `${safeValue.toFixed(2)}%`;
+}
 
 export function FileUploadInput({
   title,
@@ -213,7 +218,7 @@ export function FileUploadInput({
                 {uploading && (
                   <div className="flex items-center space-x-2 mt-2">
                     <Progress value={progress} className="h-1.5 flex-1" />
-                    <span className="text-xs text-gray-500 w-10">{progress}%</span>
+                    <span className="text-xs text-gray-500 w-10">{formatPercentage(progress)}</span>
                   </div>
                 )}
 
