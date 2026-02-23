@@ -18,6 +18,7 @@ import { Text } from "@sitecore-content-sdk/nextjs";
 import { useJsApiLoader } from "@react-google-maps/api";
 import { useEffect, useRef } from "react";
 import { StandardTextInput } from "components/da-loan/ui/standard-text-input";
+import { TermsModalInput } from "components/da-loan/ui/terms-modal-input";
 
 type SitecoreOption = {
   fields: {
@@ -40,6 +41,7 @@ type ResidentialAddressFormData = {
   cityTown: string;
   province: string;
   postalCode: string;
+  termsModalInput: boolean;
 };
 
 export type ResidentialAddressProps = ComponentProps & {
@@ -77,8 +79,8 @@ export type ResidentialAddressProps = ComponentProps & {
     City_ValidationRegex: TextField;
     City_ValidationErrorMessage: TextField;
     City_Placeholder: TextField;
-    City_MinLength : TextField;
-    City_MaxLength : TextField;
+    City_MinLength: TextField;
+    City_MaxLength: TextField;
     City_MinLengthErrorMessage: TextField;
 
     Postcode_FieldID: TextField;
@@ -87,6 +89,14 @@ export type ResidentialAddressProps = ComponentProps & {
     Postcode_ValidationRegex: string;
     Postcode_ValidationErrorMessage: TextField;
     Postcode_Placeholder: TextField;
+
+    TermsAndConditions_FieldID: TextField;
+    TermsAndConditions_TermsInputText: TextField;
+    TermsAndConditions_InnerHTMLContentHeading: TextField;
+    TermsAndConditions_InnerHTMLContent: TextField;
+    TermsAndConditions_TermsAcceptButtonText: TextField;
+    TermsAndConditions_TermsDeclineButtonText: TextField;
+    TermsAndConditions_ValidationErrorMessage: TextField;
 
     ProvincePlaceholderText: TextField;
     ProvinceLabelText: TextField;
@@ -99,6 +109,10 @@ export type ResidentialAddressProps = ComponentProps & {
 const libraries: ("places")[] = ["places"];
 
 export const Default = (props: ResidentialAddressProps) => {
+  // Debug: Print props on page load
+  useEffect(() => {
+    console.log('ResidentialAddress props:', props);
+  }, []);
   "use no memo";
 
   const router = useRouter();
@@ -134,6 +148,7 @@ export const Default = (props: ResidentialAddressProps) => {
       cityTown: initialData?.cityTown || "",
       province: initialData?.province || "",
       postalCode: initialData?.postalCode || "",
+      termsModalInput: initialData?.termsModalInput || false
     },
   });
 
@@ -266,7 +281,7 @@ export const Default = (props: ResidentialAddressProps) => {
             render={({ field }) => (
               <StandardTextInput
                 ref={addressInputRef}
-                value={field.value}
+                value={typeof field.value === "boolean" ? (field.value ? "1" : "") : field.value}
                 onChange={field.onChange}
                 onBlur={field.onBlur}
                 onPaste={(e) => e.preventDefault()}
@@ -303,7 +318,7 @@ export const Default = (props: ResidentialAddressProps) => {
             }}
             render={({ field }) => (
               <StandardTextInput
-                value={field.value}
+                value={typeof field.value === "boolean" ? (field.value ? "1" : "") : field.value}
                 onChange={(e) => field.onChange(e.target.value)}
                 onBlur={field.onBlur}
                 onPaste={(e) => e.preventDefault()}
@@ -334,7 +349,7 @@ export const Default = (props: ResidentialAddressProps) => {
             control={control}
             rules={{
               required: String(props.fields?.City_ValidationErrorMessage?.value),
-               minLength: {
+              minLength: {
                 value: Number(props?.fields?.City_MinLength?.value),
                 message: String(props?.fields?.City_MinLengthErrorMessage?.value),
               }
@@ -412,6 +427,27 @@ export const Default = (props: ResidentialAddressProps) => {
                 labelContainerClassName="flex items-center gap-2"
                 labelClassName="text-sm text-gray-800"
                 error={errors.postalCode?.message as string}
+              />
+            )}
+          />
+
+          <Controller
+            name="termsModalInput"
+            control={control}
+            rules={{
+              required: String(props.fields?.TermsAndConditions_ValidationErrorMessage?.value),
+            }}
+            render={({ field }) => (
+              <TermsModalInput
+                name={String(props?.fields?.TermsAndConditions_FieldID?.value ?? "")}
+                label={String(props?.fields?.TermsAndConditions_TermsInputText?.value ?? "")}
+                value={typeof field.value === "boolean" ? (field.value ? "1" : "") : field.value}
+                onChange={(e) => field.onChange(e.target.value)}
+                error={errors.termsModalInput?.message as string}
+                TermsAndConditions_InnerHTMLContentHeading={String(props?.fields?.TermsAndConditions_InnerHTMLContentHeading?.value ?? "")}
+                TermsAndConditions_InnerHTMLContent={String(props?.fields?.TermsAndConditions_InnerHTMLContent?.value ?? "")}
+                TermsAndConditions_TermsAcceptButtonText={String(props?.fields?.TermsAndConditions_TermsAcceptButtonText?.value ?? "")}
+                TermsAndConditions_TermsDeclineButtonText={String(props?.fields?.TermsAndConditions_TermsDeclineButtonText?.value ?? "")}
               />
             )}
           />
