@@ -58,7 +58,7 @@ export const Default = (props: FooterProps): JSX.Element => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
             {/* Head Office Column */}
             <div className="flex flex-col">
-              <div className="border-t border-gray-400 pt-6 mb-6">
+              <div className="pt-6 mb-6">
                 <h3 className="text-xl font-bold text-white mb-4">
                   {fields?.HeadOfficeTitle && (
                     <ContentSdkText field={fields.HeadOfficeTitle} />
@@ -73,14 +73,14 @@ export const Default = (props: FooterProps): JSX.Element => {
                       fields.HeadOfficeImage?.value?.alt || "DirectAxis Campus"
                     }
                     loading="lazy"
-                    className="object-cover absolute h-full w-full inset-0"
+                    className="object-cover"
                   />
                 </div>
               )}
               <div className="text-white space-y-1 mb-4">
-                <ContentSdkText field={fields.AddressLine1} />
-                <ContentSdkText field={fields.AddressLine2} />
-                <ContentSdkText field={fields.AddressLine3} />
+                <p><ContentSdkText field={fields.AddressLine1} /></p>
+                <p><ContentSdkText field={fields.AddressLine2} /></p>
+                <p><ContentSdkText field={fields.AddressLine3} /></p>
               </div>
               <a
                 className="text-sm font-medium flex items-center gap-1 w-fit text-secondary-teal-tint group"
@@ -108,7 +108,7 @@ export const Default = (props: FooterProps): JSX.Element => {
 
             {/* Social Media Section Column */}
             <div className="flex flex-col">
-              <div className="border-t border-gray-400 pt-6 mb-6">
+              <div className="pt-6 mb-6">
                 <h3 className="text-xl font-bold text-white mb-4">
                   <ContentSdkText field={fields.SocialMediaTitle} />
                 </h3>
@@ -210,7 +210,7 @@ export const Default = (props: FooterProps): JSX.Element => {
 
             {/* Call Centre Column */}
             <div className="flex flex-col">
-              <div className="border-t border-gray-400 pt-6 mb-6">
+              <div className="pt-6 mb-6">
                 <h3 className="text-xl font-bold text-white mb-4">
                   <ContentSdkText field={fields.CallCentreTitle} />
                 </h3>
@@ -247,7 +247,7 @@ export const Default = (props: FooterProps): JSX.Element => {
 
             {/* Support & Information Column */}
             <div className="flex flex-col">
-              <div className="border-t border-gray-400 pt-6 mb-6">
+              <div className="pt-6 mb-6">
                 <h3 className="text-xl font-bold text-white mb-4">
                   <ContentSdkText field={fields.SupportTitle} />
                 </h3>
