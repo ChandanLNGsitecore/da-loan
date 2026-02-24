@@ -6,6 +6,7 @@ import { Form } from '@sitecore-content-sdk/nextjs';
 import * as Navigation from 'src/components/navigation/Navigation';
 import * as upload from 'src/components/da-loan/ui-premetive/upload';
 import * as carousel from 'src/components/da-loan/ui-premetive/carousel';
+import * as termsmodalinput from 'src/components/da-loan/ui/terms-modal-input';
 import * as select from 'src/components/da-loan/ui/select';
 import * as radiogroupwithicon from 'src/components/da-loan/ui/radio-group-with-icon';
 import * as radiogroupinput from 'src/components/da-loan/ui/radio-group-input';
@@ -29,6 +30,7 @@ import * as cellphoneconfirmation from 'src/components/da-loan/steps/cellphone-c
 import * as cancelapplication from 'src/components/da-loan/steps/cancel-application';
 import * as banking from 'src/components/da-loan/steps/banking';
 import * as applicationform from 'src/components/da-loan/steps/application-form';
+import * as aplicationdetailsform from 'components/da-loan/steps/application-details-form';
 import * as affordability from 'src/components/da-loan/steps/affordability';
 import * as pulse from 'src/components/da-loan/layout/pulse/pulse';
 import * as navigationmenu from 'src/components/da-loan/layout/navigation-menu/navigation-menu';
@@ -58,6 +60,7 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['Navigation', { ...Navigation }],
   ['upload', { ...upload }],
   ['carousel', { ...carousel }],
+  ['terms-modal-input', { ...termsmodalinput }],
   ['select', { ...select }],
   ['radio-group-with-icon', { ...radiogroupwithicon }],
   ['radio-group-input', { ...radiogroupinput }],
@@ -81,6 +84,7 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['cancel-application', { ...cancelapplication }],
   ['banking', { ...banking }],
   ['application-form', { ...applicationform }],
+  ['aplication-details-form', { ...aplicationdetailsform }],
   ['affordability', { ...affordability }],
   ['pulse', { ...pulse }],
   ['navigation-menu', { ...navigationmenu }],

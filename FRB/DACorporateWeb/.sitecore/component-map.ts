@@ -31,6 +31,7 @@ import * as checkbox from 'src/components/da-loan/ui-premetive/checkbox';
 import * as carousel from 'src/components/da-loan/ui-premetive/carousel';
 import * as card from 'src/components/da-loan/ui-premetive/card';
 import * as button from 'src/components/da-loan/ui-premetive/button';
+import * as termsmodalinput from 'src/components/da-loan/ui/terms-modal-input';
 import * as standardtextinput from 'src/components/da-loan/ui/standard-text-input';
 import * as standardnumberinput from 'src/components/da-loan/ui/standard-number-input';
 import * as southafricanidinput from 'src/components/da-loan/ui/south-african-id-input';
@@ -60,6 +61,7 @@ import * as cellphoneconfirmation from 'src/components/da-loan/steps/cellphone-c
 import * as cancelapplication from 'src/components/da-loan/steps/cancel-application';
 import * as banking from 'src/components/da-loan/steps/banking';
 import * as applicationform from 'src/components/da-loan/steps/application-form';
+import * as aplicationdetailsform from 'components/da-loan/steps/application-details-form';
 import * as affordability from 'src/components/da-loan/steps/affordability';
 import * as tools from 'src/components/da-loan/layout/tools/tools';
 import * as toolsloancalculator from 'src/components/da-loan/layout/tools/loan-calculator/tools-loan-calculator';
@@ -110,7 +112,7 @@ import * as ColumnSplitter from 'src/components/column-splitter/ColumnSplitter';
 export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['BYOCWrapper', BYOCServerWrapper],
   ['FEaaSWrapper', FEaaSServerWrapper],
-  ['Form', Form],
+  ['Form', { ...Form, componentType: 'client' }],
   ['Title', { ...Title }],
   ['RowSplitter', { ...RowSplitter }],
   ['RichText', { ...RichText }],
@@ -138,6 +140,7 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['carousel', { ...carousel, componentType: 'client' }],
   ['card', { ...card }],
   ['button', { ...button }],
+  ['terms-modal-input', { ...termsmodalinput, componentType: 'client' }],
   ['standard-text-input', { ...standardtextinput }],
   ['standard-number-input', { ...standardnumberinput }],
   ['south-african-id-input', { ...southafricanidinput }],
@@ -167,6 +170,7 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['cancel-application', { ...cancelapplication, componentType: 'client' }],
   ['banking', { ...banking, componentType: 'client' }],
   ['application-form', { ...applicationform, componentType: 'client' }],
+  ['aplication-details-form', { ...aplicationdetailsform, componentType: 'client' }],
   ['affordability', { ...affordability, componentType: 'client' }],
   ['tools', { ...tools }],
   ['tools-loan-calculator', { ...toolsloancalculator }],

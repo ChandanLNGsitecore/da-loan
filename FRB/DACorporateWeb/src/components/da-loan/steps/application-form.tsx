@@ -38,7 +38,7 @@ export const Default = (props: ApplicationFormProps) => {
 
   const onSubmit = (data: Record<string, unknown>) => {
     console.log("Form submitted:", data);
-    router.push("/loans/request-otp");
+    router.push("/loans/application-detail");
   };
 
   const {
