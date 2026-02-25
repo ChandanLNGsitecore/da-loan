@@ -61,7 +61,7 @@ import * as cellphoneconfirmation from 'src/components/da-loan/steps/cellphone-c
 import * as cancelapplication from 'src/components/da-loan/steps/cancel-application';
 import * as banking from 'src/components/da-loan/steps/banking';
 import * as applicationform from 'src/components/da-loan/steps/application-form';
-import * as aplicationdetailsform from 'components/da-loan/steps/application-details-form';
+import * as applicationdetailsform from 'src/components/da-loan/steps/application-details-form';
 import * as affordability from 'src/components/da-loan/steps/affordability';
 import * as tools from 'src/components/da-loan/layout/tools/tools';
 import * as toolsloancalculator from 'src/components/da-loan/layout/tools/loan-calculator/tools-loan-calculator';
@@ -80,6 +80,7 @@ import * as imagine from 'src/components/da-loan/layout/imagine/imagine';
 import * as imaginearticlesusingaloantoconsolidateyourcredit from 'src/components/da-loan/layout/imagine/articles/using-a-loan-to-consolidate-your-credit/imagine-articles-using-a-loan-to-consolidate-your-credit';
 import * as herocarousel from 'src/components/da-loan/layout/hero-carousel/hero-carousel';
 import * as header from 'src/components/da-loan/layout/header/header';
+import * as headertop from 'src/components/da-loan/layout/header/header-top';
 import * as footer from 'src/components/da-loan/layout/footer/footer';
 import * as topicsdata from 'src/components/da-loan/layout/direct-talk/topics-data';
 import * as directtalk from 'src/components/da-loan/layout/direct-talk/direct-talk';
@@ -112,7 +113,7 @@ import * as ColumnSplitter from 'src/components/column-splitter/ColumnSplitter';
 export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['BYOCWrapper', BYOCServerWrapper],
   ['FEaaSWrapper', FEaaSServerWrapper],
-  ['Form', { ...Form, componentType: 'client' }],
+  ['Form', Form],
   ['Title', { ...Title }],
   ['RowSplitter', { ...RowSplitter }],
   ['RichText', { ...RichText }],
@@ -170,7 +171,7 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['cancel-application', { ...cancelapplication, componentType: 'client' }],
   ['banking', { ...banking, componentType: 'client' }],
   ['application-form', { ...applicationform, componentType: 'client' }],
-  ['aplication-details-form', { ...aplicationdetailsform, componentType: 'client' }],
+  ['application-details-form', { ...applicationdetailsform, componentType: 'client' }],
   ['affordability', { ...affordability, componentType: 'client' }],
   ['tools', { ...tools }],
   ['tools-loan-calculator', { ...toolsloancalculator }],
@@ -189,6 +190,7 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['imagine-articles-using-a-loan-to-consolidate-your-credit', { ...imaginearticlesusingaloantoconsolidateyourcredit }],
   ['hero-carousel', { ...herocarousel }],
   ['header', { ...header, componentType: 'client' }],
+  ['header-top', { ...headertop, componentType: 'client' }],
   ['footer', { ...footer }],
   ['topics-data', { ...topicsdata }],
   ['direct-talk', { ...directtalk }],

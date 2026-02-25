@@ -15,6 +15,7 @@ import {
   RichText as ContentSdkRichText,
 } from '@sitecore-content-sdk/nextjs';
 import { HeaderComponentProps } from 'src/types/header';
+import { AppPlaceholder } from "@sitecore-content-sdk/nextjs";
 
 /**
  * Default Header Component
@@ -34,6 +35,15 @@ export const Default = (props: HeaderComponentProps): JSX.Element => {
 
   return (
     <header className="">
+
+      {props.componentMap && (
+        <AppPlaceholder
+          name="top-header"
+          rendering={props.rendering}
+          page={props.page}
+          componentMap={props.componentMap}
+        />
+      )}
       {/* Main header container with responsive padding */}
       <div className="container mx-auto px-4 py-2 lg:px-8 md:py-4">
         <div className="flex items-center justify-between h-16">
@@ -70,7 +80,7 @@ export const Default = (props: HeaderComponentProps): JSX.Element => {
               <Button 
                 asChild 
                 variant="outline" 
-                className="text-sm font-medium"
+                className="text-sm font-medium px-4 py-2 h-9 border-0 rounded-md"
               >
                 <ContentSdkLink field={fields.Login} />
               </Button>

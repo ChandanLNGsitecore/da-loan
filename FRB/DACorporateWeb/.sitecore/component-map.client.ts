@@ -30,12 +30,13 @@ import * as cellphoneconfirmation from 'src/components/da-loan/steps/cellphone-c
 import * as cancelapplication from 'src/components/da-loan/steps/cancel-application';
 import * as banking from 'src/components/da-loan/steps/banking';
 import * as applicationform from 'src/components/da-loan/steps/application-form';
-import * as aplicationdetailsform from 'components/da-loan/steps/application-details-form';
+import * as applicationdetailsform from 'src/components/da-loan/steps/application-details-form';
 import * as affordability from 'src/components/da-loan/steps/affordability';
 import * as pulse from 'src/components/da-loan/layout/pulse/pulse';
 import * as navigationmenu from 'src/components/da-loan/layout/navigation-menu/navigation-menu';
 import * as loanapplicationflowalt from 'src/components/da-loan/layout/loan-application-flow-alt/loan-application-flow-alt';
 import * as header from 'src/components/da-loan/layout/header/header';
+import * as headertop from 'src/components/da-loan/layout/header/header-top';
 import * as altslider from 'src/components/da-loan/layout/alt-slider/alt-slider';
 import * as statistics from 'src/components/da-loan/blocks/statistics';
 import * as staggeredreviews from 'src/components/da-loan/blocks/staggered-reviews';
@@ -84,12 +85,13 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['cancel-application', { ...cancelapplication }],
   ['banking', { ...banking }],
   ['application-form', { ...applicationform }],
-  ['aplication-details-form', { ...aplicationdetailsform }],
+  ['application-details-form', { ...applicationdetailsform }],
   ['affordability', { ...affordability }],
   ['pulse', { ...pulse }],
   ['navigation-menu', { ...navigationmenu }],
   ['loan-application-flow-alt', { ...loanapplicationflowalt }],
   ['header', { ...header }],
+  ['header-top', { ...headertop }],
   ['alt-slider', { ...altslider }],
   ['statistics', { ...statistics }],
   ['staggered-reviews', { ...staggeredreviews }],
