@@ -145,15 +145,21 @@ export const Default = (props: DocumentUploadProps) => {
   let currentNumber = 1;
   const identityNumber = isIdentityRequired ? currentNumber++ : 0;
 
+
+  // Helper to check if all required documents are uploaded
+  const allRequiredDocsUploaded = () => {
+    return (
+      (!isIdentityRequired ||
+        (documents.idType === "book"
+          ? Boolean(documents.idDocument)
+          : Boolean(documents.idCardFront && documents.idCardBack))) &&
+      documentOptions.every((option: DocumentOption) => Boolean(documents[option.name]))
+    );
+  };
+
   // Validate that all required documents are uploaded
   const allowSkip = !!allowSkipDocuments;
-  const canSubmit = allowSkip
-    ? true
-    : (!isIdentityRequired ||
-      (documents.idType === "book"
-        ? Boolean(documents.idDocument)
-        : Boolean(documents.idCardFront && documents.idCardBack))) &&
-      documentOptions.every((option: DocumentOption) => Boolean(documents[option.name]));
+  const canSubmit = allowSkip ? true : allRequiredDocsUploaded();
 
   const handleSubmit = () => {
     if (canSubmit) {
@@ -268,11 +274,14 @@ export const Default = (props: DocumentUploadProps) => {
           >
             <Text field={fields?.SubmitButtonText} />
           </Button>
-          {!canSubmit && (
-            <p className="text-sm text-gray-500 text-center mt-2">
-              <Text field={fields?.PageValidationText} />
-            </p>
-          )}
+        
+            {/* Hide PageValidationText if all required docs are uploaded */}
+            {!allRequiredDocsUploaded() && (
+              <p className="text-sm text-gray-500 text-center mt-2">
+                <Text field={fields?.PageValidationText} />
+              </p>
+            )}
+         
 
           <div className="text-center mt-4">
             <button
