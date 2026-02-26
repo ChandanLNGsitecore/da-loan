@@ -9,6 +9,7 @@ import {
   Text as ContentSdkText,
 } from "@sitecore-content-sdk/nextjs";
 import { ComponentProps } from "lib/component-props";
+import Image from "next/image";
 
 interface FooterSupportLinkItem {
   fields: {
@@ -67,13 +68,23 @@ export const Default = (props: FooterProps): JSX.Element => {
               </div>
               {fields.HeadOfficeImage?.value?.src && (
                 <div className="relative w-full aspect-600/334 mb-4 rounded-lg overflow-hidden">
-                  <ContentSdkImage
+                  {/* <ContentSdkImage
                     field={fields.HeadOfficeImage}
                     alt={
                       fields.HeadOfficeImage?.value?.alt || "DirectAxis Campus"
                     }
                     loading="lazy"
                     className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                  /> */}
+                  <Image
+                    src={fields.HeadOfficeImage.value.src}
+                     alt={
+                      String(fields.HeadOfficeImage?.value?.alt ?? "DirectAxis Campus")
+                    }
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 33vw"
                   />
                 </div>
               )}
