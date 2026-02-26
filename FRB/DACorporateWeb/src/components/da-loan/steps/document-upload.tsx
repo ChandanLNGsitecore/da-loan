@@ -40,8 +40,9 @@ const fetchRequiredDocuments = async (): Promise<RequiredDocumentsResponse> => {
 interface DocumentUploadProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   fields?: any;
-  readonly onSubmit?: (documents: UploadedDocuments) => void;
+  readonly onSubmit?: (documents: UploadedDocuments, skipped?: boolean) => void;
   readonly onBack?: () => void;
+  AllowSkipDocuments?: boolean;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
 }
@@ -72,7 +73,9 @@ export const Default = (props: DocumentUploadProps) => {
   const { onSubmit, onBack } = props;
   const { fields: propsFields = {} } = props;
   const fields = propsFields.fields || propsFields;
-  debugger;
+  // Set AllowSkipDocuments true by default
+  const allowSkipDocuments = true;
+ 
   console.log("Document Upload Props:", props);
   console.log("Document Upload Fields:", fields);
 
@@ -143,12 +146,14 @@ export const Default = (props: DocumentUploadProps) => {
   const identityNumber = isIdentityRequired ? currentNumber++ : 0;
 
   // Validate that all required documents are uploaded
-  const canSubmit =
-    (!isIdentityRequired ||
+  const allowSkip = !!allowSkipDocuments;
+  const canSubmit = allowSkip
+    ? true
+    : (!isIdentityRequired ||
       (documents.idType === "book"
         ? Boolean(documents.idDocument)
         : Boolean(documents.idCardFront && documents.idCardBack))) &&
-    documentOptions.every((option: DocumentOption) => Boolean(documents[option.name]));
+      documentOptions.every((option: DocumentOption) => Boolean(documents[option.name]));
 
   const handleSubmit = () => {
     if (canSubmit) {
@@ -158,6 +163,14 @@ export const Default = (props: DocumentUploadProps) => {
       }
       router.push("/loans/application-submitted");
     }
+  };
+
+  const handleSkip = () => {
+    if (onSubmit && typeof onSubmit === "function") {
+      onSubmit(documents, true);
+    }
+    // You may want to route to next step or keep user on same page depending on flow
+    router.push("/loans/application-submitted");
   };
 
   const handleBack = () => {

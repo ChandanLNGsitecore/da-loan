@@ -366,9 +366,9 @@ export const Default = (props: FooterProps): JSX.Element => {
               </svg>
             </div>
             <div className="flex-1">
-              <div className="text-sm text-white mb-4 leading-relaxed">
+              <p className="text-sm text-white mb-4 leading-relaxed">
                 <ContentSdkRichText field={fields.LegalText} />
-              </div>
+              </p>
               <div className="flex flex-wrap gap-4">
                 <a
                   className="text-sm text-white hover:underline"
