@@ -298,3 +298,4 @@ export const Default = (props: DocumentUploadProps) => {
     </Card>
   );
 };
+
