@@ -1,8 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import TermsModal from "components/da-loan/steps/terms-modal";
+import { TermsModalInput } from "components/da-loan/ui/terms-modal-input";
 import { StandardTextInput } from "components/da-loan/ui/standard-text-input";
 import {  SouthAfricanIDInput,  validateSouthAfricanID } from "components/da-loan/ui/south-african-id-input";
 import { IncomeInput } from "components/da-loan/ui/income-input";
@@ -30,9 +29,8 @@ export const Default = (props: ApplicationDetailsProps) => {
   const { fields: propsFields = {} } = props;
   const fields = propsFields.fields || propsFields;
 
-  debugger;
-  console.log("Props:", props);
-  console.log("Fields:", fields);
+  console.log("Application Details Props:", props);
+  console.log("Application Details Fields:", fields);
 
   const onSubmit = (data: Record<string, unknown>) => {
     console.log("Form submitted:", data);
@@ -54,7 +52,6 @@ export const Default = (props: ApplicationDetailsProps) => {
     handleSubmit,
     trigger,
     control,
-    setValue,
     setError,
     clearErrors,
     formState: { errors },
@@ -265,7 +262,26 @@ export const Default = (props: ApplicationDetailsProps) => {
             />
           </div>
 
-          <TermsModal control={control} errors={errors} />
+          <Controller
+            name="acceptTerms"
+            control={control}
+            rules={{
+              required: fields?.TermsAndConditions_ValidationErrorMessage?.value,
+            }}
+            render={({ field }) => (
+              <TermsModalInput
+                name={String(fields?.TermsAndConditions_FieldID?.value ?? "acceptTerms")}
+                label={<Text field={fields?.TermsAndConditions_TermsInputText} />}
+                value={typeof field.value === "boolean" ? (field.value ? "1" : "") : field.value}
+                onChange={(e) => field.onChange(e.target.value === "1")}
+                error={errors.acceptTerms?.message as string}
+                TermsAndConditions_InnerHTMLContentHeading={<Text field={fields?.TermsAndConditions_InnerHTMLContentHeading} />}
+                TermsAndConditions_InnerHTMLContent={<Text field={fields?.TermsAndConditions_InnerHTMLContent} />}
+                TermsAndConditions_TermsAcceptButtonText={<Text field={fields?.TermsAndConditions_TermsAcceptButtonText} />}
+                TermsAndConditions_TermsDeclineButtonText={<Text field={fields?.TermsAndConditions_TermsDeclineButtonText} />}
+              />
+            )}
+          />
 
           <div className="space-y-2">
             <Controller

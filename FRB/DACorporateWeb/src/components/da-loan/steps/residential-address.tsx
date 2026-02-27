@@ -18,7 +18,6 @@ import { Text } from "@sitecore-content-sdk/nextjs";
 import { useJsApiLoader } from "@react-google-maps/api";
 import { useEffect, useRef } from "react";
 import { StandardTextInput } from "components/da-loan/ui/standard-text-input";
-import { TermsModalInput } from "components/da-loan/ui/terms-modal-input";
 
 type SitecoreOption = {
   fields: {
@@ -427,27 +426,6 @@ export const Default = (props: ResidentialAddressProps) => {
                 labelContainerClassName="flex items-center gap-2"
                 labelClassName="text-sm text-gray-800"
                 error={errors.postalCode?.message as string}
-              />
-            )}
-          />
-
-          <Controller
-            name="termsModalInput"
-            control={control}
-            rules={{
-              required: String(props.fields?.TermsAndConditions_ValidationErrorMessage?.value),
-            }}
-            render={({ field }) => (
-              <TermsModalInput
-                name={String(props?.fields?.TermsAndConditions_FieldID?.value ?? "")}
-                label={props?.fields?.TermsAndConditions_TermsInputText}
-                value={typeof field.value === "boolean" ? (field.value ? "1" : "") : field.value}
-                onChange={(e) => field.onChange(e.target.value)}
-                error={errors.termsModalInput?.message as string}
-                TermsAndConditions_InnerHTMLContentHeading={props?.fields?.TermsAndConditions_InnerHTMLContentHeading}
-                TermsAndConditions_InnerHTMLContent={props?.fields?.TermsAndConditions_InnerHTMLContent}
-                TermsAndConditions_TermsAcceptButtonText={props?.fields?.TermsAndConditions_TermsAcceptButtonText}
-                TermsAndConditions_TermsDeclineButtonText={props?.fields?.TermsAndConditions_TermsDeclineButtonText}
               />
             )}
           />
