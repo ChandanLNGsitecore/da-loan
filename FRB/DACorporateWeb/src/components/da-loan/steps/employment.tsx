@@ -3,9 +3,9 @@
 import { useEffect, useRef } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { Button } from "components/da-loan/ui-premetive/button";
-import { Card, CardContent } from "components/da-loan/ui-premetive/card";
-import { Input } from "components/da-loan/ui-premetive/input";
+import { Button } from "components/da-loan/ui-primitive/button";
+import { Card, CardContent } from "components/da-loan/ui-primitive/card";
+import { Input } from "components/da-loan/ui-primitive/input";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { DropDownList } from "components/da-loan/ui/drop-down-list";
 import { StandardTextInput } from "components/da-loan/ui/standard-text-input";

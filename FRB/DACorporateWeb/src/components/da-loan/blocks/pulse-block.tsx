@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { CheckCircle2 } from "lucide-react";
-import { Button } from "components/da-loan/ui-premetive/button";
+import { Button } from "components/da-loan/ui-primitive/button";
 
 interface PulseProps {
 	heading?: string;

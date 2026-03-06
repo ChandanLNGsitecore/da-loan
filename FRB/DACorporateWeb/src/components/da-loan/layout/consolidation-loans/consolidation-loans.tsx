@@ -2,7 +2,7 @@ import { ConsolidationCalculator } from "components/da-loan/blocks/consolidation
 import { ConsolidationBenefits } from "components/da-loan/blocks/consolidation-benefits";
 import { FAQAccordion } from "components/da-loan/blocks/faq-accordion";
 import { LoanProductsBlock, type LoanProduct } from "components/da-loan/blocks/loan-products-block";
-import { Button } from "components/da-loan/ui-premetive/button";
+import { Button } from "components/da-loan/ui-primitive/button";
 import Link from "next/link";
 
 const relatedProducts: LoanProduct[] = [

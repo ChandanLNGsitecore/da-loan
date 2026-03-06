@@ -2,8 +2,8 @@
 
 import { useForm, Controller } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { Button } from "components/da-loan/ui-premetive/button";
-import { Card, CardContent } from "components/da-loan/ui-premetive/card";
+import { Button } from "components/da-loan/ui-primitive/button";
+import { Card, CardContent } from "components/da-loan/ui-primitive/card";
 import { RadioGroupWithIcon, RadioOption } from "components/da-loan/ui/radio-group-with-icon";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Text } from '@sitecore-content-sdk/nextjs';

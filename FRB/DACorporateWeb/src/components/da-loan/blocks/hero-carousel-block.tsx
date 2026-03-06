@@ -9,8 +9,8 @@ import {
   CarouselItem,
   CarouselPagination,
   type CarouselApi,
-} from "components/da-loan/ui-premetive/carousel";
-import { Button } from "components/da-loan/ui-premetive/button";
+} from "components/da-loan/ui-primitive/carousel";
+import { Button } from "components/da-loan/ui-primitive/button";
 import Link from "next/link";
 import Autoplay from "embla-carousel-autoplay";
 

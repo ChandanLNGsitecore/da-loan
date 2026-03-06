@@ -3,9 +3,9 @@
 import { File, FileText, Image, X } from "lucide-react";
 import { ChangeEvent, DragEvent, useRef, useState } from "react";
 import { toast } from "sonner";
-import { Button } from "components/da-loan/ui-premetive/button";
-import { Card } from "components/da-loan/ui-premetive/card";
-import { Progress } from "components/da-loan/ui-premetive/progress";
+import { Button } from "components/da-loan/ui-primitive/button";
+import { Card } from "components/da-loan/ui-primitive/card";
+import { Progress } from "components/da-loan/ui-primitive/progress";
 
 export default function FileUpload() {
   const [uploadState, setUploadState] = useState<{

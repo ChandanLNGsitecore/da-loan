@@ -2,8 +2,8 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "components/da-loan/ui-premetive/button";
-import { Input } from "components/da-loan/ui-premetive/input";
+import { Button } from "components/da-loan/ui-primitive/button";
+import { Input } from "components/da-loan/ui-primitive/input";
 import Link from "next/link";
 import { pulseRegistrationSchema, type PulseRegistration } from "lib/schemas";
 import { LoanProduct, LoanProductsBlock } from "components/da-loan/blocks/loan-products-block";

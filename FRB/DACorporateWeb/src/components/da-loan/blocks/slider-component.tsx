@@ -1,6 +1,6 @@
 "use client";
 
-import { Slider } from "components/da-loan/ui-premetive/slider";
+import { Slider } from "components/da-loan/ui-primitive/slider";
 import { cn } from "lib/utils";
 
 interface LoanSliderProps {

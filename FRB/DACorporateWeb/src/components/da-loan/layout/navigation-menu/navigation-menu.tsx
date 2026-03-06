@@ -11,13 +11,13 @@
 import React, { JSX } from "react";
 import { useState } from "react";
 import { ChevronDown, Menu } from "lucide-react";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetClose, } from "components/da-loan/ui-premetive/sheet";
-import { Logo } from "components/da-loan/ui-premetive/logo";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetClose, } from "components/da-loan/ui-primitive/sheet";
+import { Logo } from "components/da-loan/ui-primitive/logo";
 import {
   Link as ContentSdkLink,
   Text,
 } from '@sitecore-content-sdk/nextjs';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, } from "components/da-loan/ui-premetive/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, } from "components/da-loan/ui-primitive/dropdown-menu";
 import { HeaderComponentProps } from 'src/types/header';
 
 /**

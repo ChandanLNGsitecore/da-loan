@@ -3,9 +3,9 @@
 import { File, FileText, Image, X, Upload as UploadIcon, CheckCircle2 } from "lucide-react";
 import { ChangeEvent, DragEvent, useRef, useState, useEffect } from "react";
 import { toast } from "sonner";
-import { Button } from "components/da-loan/ui-premetive/button";
-import { Card } from "components/da-loan/ui-premetive/card";
-import { Progress } from "components/da-loan/ui-premetive/progress";
+import { Button } from "components/da-loan/ui-primitive/button";
+import { Card } from "components/da-loan/ui-primitive/card";
+import { Progress } from "components/da-loan/ui-primitive/progress";
 import { Text } from "@sitecore-content-sdk/nextjs";
 
 type SitecoreField = {

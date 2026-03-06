@@ -2,9 +2,9 @@
 
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { Button } from "components/da-loan/ui-premetive/button";
-import { Card, CardContent } from "components/da-loan/ui-premetive/card";
-import { Timer } from "components/da-loan/ui-premetive/timer";
+import { Button } from "components/da-loan/ui-primitive/button";
+import { Card, CardContent } from "components/da-loan/ui-primitive/card";
+import { Timer } from "components/da-loan/ui-primitive/timer";
 import { CreditCheckComponentProps } from 'src/types/CreditCheck';
 import { StandardNumberInput } from "../ui/standard-number-input";
 import {	

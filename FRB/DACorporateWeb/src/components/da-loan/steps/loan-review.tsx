@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
-import { Button } from "components/da-loan/ui-premetive/button";
-import { Card, CardContent } from "components/da-loan/ui-premetive/card";
+import { Button } from "components/da-loan/ui-primitive/button";
+import { Card, CardContent } from "components/da-loan/ui-primitive/card";
 import {
   CheckCircle2,
   ChevronDown,
@@ -18,8 +18,8 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import reviewData from "lib/review.json";
-import { Checkbox } from "../ui-premetive/checkbox";
-import { Label } from "../ui-premetive/label";
+import { Checkbox } from "../ui-primitive/checkbox";
+import { Label } from "../ui-primitive/label";
 
 interface LoanReviewProps {
   readonly onAccept?: () => void;

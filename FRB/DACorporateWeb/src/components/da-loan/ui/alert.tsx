@@ -1,7 +1,7 @@
 import React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "lib/utils";
-import { Card, CardContent } from "components/da-loan/ui-premetive/card";
+import { Card, CardContent } from "components/da-loan/ui-primitive/card";
 
 const alertVariants = cva(
   "rounded-lg border",

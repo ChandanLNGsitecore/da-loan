@@ -1,8 +1,8 @@
 import * as React from "react";
 import Image from "next/image";
 import { CheckCircle2, ArrowRight } from "lucide-react";
-import { Carousel, CarouselContent, CarouselItem, CarouselPagination, type CarouselApi, } from "components/da-loan/ui-premetive/carousel";
-import { Button } from "components/da-loan/ui-premetive/button";
+import { Carousel, CarouselContent, CarouselItem, CarouselPagination, type CarouselApi, } from "components/da-loan/ui-primitive/carousel";
+import { Button } from "components/da-loan/ui-primitive/button";
 import Link from "next/link";
 import Autoplay from "embla-carousel-autoplay";
 

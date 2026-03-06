@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { Button } from "components/da-loan/ui-premetive/button";
-import { Card, CardContent } from "components/da-loan/ui-premetive/card";
+import { Button } from "components/da-loan/ui-primitive/button";
+import { Card, CardContent } from "components/da-loan/ui-primitive/card";
 import { CheckCircle2, Clock, FileCheck, Phone, Mail, Home } from "lucide-react";
 import { type UploadedDocuments } from "./document-upload";
 import { ThankYouComponentProps } from "src/types/ThankYou";

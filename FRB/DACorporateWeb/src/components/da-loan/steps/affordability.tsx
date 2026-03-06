@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { useForm, useWatch, Controller } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { Button } from "components/da-loan/ui-premetive/button";
-import { Card, CardContent } from "components/da-loan/ui-premetive/card";
+import { Button } from "components/da-loan/ui-primitive/button";
+import { Card, CardContent } from "components/da-loan/ui-primitive/card";
 import { type Affordability } from "lib/schemas";
 import { ChevronDown, ChevronLeft, ChevronRight, ChevronUp, Info } from "lucide-react";
 import { AffordabilityComponentProps } from "src/types/Affordability";

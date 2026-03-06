@@ -4,7 +4,7 @@ import { LoanSlider } from "./slider-component";
 import { useState } from "react";
 import { LoanSummary } from "./loan-summary";
 import { Check } from "lucide-react";
-import { Button } from "components/da-loan/ui-premetive/button";
+import { Button } from "components/da-loan/ui-primitive/button";
 import Link from "next/link";
 import { formatCurrency } from "lib/format";
 

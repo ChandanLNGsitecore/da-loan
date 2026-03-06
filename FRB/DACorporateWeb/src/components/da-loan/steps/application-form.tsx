@@ -1,10 +1,10 @@
 "use client";
 
 import { useForm, useWatch, Controller } from "react-hook-form";
-import { Button } from "components/da-loan/ui-premetive/button";
+import { Button } from "components/da-loan/ui-primitive/button";
 import { RangeSlider } from "components/da-loan/ui/range-slider";
 import { RadioGroupWithIcon, RadioOption } from "components/da-loan/ui/radio-group-with-icon";
-import { Card, CardContent } from "components/da-loan/ui-premetive/card";
+import { Card, CardContent } from "components/da-loan/ui-primitive/card";
 import { Link as ContentSdkLink, Text } from "@sitecore-content-sdk/nextjs";
 import { useRouter } from "next/navigation";
 

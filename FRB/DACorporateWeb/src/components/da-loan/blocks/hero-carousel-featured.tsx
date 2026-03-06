@@ -9,8 +9,8 @@
    CarouselContent,
    CarouselItem,
    type CarouselApi,
- } from "components/da-loan/ui-premetive/carousel";
- import { Button } from "components/da-loan/ui-premetive/button";
+ } from "components/da-loan/ui-primitive/carousel";
+ import { Button } from "components/da-loan/ui-primitive/button";
  import Autoplay from "embla-carousel-autoplay";
 
  type HighlightTone = "cyan" | "yellow" | "teal" | "none";

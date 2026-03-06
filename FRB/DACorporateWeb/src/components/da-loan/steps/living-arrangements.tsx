@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { useForm, useWatch, Controller } from "react-hook-form";
-import { Button } from "components/da-loan/ui-premetive/button";
-import { Card, CardContent } from "components/da-loan/ui-premetive/card";
+import { Button } from "components/da-loan/ui-primitive/button";
+import { Card, CardContent } from "components/da-loan/ui-primitive/card";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { DropDownList } from "components/da-loan/ui/drop-down-list";
 import { RadioGroup } from "components/da-loan/ui/radio-group-input";

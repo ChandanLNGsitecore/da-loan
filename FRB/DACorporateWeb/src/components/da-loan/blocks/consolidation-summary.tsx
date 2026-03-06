@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { AccountItem } from "./account-selection-form";
-import { Button } from "components/da-loan/ui-premetive/button";
+import { Button } from "components/da-loan/ui-primitive/button";
 import { formatCurrency } from "lib/format";
 
 interface ConsolidationSummaryProps {

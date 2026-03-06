@@ -9,8 +9,8 @@ import {
 import { ComponentProps } from "lib/component-props";
 import { useForm, Controller } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { Button } from "components/da-loan/ui-premetive/button";
-import { Card, CardContent } from "components/da-loan/ui-premetive/card";
+import { Button } from "components/da-loan/ui-primitive/button";
+import { Card, CardContent } from "components/da-loan/ui-primitive/card";
 import { ChevronLeft, ChevronRight, Info } from "lucide-react";
 import { DropDownList } from "components/da-loan/ui/drop-down-list";
 import { StandardNumberInput } from "components/da-loan/ui/standard-number-input";

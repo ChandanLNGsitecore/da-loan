@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { Button } from "components/da-loan/ui-premetive/button";
+import { Button } from "components/da-loan/ui-primitive/button";
 import { ArrowRight, Upload, UploadCloud } from "lucide-react";
 
 export function DocumentUploadBlock() {

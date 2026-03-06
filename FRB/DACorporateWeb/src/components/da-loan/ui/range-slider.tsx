@@ -1,6 +1,6 @@
 import * as React from "react";
 import { cn } from "lib/utils";
-import { Slider } from "components/da-loan/ui-premetive/slider";
+import { Slider } from "components/da-loan/ui-primitive/slider";
 
 interface RangeSliderProps {
 	name: string;

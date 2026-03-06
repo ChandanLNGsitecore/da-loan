@@ -4,8 +4,8 @@ import { BYOCClientWrapper, NextjsContentSdkComponent, FEaaSClientWrapper } from
 import { Form } from '@sitecore-content-sdk/nextjs';
 
 import * as Navigation from 'src/components/navigation/Navigation';
-import * as upload from 'src/components/da-loan/ui-premetive/upload';
-import * as carousel from 'src/components/da-loan/ui-premetive/carousel';
+import * as upload from 'src/components/da-loan/ui-primitive/upload';
+import * as carousel from 'src/components/da-loan/ui-primitive/carousel';
 import * as termsmodalinput from 'src/components/da-loan/ui/terms-modal-input';
 import * as select from 'src/components/da-loan/ui/select';
 import * as radiogroupwithicon from 'src/components/da-loan/ui/radio-group-with-icon';
@@ -15,6 +15,7 @@ import * as fileuploadinput from 'src/components/da-loan/ui/file-upload-input';
 import * as dropdownlist from 'src/components/da-loan/ui/drop-down-list';
 import * as thankyou from 'src/components/da-loan/steps/thank-you';
 import * as termsmodal from 'src/components/da-loan/steps/terms-modal';
+import * as SendOTP from 'src/components/da-loan/steps/SendOTP';
 import * as residentialaddress from 'src/components/da-loan/steps/residential-address';
 import * as pulsecard from 'src/components/da-loan/steps/pulsecard';
 import * as otpverification from 'src/components/da-loan/steps/otp-verification';
@@ -70,6 +71,7 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['drop-down-list', { ...dropdownlist }],
   ['thank-you', { ...thankyou }],
   ['terms-modal', { ...termsmodal }],
+  ['SendOTP', { ...SendOTP }],
   ['residential-address', { ...residentialaddress }],
   ['pulsecard', { ...pulsecard }],
   ['otp-verification', { ...otpverification }],

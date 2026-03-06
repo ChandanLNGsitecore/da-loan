@@ -3,7 +3,7 @@
 import * as React from "react"
 import useEmblaCarousel, { type UseEmblaCarouselType, } from "embla-carousel-react"
 import { cn } from "lib/utils"
-import { Button } from "components/da-loan/ui-premetive/button";
+import { Button } from "components/da-loan/ui-primitive/button";
 import { ChevronLeft, ChevronRight } from "lucide-react"
 
 type CarouselApi = UseEmblaCarouselType[1]

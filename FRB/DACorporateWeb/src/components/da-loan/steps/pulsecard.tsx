@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "components/da-loan/ui-premetive/button";
-import { Card, CardContent } from "components/da-loan/ui-premetive/card";
+import { Button } from "components/da-loan/ui-primitive/button";
+import { Card, CardContent } from "components/da-loan/ui-primitive/card";
 import { ArrowRight } from "lucide-react";
 import { PulseCardComponentProps } from "src/types/PulseCard";
 import { Text, Link as ContentSdkLink, RichText as ContentSdkRichText } from "@sitecore-content-sdk/nextjs";

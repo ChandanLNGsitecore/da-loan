@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Label } from "components/da-loan/ui-premetive/label";
-import { RadioGroup, RadioGroupItem } from "components/da-loan/ui-premetive/radio-group";
+import { Label } from "components/da-loan/ui-primitive/label";
+import { RadioGroup, RadioGroupItem } from "components/da-loan/ui-primitive/radio-group";
 import { FileUploadInput } from "components/da-loan/ui/file-upload-input";
 import { Text } from "@sitecore-content-sdk/nextjs";
 

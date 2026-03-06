@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Button } from "components/da-loan/ui-premetive/button";
-import { Card, CardContent } from "components/da-loan/ui-premetive/card";
+import { Button } from "components/da-loan/ui-primitive/button";
+import { Card, CardContent } from "components/da-loan/ui-primitive/card";
 import { FileUploadInput } from "components/da-loan/ui/file-upload-input";
 import { IdentityDocument, type IdentityDocuments } from "components/da-loan/ui/identity-document";
 import { Text } from "@sitecore-content-sdk/nextjs";

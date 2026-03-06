@@ -2,10 +2,10 @@
 
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { ScrollArea } from "components/da-loan/ui-premetive/scroll-area";
-import { Checkbox } from "components/da-loan/ui-premetive/checkbox";
-import { Button } from "components/da-loan/ui-premetive/button";
-import { Label } from "components/da-loan/ui-premetive/label";
+import { ScrollArea } from "components/da-loan/ui-primitive/scroll-area";
+import { Checkbox } from "components/da-loan/ui-primitive/checkbox";
+import { Button } from "components/da-loan/ui-primitive/button";
+import { Label } from "components/da-loan/ui-primitive/label";
 import { Text, type TextField } from "@sitecore-content-sdk/nextjs";
 
 interface TermsModalInputProps

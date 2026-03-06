@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "components/da-loan/ui-premetive/button";
-import { Card, CardContent } from "components/da-loan/ui-premetive/card";
-import { Slider } from "components/da-loan/ui-premetive/slider";
+import { Button } from "components/da-loan/ui-primitive/button";
+import { Card, CardContent } from "components/da-loan/ui-primitive/card";
+import { Slider } from "components/da-loan/ui-primitive/slider";
 import { type LoanOffer } from "lib/schemas";
 import { useRouter } from "next/navigation";
 import { OfferComponentProps } from "src/types/Offer";

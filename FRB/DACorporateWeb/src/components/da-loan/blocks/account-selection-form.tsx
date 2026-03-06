@@ -8,9 +8,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "components/da-loan/ui/select";
-import { Input } from "components/da-loan/ui-premetive/input";
-import { Button } from "components/da-loan/ui-premetive/button";
-import { Label } from "components/da-loan/ui-premetive/label";
+import { Input } from "components/da-loan/ui-primitive/input";
+import { Button } from "components/da-loan/ui-primitive/button";
+import { Label } from "components/da-loan/ui-primitive/label";
 import { X } from "lucide-react";
 import { formatCurrency } from "lib/format";
 

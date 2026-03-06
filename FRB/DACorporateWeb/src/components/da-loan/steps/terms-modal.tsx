@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import type { CheckedState } from "@radix-ui/react-checkbox";
-import { ScrollArea } from "components/da-loan/ui-premetive/scroll-area";
-import { Checkbox } from "components/da-loan/ui-premetive/checkbox";
-import { Label } from "components/da-loan/ui-premetive/label";
-import { Button } from "components/da-loan/ui-premetive/button";
+import { ScrollArea } from "components/da-loan/ui-primitive/scroll-area";
+import { Checkbox } from "components/da-loan/ui-primitive/checkbox";
+import { Label } from "components/da-loan/ui-primitive/label";
+import { Button } from "components/da-loan/ui-primitive/button";
 import { Controller, type Control, type FieldErrors, type FieldValues, useWatch, type Path } from "react-hook-form";
 
 interface TermsModalProps<TFieldValues extends FieldValues> {

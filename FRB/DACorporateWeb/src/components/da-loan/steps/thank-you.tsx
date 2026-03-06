@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "components/da-loan/ui-premetive/button";
-import { Card, CardContent } from "components/da-loan/ui-premetive/card";
+import { Button } from "components/da-loan/ui-primitive/button";
+import { Card, CardContent } from "components/da-loan/ui-primitive/card";
 import { ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { ThankYouComponentProps } from "src/types/ThankYou";

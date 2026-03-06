@@ -11,9 +11,9 @@ import componentMap from '.sitecore/component-map';
 import { File, FileText, Image, X, CircleCheckIcon, InfoIcon, Loader2Icon, OctagonXIcon, TriangleAlertIcon, XIcon, CheckIcon, ChevronDownIcon, ChevronUpIcon, CircleIcon, ChevronRightIcon, ChevronLeft, ChevronRight, CircleHelp, Upload, CheckCircle2, HelpCircle, Info, ArrowRight, ChevronDown, ChevronUp, Building2, User, CreditCard, Mail, Phone, Home, FileCheck, Clock, Menu, Check, Save } from 'lucide-react';
 import * as LucideIcons from 'lucide-react';
 import { toast, Toaster } from 'sonner';
-import { Button } from 'components/da-loan/ui-premetive/button';
-import { Card, CardContent } from 'components/da-loan/ui-premetive/card';
-import { Progress } from 'components/da-loan/ui-premetive/progress';
+import { Button } from 'components/da-loan/ui-primitive/button';
+import { Card, CardContent } from 'components/da-loan/ui-primitive/card';
+import { Progress } from 'components/da-loan/ui-primitive/progress';
 import * as TooltipPrimitive from '@radix-ui/react-tooltip';
 import { cn } from 'lib/utils';
 import { useTheme } from 'next-themes';
@@ -29,26 +29,26 @@ import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
 import useEmblaCarousel from 'embla-carousel-react';
 import { Slot } from '@radix-ui/react-slot';
 import { cva } from 'class-variance-authority';
-import { Slider } from 'components/da-loan/ui-premetive/slider';
-import { Label } from 'components/da-loan/ui-premetive/label';
-import { RadioGroup, RadioGroupItem } from 'components/da-loan/ui-premetive/radio-group';
+import { Slider } from 'components/da-loan/ui-primitive/slider';
+import { Label } from 'components/da-loan/ui-primitive/label';
+import { RadioGroup, RadioGroupItem } from 'components/da-loan/ui-primitive/radio-group';
 import { FileUploadInput } from 'components/da-loan/ui/file-upload-input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from 'components/da-loan/ui/select';
-import { Tooltip, TooltipContent, TooltipTrigger } from 'src/components/da-loan/ui-premetive/tooltip';
+import { Tooltip, TooltipContent, TooltipTrigger } from 'components/da-loan/ui-primitive/tooltip';
 import { useRouter } from 'next/navigation';
-import { ScrollArea } from 'components/da-loan/ui-premetive/scroll-area';
-import { Checkbox } from 'components/da-loan/ui-premetive/checkbox';
+import { ScrollArea } from 'components/da-loan/ui-primitive/scroll-area';
+import { Checkbox } from 'components/da-loan/ui-primitive/checkbox';
 import { Controller, useForm, useWatch } from 'react-hook-form';
 import { DropDownList } from 'components/da-loan/ui/drop-down-list';
 import { StandardNumberInput } from 'components/da-loan/ui/standard-number-input';
 import { useJsApiLoader } from '@react-google-maps/api';
 import { StandardTextInput } from 'components/da-loan/ui/standard-text-input';
-import { Timer } from 'components/da-loan/ui-premetive/timer';
+import { Timer } from 'components/da-loan/ui-primitive/timer';
 import { StandardNumberInput as StandardNumberInput_f828539b62090e97a5826753effd80596838b726 } from 'src/components/da-loan/ui/standard-number-input';
 import Link_a258c208ba01265ca0aa9c7abae745cc7141aa63 from 'next/link';
 import reviewData from 'lib/review.json';
-import { Checkbox as Checkbox_2412d64d47050439b4c8c828d8666fb90e2da941 } from 'src/components/da-loan/ui-premetive/checkbox';
-import { Label as Label_65505704d617a7c76aeb19308ba7b751ba95b874 } from 'src/components/da-loan/ui-premetive/label';
+import { Checkbox as Checkbox_2412d64d47050439b4c8c828d8666fb90e2da941 } from 'components/da-loan/ui-primitive/checkbox';
+import { Label as Label_65505704d617a7c76aeb19308ba7b751ba95b874 } from 'components/da-loan/ui-primitive/label';
 import { RadioGroupWithIcon } from 'components/da-loan/ui/radio-group-with-icon';
 import { RadioGroup as RadioGroup_fe7f30ab2ac350afceb40375b326155b191dbbb4 } from 'components/da-loan/ui/radio-group-input';
 import { IdentityDocument } from 'components/da-loan/ui/identity-document';
@@ -56,10 +56,10 @@ import { Alert } from 'src/components/da-loan/ui/alert';
 import { RangeSlider } from 'components/da-loan/ui/range-slider';
 import { IncomeInput } from 'src/components/da-loan/ui/income-input';
 import Image_5d8ce56058442d94361877e28c501c951a554a6a from 'next/image';
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetClose } from 'components/da-loan/ui-premetive/sheet';
-import { Logo } from 'components/da-loan/ui-premetive/logo';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from 'components/da-loan/ui-premetive/dropdown-menu';
-import { Carousel, CarouselContent, CarouselItem, CarouselPagination } from 'components/da-loan/ui-premetive/carousel';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetClose } from 'components/da-loan/ui-primitive/sheet';
+import { Logo } from 'components/da-loan/ui-primitive/logo';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from 'components/da-loan/ui-primitive/dropdown-menu';
+import { Carousel, CarouselContent, CarouselItem, CarouselPagination } from 'components/da-loan/ui-primitive/carousel';
 import Autoplay from 'embla-carousel-autoplay';
 import { DesktopNavigation, MobileMenuButton } from 'components/da-loan/layout/navigation-menu/navigation-menu';
 import client from 'src/lib/sitecore-client';
@@ -148,20 +148,20 @@ const importMap = [
     ]
   },
   {
-    module: 'components/da-loan/ui-premetive/button',
+    module: 'components/da-loan/ui-primitive/button',
     exports: [
       { name: 'Button', value: Button },
     ]
   },
   {
-    module: 'components/da-loan/ui-premetive/card',
+    module: 'components/da-loan/ui-primitive/card',
     exports: [
       { name: 'Card', value: Card },
       { name: 'CardContent', value: CardContent },
     ]
   },
   {
-    module: 'components/da-loan/ui-premetive/progress',
+    module: 'components/da-loan/ui-primitive/progress',
     exports: [
       { name: 'Progress', value: Progress },
     ]
@@ -257,19 +257,19 @@ const importMap = [
     ]
   },
   {
-    module: 'components/da-loan/ui-premetive/slider',
+    module: 'components/da-loan/ui-primitive/slider',
     exports: [
       { name: 'Slider', value: Slider },
     ]
   },
   {
-    module: 'components/da-loan/ui-premetive/label',
+    module: 'components/da-loan/ui-primitive/label',
     exports: [
       { name: 'Label', value: Label },
     ]
   },
   {
-    module: 'components/da-loan/ui-premetive/radio-group',
+    module: 'components/da-loan/ui-primitive/radio-group',
     exports: [
       { name: 'RadioGroup', value: RadioGroup },
       { name: 'RadioGroupItem', value: RadioGroupItem },
@@ -282,7 +282,7 @@ const importMap = [
     ]
   },
   {
-    module: 'src/components/da-loan/ui-premetive/select',
+    module: 'src/components/da-loan/ui-primitive/select',
     exports: [
       { name: 'Select', value: Select },
       { name: 'SelectContent', value: SelectContent },
@@ -292,7 +292,7 @@ const importMap = [
     ]
   },
   {
-    module: 'src/components/da-loan/ui-premetive/tooltip',
+    module: 'src/components/da-loan/ui-primitive/tooltip',
     exports: [
       { name: 'Tooltip', value: Tooltip },
       { name: 'TooltipContent', value: TooltipContent },
@@ -306,13 +306,13 @@ const importMap = [
     ]
   },
   {
-    module: 'components/da-loan/ui-premetive/scroll-area',
+    module: 'components/da-loan/ui-primitive/scroll-area',
     exports: [
       { name: 'ScrollArea', value: ScrollArea },
     ]
   },
   {
-    module: 'components/da-loan/ui-premetive/checkbox',
+    module: 'components/da-loan/ui-primitive/checkbox',
     exports: [
       { name: 'Checkbox', value: Checkbox },
     ]
@@ -350,7 +350,7 @@ const importMap = [
     ]
   },
   {
-    module: 'components/da-loan/ui-premetive/timer',
+    module: 'components/da-loan/ui-primitive/timer',
     exports: [
       { name: 'Timer', value: Timer },
     ]
@@ -374,13 +374,13 @@ const importMap = [
     ]
   },
   {
-    module: 'src/components/da-loan/ui-premetive/checkbox',
+    module: 'src/components/da-loan/ui-primitive/checkbox',
     exports: [
       { name: 'Checkbox', value: Checkbox_2412d64d47050439b4c8c828d8666fb90e2da941 },
     ]
   },
   {
-    module: 'src/components/da-loan/ui-premetive/label',
+    module: 'src/components/da-loan/ui-primitive/label',
     exports: [
       { name: 'Label', value: Label_65505704d617a7c76aeb19308ba7b751ba95b874 },
     ]
@@ -428,7 +428,7 @@ const importMap = [
     ]
   },
   {
-    module: 'components/da-loan/ui-premetive/sheet',
+    module: 'components/da-loan/ui-primitive/sheet',
     exports: [
       { name: 'Sheet', value: Sheet },
       { name: 'SheetContent', value: SheetContent },
@@ -439,13 +439,13 @@ const importMap = [
     ]
   },
   {
-    module: 'components/da-loan/ui-premetive/logo',
+    module: 'components/da-loan/ui-primitive/logo',
     exports: [
       { name: 'Logo', value: Logo },
     ]
   },
   {
-    module: 'components/da-loan/ui-premetive/dropdown-menu',
+    module: 'components/da-loan/ui-primitive/dropdown-menu',
     exports: [
       { name: 'DropdownMenu', value: DropdownMenu },
       { name: 'DropdownMenuContent', value: DropdownMenuContent },
@@ -454,7 +454,7 @@ const importMap = [
     ]
   },
   {
-    module: 'components/da-loan/ui-premetive/carousel',
+    module: 'components/da-loan/ui-primitive/carousel',
     exports: [
       { name: 'Carousel', value: Carousel },
       { name: 'CarouselContent', value: CarouselContent },

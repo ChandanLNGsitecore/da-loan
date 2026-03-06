@@ -3,13 +3,13 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { cellphoneSchema, type Cellphone } from "lib/schemas";
-import { Input } from "components/da-loan/ui-premetive/input";
-import { Card, CardContent } from "components/da-loan/ui-premetive/card";
+import { Input } from "components/da-loan/ui-primitive/input";
+import { Card, CardContent } from "components/da-loan/ui-primitive/card";
 import { ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { Button } from "components/da-loan/ui-premetive/button";
+import { Button } from "components/da-loan/ui-primitive/button";
 
-import { Timer } from "components/da-loan/ui-premetive/timer";
+import { Timer } from "components/da-loan/ui-primitive/timer";
 import { ConfirmCellPhoneComponentProps } from 'src/types/ConfirmCellPhone';
 import { StandardNumberInput } from "../ui/standard-number-input";
 import {	
