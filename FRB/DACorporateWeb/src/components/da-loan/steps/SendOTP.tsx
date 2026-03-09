@@ -12,6 +12,7 @@ import { SendOTPComponentProps } from "src/types/SendOTP";
 
 import { useState } from "react";
 import { Input } from "../ui-primitive/input";
+import Page from "src/app/[site]/[locale]/[[...path]]/page";
 
 // Utility function to convert string regex to RegExp
 const getRegex = (regexString?: string): RegExp | undefined => {
@@ -43,10 +44,19 @@ export const Default = (props: SendOTPComponentProps) => {
 	const canSendEmail = emailRegex.test(email);
 
 	const handleSend = (method: 'cellphone' | 'email') => {
+
+		if(props.page.mode.isEditing)
+		{
+			
+				return;
+		}
+		
 		setSentMethod(method);
 		
 		// Save method and values to localStorage for OTP verification page
 		localStorage.setItem('otpMethod', method);
+		
+
 		
 		const href = props.fields?.SendLink?.value?.href;
 		if (href) {
