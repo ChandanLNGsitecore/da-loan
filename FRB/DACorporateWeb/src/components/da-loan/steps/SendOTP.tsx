@@ -28,24 +28,26 @@ const getRegex = (regexString?: string): RegExp | undefined => {
 export const Default = (props: SendOTPComponentProps) => {
 	const router = useRouter();
 	
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-		clearErrors,
-	} = useForm({
-		mode: "onSubmit",
-		reValidateMode: "onChange",
-		defaultValues: {
-			cellphone: "",
-			email: ""
-		},
-	});
+
 
 	const [sentMethod, setSentMethod] = useState<'cellphone' | 'email' | null>(null);
+	const [cellphone, setCellphone] = useState("0681784569");
+	const [email, setEmail] = useState("chandan.kumar@lngconsultancy.co.in");
+
+	// Validate cellphone format
+	const cellphoneRegex = getRegex(props.fields?.CellPhone_ValidationRegex?.value?.toString());
+	const canSendCellphone = cellphoneRegex ? cellphoneRegex.test(cellphone) : cellphone.length >= 10;
+
+	// Validate email format
+	const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+	const canSendEmail = emailRegex.test(email);
 
 	const handleSend = (method: 'cellphone' | 'email') => {
 		setSentMethod(method);
+		
+		// Save method and values to localStorage for OTP verification page
+		localStorage.setItem('otpMethod', method);
+		
 		
 		if (method === 'cellphone') {
 			const href = props.fields?.SendCellPhoneLink?.value?.href;
@@ -80,16 +82,16 @@ export const Default = (props: SendOTPComponentProps) => {
 						<div className="flex gap-2">
 							<Input
 								id="cellphone"
-								readOnly
-							
-								value="8105911372"
+								disabled={!canSendCellphone}
+							readOnly
+							value={cellphone}
 								placeholder={props.fields?.CellPhone_Placeholder?.value?.toString() || "E.g. 079 343 2356"}
 								className="text-lg font-medium text-left py-4"
 							/>
 							<Button
 								type="button"
 								onClick={() => handleSend("cellphone")}
-							
+								disabled={!canSendCellphone}
 								variant="outline"
 								className="bg-[#2c5f5d] hover:bg-[#234a48] text-white py-6 text-base font-medium"
 							>
@@ -106,21 +108,21 @@ export const Default = (props: SendOTPComponentProps) => {
 							<Text field={props.fields?.Email_Label} />
 						</label>
 						<div className="flex gap-2">
-						<Input
-							id="email"
-							readOnly
-						
-							value="chandan.kumar@lngconsultancy.co.in"
-							placeholder={props.fields?.Email_Placeholder?.value?.toString() || "No email provided"}
-							className="text-lg font-medium text-left py-4"
-						/>
-						<Button
-							type="button"
-							onClick={() => handleSend("email")}
-							
-							variant="outline"
-							className="bg-[#2c5f5d] hover:bg-[#234a48] text-white py-6 text-base font-medium"
-						>
+							<Input
+								id="email"
+								disabled={!canSendEmail}
+								readOnly
+								value={email}
+								placeholder={props.fields?.Email_Placeholder?.value?.toString() || "No email provided"}
+								className="text-lg font-medium text-left py-4"
+							/>
+							<Button
+								type="button"
+								onClick={() => handleSend("email")}
+								disabled={!canSendEmail}
+								variant="outline"
+								className="bg-[#2c5f5d] hover:bg-[#234a48] text-white py-6 text-base font-medium"
+							>
 								{props.fields?.SendEmailLink.value.text}
 							</Button>
 						</div>
