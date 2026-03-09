@@ -48,13 +48,9 @@ export const Default = (props: SendOTPComponentProps) => {
 		// Save method and values to localStorage for OTP verification page
 		localStorage.setItem('otpMethod', method);
 		
-		
-		if (method === 'cellphone') {
-			const href = props.fields?.SendCellPhoneLink?.value?.href;
-			if (href) router.push(href);
-		} else if (method === 'email') {
-			const href = props.fields?.SendEmailLink?.value?.href;
-			if (href) router.push(href);
+		const href = props.fields?.SendLink?.value?.href;
+		if (href) {
+			router.push(href);
 		}
 	};
 
@@ -95,7 +91,7 @@ export const Default = (props: SendOTPComponentProps) => {
 								variant="outline"
 								className="bg-[#2c5f5d] hover:bg-[#234a48] text-white py-6 text-base font-medium"
 							>
-								{props.fields?.SendCellPhoneLink?.value?.text}
+								<Text field={props.fields?.SendCellphoneBtnTxt} />
 							</Button>
 						</div>
 						{sentMethod === "cellphone" && (
@@ -123,7 +119,7 @@ export const Default = (props: SendOTPComponentProps) => {
 								variant="outline"
 								className="bg-[#2c5f5d] hover:bg-[#234a48] text-white py-6 text-base font-medium"
 							>
-								{props.fields?.SendEmailLink.value.text}
+								<Text field={props.fields?.SendEmailBtnTxt} />
 							</Button>
 						</div>
 						{sentMethod === "email" && <p className="text-sm text-green-600 text-center"><Text field={props.fields?.SendEmailMessage} /></p>}

@@ -118,6 +118,9 @@ export interface ISendOTP {
   SendEmailMessage: TextField;
 
 
-  SendCellPhoneLink: LinkField;
-  SendEmailLink: LinkField;
+  SendLink: LinkField;
+
+SendCellphoneBtnTxt: TextField;
+SendEmailBtnTxt: TextField;
+  
 }
