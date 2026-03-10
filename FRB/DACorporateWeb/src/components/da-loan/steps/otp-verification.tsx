@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { Button } from "components/da-loan/ui-primitive/button";
 import { Card, CardContent } from "components/da-loan/ui-primitive/card";
 import { Timer } from "components/da-loan/ui-primitive/timer";
@@ -13,6 +13,7 @@ import {
   Text as ContentSdkText,
 } from "@sitecore-content-sdk/nextjs";
 import { ComponentProps } from "lib/component-props";
+import { InputOTP, InputOTPGroup, InputOTPSlot } from "components/da-loan/ui-primitive/input-otp";
 
 export type OTPVerificationProps = ComponentProps & {
   fields: {
@@ -57,11 +58,12 @@ export const Default = (props: OTPVerificationProps) => {
 
   const [countdown, setCountdown] = useState(45);
   const [canResend, setCanResend] = useState(false);
-  const [cellphone, setCellphone] = useState<string | null>(null);
+  const [contactValue, setContactValue] = useState<string | null>(null);
+  const [otpMethod, setOtpMethod] = useState<'cellphone' | 'email' | null>(null);
   const [isEditorMode, setIsEditorMode] = useState(false);
 
   const {
-    register,
+    control,
     handleSubmit,
     formState: { errors },
   } = useForm({
@@ -83,8 +85,10 @@ export const Default = (props: OTPVerificationProps) => {
   }, [countdown, canResend]);
 
   useEffect(() => {
-    const storedCellphone = localStorage.getItem("cellphone");
-    setCellphone(storedCellphone);
+    const storedContactValue = localStorage.getItem("otpContactValue");
+    const storedMethod = localStorage.getItem("otpMethod") as "cellphone" | "email" | null;
+    setContactValue(storedContactValue);
+    setOtpMethod(storedMethod);
   }, []);
 
   useEffect(() => {
@@ -129,40 +133,61 @@ export const Default = (props: OTPVerificationProps) => {
         </h2>
 
         <p className="text-center text-gray-600 text-sm">
-          <ContentSdkText field={props.fields?.JourneyStep_SubHeading} />
+          {props.fields?.JourneyStep_SubHeading?.value?.toString() ? (
+            <>
+              {props.fields?.JourneyStep_SubHeading?.value?.toString()}
+              {otpMethod ? ` ${otpMethod}` : ""}
+            </>
+          ) : (
+            <ContentSdkText field={props.fields?.JourneyStep_SubHeading} />
+          )}
         </p>
 
-        <p className="text-center text-gray-800 font-semibold">{cellphone}</p>
+        <p className="text-center text-gray-800 font-semibold">{contactValue}</p>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          <StandardNumberInput
-            {...register("otp", {
-              required:
-                props.fields?.OTP_ValidationErrorMessage?.value?.toString() ||
-                "OTP is required",
-              pattern: {
-                value:
-                  getRegex(
-                    props.fields?.OTP_ValidationRegex?.value?.toString(),
-                  ) || /^\d{6}$/,
-                message:
-                  props.fields?.OTP_ValidationErrorMessage?.value?.toString() ||
-                  "Invalid OTP format",
-              },
-            })}
-            label={props.fields?.OTP_Label}
-            placeholder={props.fields?.OTP_Placeholder?.value?.toString()}
-            type="text"
-            maxLength={6}
-            inputRegex={getRegex(
-              props.fields?.OTP_ValidationRegex?.value?.toString(),
-            )}
-            formatErrorMessage={props.fields?.OTP_ValidationErrorMessage?.value?.toString()}
-            containerClassName="space-y-2"
-            labelContainerClassName="flex items-center gap-2"
-            labelClassName="text-sm text-gray-800"
-            error={errors.otp?.message as string}
-          />
+          <div className="space-y-2 flex justify-center flex-col items-center">
+						<label htmlFor="otp" className="text-sm font-medium text-gray-800">
+							Enter OTP
+						</label>
+						<Controller
+							control={control}
+							name="otp"
+							rules={{
+								required:
+									props.fields?.OTP_ValidationErrorMessage?.value?.toString() ||
+									"OTP is required",
+								pattern: {
+									value:
+										getRegex(props.fields?.OTP_ValidationRegex?.value?.toString()) ||
+										/^[0-9]{6}$/,
+									message:
+										props.fields?.OTP_ValidationErrorMessage?.value?.toString() ||
+										"Invalid OTP format",
+								},
+							}}
+							render={({ field }) => (
+								<InputOTP
+									id="otp"
+									maxLength={6}
+									value={field.value ?? ""}
+									onChange={field.onChange}
+									inputMode="numeric"
+									autoComplete="one-time-password"
+								>
+									<InputOTPGroup>
+										<InputOTPSlot index={0} />
+										<InputOTPSlot index={1} />
+										<InputOTPSlot index={2} />
+										<InputOTPSlot index={3} />
+										<InputOTPSlot index={4} />
+										<InputOTPSlot index={5} />
+									</InputOTPGroup>
+								</InputOTP>
+							)}
+						/>
+						{errors.otp && <p className="text-sm text-red-500">{errors.otp.message}</p>}
+					</div>
           <Button
             type={isEditorMode ? "button" : "submit"}
             className="w-full bg-[#2c5f5d] hover:bg-[#234a48] text-white py-6 text-base font-medium"

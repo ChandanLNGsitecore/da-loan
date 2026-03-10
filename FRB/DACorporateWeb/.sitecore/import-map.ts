@@ -3,12 +3,12 @@
 import { combineImportEntries, defaultImportEntries } from '@sitecore-content-sdk/nextjs/codegen';
 // end of built-in imports
 
-import { useState, useRef, forwardRef, useEffect } from 'react';
+import { useState, useRef, useEffect, forwardRef, useCallback } from 'react';
 import React from 'react';
 import * as React_7214d18997ee864dd178de7b3a8430f6783e8b89 from 'react';
-import { Link, Text, AppPlaceholder, RichText, NextImage, useSitecore, Image as Image_8a80e63291fea86e0744df19113dc44bec187216, CdpHelper, withDatasourceCheck } from '@sitecore-content-sdk/nextjs';
+import { Link, Text, AppPlaceholder, RichText, NextImage, useSitecore, CdpHelper, withDatasourceCheck } from '@sitecore-content-sdk/nextjs';
 import componentMap from '.sitecore/component-map';
-import { File, FileText, Image, X, CircleCheckIcon, InfoIcon, Loader2Icon, OctagonXIcon, TriangleAlertIcon, XIcon, CheckIcon, ChevronDownIcon, ChevronUpIcon, CircleIcon, ChevronRightIcon, ChevronLeft, ChevronRight, CircleHelp, Upload, CheckCircle2, HelpCircle, Info, ArrowRight, ChevronDown, ChevronUp, Building2, User, CreditCard, Mail, Phone, Home, FileCheck, Clock, Menu, Check, Save } from 'lucide-react';
+import { File, FileText, Image, X, CircleCheckIcon, InfoIcon, Loader2Icon, OctagonXIcon, TriangleAlertIcon, XIcon, CircleIcon, Dot, CheckIcon, ChevronRightIcon, ChevronLeft, ChevronRight, CircleHelp, ChevronDownIcon, ChevronUpIcon, Upload, CheckCircle2, HelpCircle, Info, ArrowRight, ChevronDown, ChevronUp, Building2, User, CreditCard, Mail, Phone, Home, FileCheck, Clock, Menu, Check, Save, Star, Heart, UploadCloud, Wallet, Calendar, TrendingDown, Shield } from 'lucide-react';
 import * as LucideIcons from 'lucide-react';
 import { toast, Toaster } from 'sonner';
 import { Button } from 'components/da-loan/ui-primitive/button';
@@ -19,49 +19,74 @@ import { cn } from 'lib/utils';
 import { useTheme } from 'next-themes';
 import * as SliderPrimitive from '@radix-ui/react-slider';
 import * as SheetPrimitive from '@radix-ui/react-dialog';
-import * as SelectPrimitive from '@radix-ui/react-select';
 import * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
 import * as ProgressPrimitive from '@radix-ui/react-progress';
 import * as LabelPrimitive from '@radix-ui/react-label';
+import { OTPInput, OTPInputContext } from 'input-otp';
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu';
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
 import useEmblaCarousel from 'embla-carousel-react';
 import { Slot } from '@radix-ui/react-slot';
 import { cva } from 'class-variance-authority';
-import { Slider } from 'components/da-loan/ui-primitive/slider';
-import { Label } from 'components/da-loan/ui-primitive/label';
-import { RadioGroup, RadioGroupItem } from 'components/da-loan/ui-primitive/radio-group';
-import { FileUploadInput } from 'components/da-loan/ui/file-upload-input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from 'components/da-loan/ui/select';
-import { Tooltip, TooltipContent, TooltipTrigger } from 'components/da-loan/ui-primitive/tooltip';
-import { useRouter } from 'next/navigation';
 import { ScrollArea } from 'components/da-loan/ui-primitive/scroll-area';
 import { Checkbox } from 'components/da-loan/ui-primitive/checkbox';
-import { Controller, useForm, useWatch } from 'react-hook-form';
+import { Label } from 'components/da-loan/ui-primitive/label';
+import * as SelectPrimitive from '@radix-ui/react-select';
+import { Slider } from 'components/da-loan/ui-primitive/slider';
+import { RadioGroup, RadioGroupItem } from 'components/da-loan/ui-primitive/radio-group';
+import { FileUploadInput } from 'components/da-loan/ui/file-upload-input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from 'src/components/da-loan/ui/select';
+import { Tooltip, TooltipContent, TooltipTrigger } from 'src/components/da-loan/ui-primitive/tooltip';
+import { useRouter, usePathname } from 'next/navigation';
+import { Controller, useWatch, useForm } from 'react-hook-form';
+import { Input } from 'src/components/da-loan/ui-primitive/input';
 import { DropDownList } from 'components/da-loan/ui/drop-down-list';
 import { StandardNumberInput } from 'components/da-loan/ui/standard-number-input';
 import { useJsApiLoader } from '@react-google-maps/api';
 import { StandardTextInput } from 'components/da-loan/ui/standard-text-input';
 import { Timer } from 'components/da-loan/ui-primitive/timer';
-import { StandardNumberInput as StandardNumberInput_f828539b62090e97a5826753effd80596838b726 } from 'src/components/da-loan/ui/standard-number-input';
+import { InputOTP, InputOTPGroup, InputOTPSlot } from 'components/da-loan/ui-primitive/input-otp';
 import Link_a258c208ba01265ca0aa9c7abae745cc7141aa63 from 'next/link';
 import reviewData from 'lib/review.json';
-import { Checkbox as Checkbox_2412d64d47050439b4c8c828d8666fb90e2da941 } from 'components/da-loan/ui-primitive/checkbox';
-import { Label as Label_65505704d617a7c76aeb19308ba7b751ba95b874 } from 'components/da-loan/ui-primitive/label';
+import { Checkbox as Checkbox_2c4d13020f25f489036348d2403a7f26aaedb81d } from 'src/components/da-loan/ui-primitive/checkbox';
+import { Label as Label_8ae250ca92c322e6a449d8adec73c03cf6b26442 } from 'src/components/da-loan/ui-primitive/label';
 import { RadioGroupWithIcon } from 'components/da-loan/ui/radio-group-with-icon';
 import { RadioGroup as RadioGroup_fe7f30ab2ac350afceb40375b326155b191dbbb4 } from 'components/da-loan/ui/radio-group-input';
 import { IdentityDocument } from 'components/da-loan/ui/identity-document';
+import { StandardNumberInput as StandardNumberInput_f828539b62090e97a5826753effd80596838b726 } from 'src/components/da-loan/ui/standard-number-input';
 import { Alert } from 'src/components/da-loan/ui/alert';
+import { formatCurrency, formatPercentage } from 'lib/format';
 import { RangeSlider } from 'components/da-loan/ui/range-slider';
-import { IncomeInput } from 'src/components/da-loan/ui/income-input';
+import { TermsModalInput } from 'components/da-loan/ui/terms-modal-input';
+import { SouthAfricanIDInput, validateSouthAfricanID } from 'components/da-loan/ui/south-african-id-input';
+import { IncomeInput } from 'components/da-loan/ui/income-input';
+import { IncomeInput as IncomeInput_24b3169fe3ee539e8d45512dc2dfe583feecac17 } from 'src/components/da-loan/ui/income-input';
 import Image_5d8ce56058442d94361877e28c501c951a554a6a from 'next/image';
+import { LoanCalculator } from 'components/da-loan/blocks/loan-calculator';
+import { ConsolidationCalculator } from 'components/da-loan/blocks/consolidation-calculator';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Input as Input_849d1c78d50a3e8698b64091f7b49054601f2a35 } from 'components/da-loan/ui-primitive/input';
+import { pulseRegistrationSchema } from 'lib/schemas';
+import { LoanProductsBlock } from 'components/da-loan/blocks/loan-products-block';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetClose } from 'components/da-loan/ui-primitive/sheet';
 import { Logo } from 'components/da-loan/ui-primitive/logo';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from 'components/da-loan/ui-primitive/dropdown-menu';
+import { PromoCard } from 'components/da-loan/blocks/promo-card';
+import { LoanApplicationFlowAlt } from 'components/da-loan/layout/loan-application-flow-alt/loan-application-flow-alt';
 import { Carousel, CarouselContent, CarouselItem, CarouselPagination } from 'components/da-loan/ui-primitive/carousel';
 import Autoplay from 'embla-carousel-autoplay';
 import { DesktopNavigation, MobileMenuButton } from 'components/da-loan/layout/navigation-menu/navigation-menu';
+import { directTalkTopics } from 'src/components/da-loan/layout/direct-talk/topics-data';
+import { ConsolidationBenefits } from 'components/da-loan/blocks/consolidation-benefits';
+import { FAQAccordion } from 'components/da-loan/blocks/faq-accordion';
+import { OfferSlider } from 'components/da-loan/blocks/offer-slider';
+import { useIsInView } from 'hooks/use-is-in-view';
+import { LoanSlider } from 'src/components/da-loan/blocks/slider-component';
+import { LoanSummary } from 'src/components/da-loan/blocks/loan-summary';
+import { AccountSelectionForm } from 'src/components/da-loan/blocks/account-selection-form';
+import { ConsolidationSummary } from 'src/components/da-loan/blocks/consolidation-summary';
+import { Select as Select_87560054f54a6d1e822ff059c9b85315bc1265a4, SelectContent as SelectContent_87560054f54a6d1e822ff059c9b85315bc1265a4, SelectItem as SelectItem_87560054f54a6d1e822ff059c9b85315bc1265a4, SelectTrigger as SelectTrigger_87560054f54a6d1e822ff059c9b85315bc1265a4, SelectValue as SelectValue_87560054f54a6d1e822ff059c9b85315bc1265a4 } from 'components/da-loan/ui/select';
 import client from 'src/lib/sitecore-client';
 import { pageView } from '@sitecore-cloudsdk/events/browser';
 import config from 'sitecore.config';
@@ -72,8 +97,9 @@ const importMap = [
     exports: [
       { name: 'useState', value: useState },
       { name: 'useRef', value: useRef },
-      { name: 'forwardRef', value: forwardRef },
       { name: 'useEffect', value: useEffect },
+      { name: 'forwardRef', value: forwardRef },
+      { name: 'useCallback', value: useCallback },
       { name: 'default', value: React },
       { name: '*', value: React_7214d18997ee864dd178de7b3a8430f6783e8b89 },
     ]
@@ -87,7 +113,6 @@ const importMap = [
       { name: 'RichText', value: RichText },
       { name: 'NextImage', value: NextImage },
       { name: 'useSitecore', value: useSitecore },
-      { name: 'Image', value: Image_8a80e63291fea86e0744df19113dc44bec187216 },
       { name: 'CdpHelper', value: CdpHelper },
       { name: 'withDatasourceCheck', value: withDatasourceCheck },
     ]
@@ -111,14 +136,15 @@ const importMap = [
       { name: 'OctagonXIcon', value: OctagonXIcon },
       { name: 'TriangleAlertIcon', value: TriangleAlertIcon },
       { name: 'XIcon', value: XIcon },
-      { name: 'CheckIcon', value: CheckIcon },
-      { name: 'ChevronDownIcon', value: ChevronDownIcon },
-      { name: 'ChevronUpIcon', value: ChevronUpIcon },
       { name: 'CircleIcon', value: CircleIcon },
+      { name: 'Dot', value: Dot },
+      { name: 'CheckIcon', value: CheckIcon },
       { name: 'ChevronRightIcon', value: ChevronRightIcon },
       { name: 'ChevronLeft', value: ChevronLeft },
       { name: 'ChevronRight', value: ChevronRight },
       { name: 'CircleHelp', value: CircleHelp },
+      { name: 'ChevronDownIcon', value: ChevronDownIcon },
+      { name: 'ChevronUpIcon', value: ChevronUpIcon },
       { name: 'Upload', value: Upload },
       { name: 'CheckCircle2', value: CheckCircle2 },
       { name: 'HelpCircle', value: HelpCircle },
@@ -137,6 +163,13 @@ const importMap = [
       { name: 'Menu', value: Menu },
       { name: 'Check', value: Check },
       { name: 'Save', value: Save },
+      { name: 'Star', value: Star },
+      { name: 'Heart', value: Heart },
+      { name: 'UploadCloud', value: UploadCloud },
+      { name: 'Wallet', value: Wallet },
+      { name: 'Calendar', value: Calendar },
+      { name: 'TrendingDown', value: TrendingDown },
+      { name: 'Shield', value: Shield },
       { name: '*', value: LucideIcons },
     ]
   },
@@ -197,12 +230,6 @@ const importMap = [
     ]
   },
   {
-    module: '@radix-ui/react-select',
-    exports: [
-      { name: '*', value: SelectPrimitive },
-    ]
-  },
-  {
     module: '@radix-ui/react-scroll-area',
     exports: [
       { name: '*', value: ScrollAreaPrimitive },
@@ -224,6 +251,13 @@ const importMap = [
     module: '@radix-ui/react-label',
     exports: [
       { name: '*', value: LabelPrimitive },
+    ]
+  },
+  {
+    module: 'input-otp',
+    exports: [
+      { name: 'OTPInput', value: OTPInput },
+      { name: 'OTPInputContext', value: OTPInputContext },
     ]
   },
   {
@@ -257,15 +291,33 @@ const importMap = [
     ]
   },
   {
-    module: 'components/da-loan/ui-primitive/slider',
+    module: 'components/da-loan/ui-primitive/scroll-area',
     exports: [
-      { name: 'Slider', value: Slider },
+      { name: 'ScrollArea', value: ScrollArea },
+    ]
+  },
+  {
+    module: 'components/da-loan/ui-primitive/checkbox',
+    exports: [
+      { name: 'Checkbox', value: Checkbox },
     ]
   },
   {
     module: 'components/da-loan/ui-primitive/label',
     exports: [
       { name: 'Label', value: Label },
+    ]
+  },
+  {
+    module: '@radix-ui/react-select',
+    exports: [
+      { name: '*', value: SelectPrimitive },
+    ]
+  },
+  {
+    module: 'components/da-loan/ui-primitive/slider',
+    exports: [
+      { name: 'Slider', value: Slider },
     ]
   },
   {
@@ -282,7 +334,7 @@ const importMap = [
     ]
   },
   {
-    module: 'src/components/da-loan/ui-primitive/select',
+    module: 'src/components/da-loan/ui/select',
     exports: [
       { name: 'Select', value: Select },
       { name: 'SelectContent', value: SelectContent },
@@ -303,26 +355,21 @@ const importMap = [
     module: 'next/navigation',
     exports: [
       { name: 'useRouter', value: useRouter },
-    ]
-  },
-  {
-    module: 'components/da-loan/ui-primitive/scroll-area',
-    exports: [
-      { name: 'ScrollArea', value: ScrollArea },
-    ]
-  },
-  {
-    module: 'components/da-loan/ui-primitive/checkbox',
-    exports: [
-      { name: 'Checkbox', value: Checkbox },
+      { name: 'usePathname', value: usePathname },
     ]
   },
   {
     module: 'react-hook-form',
     exports: [
       { name: 'Controller', value: Controller },
-      { name: 'useForm', value: useForm },
       { name: 'useWatch', value: useWatch },
+      { name: 'useForm', value: useForm },
+    ]
+  },
+  {
+    module: 'src/components/da-loan/ui-primitive/input',
+    exports: [
+      { name: 'Input', value: Input },
     ]
   },
   {
@@ -356,9 +403,11 @@ const importMap = [
     ]
   },
   {
-    module: 'src/components/da-loan/ui/standard-number-input',
+    module: 'components/da-loan/ui-primitive/input-otp',
     exports: [
-      { name: 'StandardNumberInput', value: StandardNumberInput_f828539b62090e97a5826753effd80596838b726 },
+      { name: 'InputOTP', value: InputOTP },
+      { name: 'InputOTPGroup', value: InputOTPGroup },
+      { name: 'InputOTPSlot', value: InputOTPSlot },
     ]
   },
   {
@@ -376,13 +425,13 @@ const importMap = [
   {
     module: 'src/components/da-loan/ui-primitive/checkbox',
     exports: [
-      { name: 'Checkbox', value: Checkbox_2412d64d47050439b4c8c828d8666fb90e2da941 },
+      { name: 'Checkbox', value: Checkbox_2c4d13020f25f489036348d2403a7f26aaedb81d },
     ]
   },
   {
     module: 'src/components/da-loan/ui-primitive/label',
     exports: [
-      { name: 'Label', value: Label_65505704d617a7c76aeb19308ba7b751ba95b874 },
+      { name: 'Label', value: Label_8ae250ca92c322e6a449d8adec73c03cf6b26442 },
     ]
   },
   {
@@ -404,9 +453,22 @@ const importMap = [
     ]
   },
   {
+    module: 'src/components/da-loan/ui/standard-number-input',
+    exports: [
+      { name: 'StandardNumberInput', value: StandardNumberInput_f828539b62090e97a5826753effd80596838b726 },
+    ]
+  },
+  {
     module: 'src/components/da-loan/ui/alert',
     exports: [
       { name: 'Alert', value: Alert },
+    ]
+  },
+  {
+    module: 'lib/format',
+    exports: [
+      { name: 'formatCurrency', value: formatCurrency },
+      { name: 'formatPercentage', value: formatPercentage },
     ]
   },
   {
@@ -416,15 +478,70 @@ const importMap = [
     ]
   },
   {
-    module: 'src/components/da-loan/ui/income-input',
+    module: 'components/da-loan/ui/terms-modal-input',
+    exports: [
+      { name: 'TermsModalInput', value: TermsModalInput },
+    ]
+  },
+  {
+    module: 'components/da-loan/ui/south-african-id-input',
+    exports: [
+      { name: 'SouthAfricanIDInput', value: SouthAfricanIDInput },
+      { name: 'validateSouthAfricanID', value: validateSouthAfricanID },
+    ]
+  },
+  {
+    module: 'components/da-loan/ui/income-input',
     exports: [
       { name: 'IncomeInput', value: IncomeInput },
+    ]
+  },
+  {
+    module: 'src/components/da-loan/ui/income-input',
+    exports: [
+      { name: 'IncomeInput', value: IncomeInput_24b3169fe3ee539e8d45512dc2dfe583feecac17 },
     ]
   },
   {
     module: 'next/image',
     exports: [
       { name: 'default', value: Image_5d8ce56058442d94361877e28c501c951a554a6a },
+    ]
+  },
+  {
+    module: 'components/da-loan/blocks/loan-calculator',
+    exports: [
+      { name: 'LoanCalculator', value: LoanCalculator },
+    ]
+  },
+  {
+    module: 'components/da-loan/blocks/consolidation-calculator',
+    exports: [
+      { name: 'ConsolidationCalculator', value: ConsolidationCalculator },
+    ]
+  },
+  {
+    module: '@hookform/resolvers/zod',
+    exports: [
+      { name: 'zodResolver', value: zodResolver },
+    ]
+  },
+  {
+    module: 'components/da-loan/ui-primitive/input',
+    exports: [
+      { name: 'Input', value: Input_849d1c78d50a3e8698b64091f7b49054601f2a35 },
+    ]
+  },
+  {
+    module: 'lib/schemas',
+    exports: [
+      { name: 'pulseRegistrationSchema', value: pulseRegistrationSchema },
+    ]
+  },
+  {
+    module: 'components/da-loan/blocks/loan-products-block',
+    exports: [
+      { name: 'LoanProductsBlock', value: LoanProductsBlock },
     ]
   },
   {
@@ -454,6 +571,18 @@ const importMap = [
     ]
   },
   {
+    module: 'components/da-loan/blocks/promo-card',
+    exports: [
+      { name: 'PromoCard', value: PromoCard },
+    ]
+  },
+  {
+    module: 'components/da-loan/layout/loan-application-flow-alt/loan-application-flow-alt',
+    exports: [
+      { name: 'LoanApplicationFlowAlt', value: LoanApplicationFlowAlt },
+    ]
+  },
+  {
     module: 'components/da-loan/ui-primitive/carousel',
     exports: [
       { name: 'Carousel', value: Carousel },
@@ -473,6 +602,70 @@ const importMap = [
     exports: [
       { name: 'DesktopNavigation', value: DesktopNavigation },
       { name: 'MobileMenuButton', value: MobileMenuButton },
+    ]
+  },
+  {
+    module: 'src/components/da-loan/layout/direct-talk/topics-data',
+    exports: [
+      { name: 'directTalkTopics', value: directTalkTopics },
+    ]
+  },
+  {
+    module: 'components/da-loan/blocks/consolidation-benefits',
+    exports: [
+      { name: 'ConsolidationBenefits', value: ConsolidationBenefits },
+    ]
+  },
+  {
+    module: 'components/da-loan/blocks/faq-accordion',
+    exports: [
+      { name: 'FAQAccordion', value: FAQAccordion },
+    ]
+  },
+  {
+    module: 'components/da-loan/blocks/offer-slider',
+    exports: [
+      { name: 'OfferSlider', value: OfferSlider },
+    ]
+  },
+  {
+    module: 'hooks/use-is-in-view',
+    exports: [
+      { name: 'useIsInView', value: useIsInView },
+    ]
+  },
+  {
+    module: 'src/components/da-loan/blocks/slider-component',
+    exports: [
+      { name: 'LoanSlider', value: LoanSlider },
+    ]
+  },
+  {
+    module: 'src/components/da-loan/blocks/loan-summary',
+    exports: [
+      { name: 'LoanSummary', value: LoanSummary },
+    ]
+  },
+  {
+    module: 'src/components/da-loan/blocks/account-selection-form',
+    exports: [
+      { name: 'AccountSelectionForm', value: AccountSelectionForm },
+    ]
+  },
+  {
+    module: 'src/components/da-loan/blocks/consolidation-summary',
+    exports: [
+      { name: 'ConsolidationSummary', value: ConsolidationSummary },
+    ]
+  },
+  {
+    module: 'components/da-loan/ui/select',
+    exports: [
+      { name: 'Select', value: Select_87560054f54a6d1e822ff059c9b85315bc1265a4 },
+      { name: 'SelectContent', value: SelectContent_87560054f54a6d1e822ff059c9b85315bc1265a4 },
+      { name: 'SelectItem', value: SelectItem_87560054f54a6d1e822ff059c9b85315bc1265a4 },
+      { name: 'SelectTrigger', value: SelectTrigger_87560054f54a6d1e822ff059c9b85315bc1265a4 },
+      { name: 'SelectValue', value: SelectValue_87560054f54a6d1e822ff059c9b85315bc1265a4 },
     ]
   },
   {

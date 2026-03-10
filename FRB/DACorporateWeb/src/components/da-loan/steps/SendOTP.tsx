@@ -55,8 +55,11 @@ export const Default = (props: SendOTPComponentProps) => {
 		
 		// Save method and values to localStorage for OTP verification page
 		localStorage.setItem('otpMethod', method);
-		
-
+		if (method === 'cellphone') {
+			localStorage.setItem('otpContactValue', cellphone);
+		} else {
+			localStorage.setItem('otpContactValue', email);
+		}
 		
 		const href = props.fields?.SendLink?.value?.href;
 		if (href) {

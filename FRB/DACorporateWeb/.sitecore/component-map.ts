@@ -25,6 +25,7 @@ import * as progress from 'src/components/da-loan/ui-primitive/progress';
 import * as logo from 'src/components/da-loan/ui-primitive/logo';
 import * as label from 'src/components/da-loan/ui-primitive/label';
 import * as input from 'src/components/da-loan/ui-primitive/input';
+import * as inputotp from 'src/components/da-loan/ui-primitive/input-otp';
 import * as dropdownmenu from 'src/components/da-loan/ui-primitive/dropdown-menu';
 import * as dialog from 'src/components/da-loan/ui-primitive/dialog';
 import * as checkbox from 'src/components/da-loan/ui-primitive/checkbox';
@@ -136,6 +137,7 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['logo', { ...logo }],
   ['label', { ...label }],
   ['input', { ...input }],
+  ['input-otp', { ...inputotp, componentType: 'client' }],
   ['dropdown-menu', { ...dropdownmenu }],
   ['dialog', { ...dialog }],
   ['checkbox', { ...checkbox }],

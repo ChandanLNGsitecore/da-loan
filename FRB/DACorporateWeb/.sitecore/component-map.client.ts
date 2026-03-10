@@ -5,6 +5,7 @@ import { Form } from '@sitecore-content-sdk/nextjs';
 
 import * as Navigation from 'src/components/navigation/Navigation';
 import * as upload from 'src/components/da-loan/ui-primitive/upload';
+import * as inputotp from 'src/components/da-loan/ui-primitive/input-otp';
 import * as carousel from 'src/components/da-loan/ui-primitive/carousel';
 import * as termsmodalinput from 'src/components/da-loan/ui/terms-modal-input';
 import * as select from 'src/components/da-loan/ui/select';
@@ -61,6 +62,7 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['Form', Form],
   ['Navigation', { ...Navigation }],
   ['upload', { ...upload }],
+  ['input-otp', { ...inputotp }],
   ['carousel', { ...carousel }],
   ['terms-modal-input', { ...termsmodalinput }],
   ['select', { ...select }],
