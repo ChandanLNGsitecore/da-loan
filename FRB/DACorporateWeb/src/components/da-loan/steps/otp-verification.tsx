@@ -133,23 +133,21 @@ export const Default = (props: OTPVerificationProps) => {
         </h2>
 
         <p className="text-center text-gray-600 text-sm">
-          {props.fields?.JourneyStep_SubHeading?.value?.toString() ? (
+          {isEditorMode ? (
+            <ContentSdkText field={props.fields?.JourneyStep_SubHeading} />
+          ) : (
             <>
               {props.fields?.JourneyStep_SubHeading?.value?.toString()}
               {otpMethod ? ` ${otpMethod}` : ""}
             </>
-          ) : (
-            <ContentSdkText field={props.fields?.JourneyStep_SubHeading} />
           )}
         </p>
 
         <p className="text-center text-gray-800 font-semibold">{contactValue}</p>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          <div className="space-y-2 flex justify-center flex-col items-center">
-						<label htmlFor="otp" className="text-sm font-medium text-gray-800">
-							Enter OTP
-						</label>
+          <div className="space-y-2 flex justify-center flex-col items-center">						
+            <ContentSdkText field={props.fields?.OTP_Label} class="text-sm font-medium text-gray-800" />
 						<Controller
 							control={control}
 							name="otp"

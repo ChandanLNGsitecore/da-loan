@@ -24,6 +24,7 @@ interface IncomeInputProps extends Omit<React.ComponentProps<"input">, "onChange
 	tooltipText?: string;
 	prefix?: string;
 	prefixClassName?: string;
+	notificationText?: React.ReactNode;
 }
 
 export const IncomeInput = React.forwardRef<HTMLInputElement, IncomeInputProps>(
@@ -50,16 +51,23 @@ export const IncomeInput = React.forwardRef<HTMLInputElement, IncomeInputProps>(
 			tooltipText,
 			prefix,
 			prefixClassName = "absolute left-3 top-1/2 -translate-y-1/2 text-gray-900",
+			notificationText,
 			...props
 		},
 		ref
 	) => {
+		const formatSAAmount = (numString: string) => {
+			// Remove non-digits and format with space as thousands separator
+			const cleaned = numString.replace(/\D/g, "");
+			if (!cleaned) return "";
+			return cleaned.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+		};
+
 		const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-			const rawValue = e.target.value.replaceAll(/\D/g, "");
+			const rawValue = e.target.value.replace(/\D/g, "");
 			// Remove leading zeros by converting to number and back to string
 			const numValue = rawValue ? String(Number(rawValue)) : "";
-			
-			// Create a new event with the numeric value
+			// Create a new event with the numeric value (unformatted)
 			const newEvent = {
 				...e,
 				target: {
@@ -67,7 +75,6 @@ export const IncomeInput = React.forwardRef<HTMLInputElement, IncomeInputProps>(
 					value: numValue,
 				},
 			} as React.ChangeEvent<HTMLInputElement>;
-			
 			onChange?.(newEvent);
 		};
 
@@ -83,9 +90,7 @@ export const IncomeInput = React.forwardRef<HTMLInputElement, IncomeInputProps>(
 		return (
 			<div className={containerClassName}>
 				<div className={labelContainerClassName}>
-					<label className={labelClassName}>
-						{label}
-					</label>
+					<label className={labelClassName}>{label}</label>
 					{showHelpIcon && (
 						<CircleHelp className={helpIconClassName} aria-label={tooltipText} />
 					)}
@@ -98,7 +103,7 @@ export const IncomeInput = React.forwardRef<HTMLInputElement, IncomeInputProps>(
 						name={name}
 						type={type}
 						inputMode="numeric"
-						value={value}
+						value={typeof value === "number" || typeof value === "string" ? formatSAAmount(String(value)) : ""}
 						placeholder={placeholder}
 						onChange={handleChange}
 						onKeyPress={handleKeyPress}
@@ -114,6 +119,12 @@ export const IncomeInput = React.forwardRef<HTMLInputElement, IncomeInputProps>(
 					/>
 				</div>
 				{error && <p className={errorClassName}>{error}</p>}
+				{notificationText &&
+					(typeof notificationText === "string" ?
+						<span className="text-xs text-gray-500 leading-snug" dangerouslySetInnerHTML={{ __html: notificationText }} />
+						: <span className="text-xs text-gray-500 leading-snug">{notificationText}</span>
+					)
+				}
 			</div>
 		);
 	}

@@ -3,14 +3,15 @@
 import { Controller, useForm } from "react-hook-form";
 import { TermsModalInput } from "components/da-loan/ui/terms-modal-input";
 import { StandardTextInput } from "components/da-loan/ui/standard-text-input";
-import {  SouthAfricanIDInput,  validateSouthAfricanID } from "components/da-loan/ui/south-african-id-input";
+import { StandardNumberInput } from "components/da-loan/ui/standard-number-input";
+import { SouthAfricanIDInput, validateSouthAfricanID } from "components/da-loan/ui/south-african-id-input";
 import { IncomeInput } from "components/da-loan/ui/income-input";
 import { Checkbox } from "components/da-loan/ui-primitive/checkbox";
 import { Label } from "components/da-loan/ui-primitive/label";
 import { Card, CardContent } from "components/da-loan/ui-primitive/card";
 import { Button } from "components/da-loan/ui-primitive/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { Link as ContentSdkLink, Text } from "@sitecore-content-sdk/nextjs";
+import { Link as ContentSdkLink, RichText, Text } from "@sitecore-content-sdk/nextjs";
 import { useRouter } from "next/navigation";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -36,15 +37,28 @@ export const Default = (props: ApplicationDetailsProps) => {
     console.log("Form submitted:", data);
     router.push("/loans/request-otp");
   };
-	
-  // Convert string regex to RegExp object
-  const getRegex = (regexString: string | undefined) => {
-    if (!regexString) return undefined;
+
+  // Utility function to convert string regex to RegExp (matches SendOTP.tsx)
+  const getRegex = (regexString?: string): RegExp => {
+    if (!regexString) return /^0[678]\d{8}$/; // Default cellphone regex (same as SendOTP)
     try {
-      return new RegExp(regexString);
+      // Remove leading/trailing slashes if present and create RegExp
+      const cleaned = regexString.replace(/^\/|\/$/g, '');
+      return new RegExp(cleaned);
     } catch {
-      return undefined;
+      return /^0[678]\d{8}$/; // Fallback to default
     }
+  };
+
+  type ApplicationDetailsFormValues = {
+    cellphone: string;
+    email: string;
+    firstName: string;
+    surname: string;
+    idNumber: string;
+    monthlyIncome: number;
+    acceptTerms: boolean;
+    backgroundCheckConsent: boolean;
   };
 
   const {
@@ -55,10 +69,11 @@ export const Default = (props: ApplicationDetailsProps) => {
     setError,
     clearErrors,
     formState: { errors },
-  } = useForm({
+  } = useForm<ApplicationDetailsFormValues>({
     mode: "onChange",
     reValidateMode: "onChange",
     defaultValues: {
+      cellphone: "",
       email: "",
       firstName: "",
       surname: "",
@@ -73,7 +88,7 @@ export const Default = (props: ApplicationDetailsProps) => {
     console.log("Form submitted:", data);
     onSubmit(data);
   });
-	
+
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const isValid = await trigger();
@@ -83,8 +98,25 @@ export const Default = (props: ApplicationDetailsProps) => {
     onFormSubmit();
   };
 
-	const handleBack = () => {
+  const handleBack = () => {
     router.back();
+  };
+
+  // Always clean input to digits before validation, and use unified regex
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/\D/g, "");
+    // Only clear validation errors when the input matches the regex pattern
+    if (errors.cellphone && value) {
+      let regex: RegExp;
+      try {
+        regex = getRegex(props.fields?.CellPhone_ValidationRegex?.value?.toString());
+      } catch {
+        regex = /^0[678]\d{8}$/;
+      }
+      if (regex && regex.test(value)) {
+        clearErrors('cellphone');
+      }
+    }
   };
 
   return (
@@ -95,6 +127,35 @@ export const Default = (props: ApplicationDetailsProps) => {
             <h3 className="text-xl font-medium text-gray-800 font-heading text-center">
               <Text field={fields?.JourneyStep_SubHeading} />
             </h3>
+
+            <StandardNumberInput
+              {...register("cellphone", {
+                required: props.fields?.CellPhone_ValidationErrorMessage?.value?.toString(),
+                validate: (value: string) => {
+                  const cleaned = value.replace(/\D/g, "");
+                  let regex: RegExp;
+                    regex = getRegex(props.fields?.CellPhone_ValidationRegex?.value?.toString());
+                  if (!cleaned) {
+                    return props.fields?.CellPhone_ValidationErrorMessage?.value?.toString();
+                  }
+                  if (!regex.test(cleaned)) {
+                    return props.fields?.CellPhone_ValidationErrorMessage?.value?.toString();
+                  }
+                  return true;
+                }
+              })}
+              label={props.fields?.CellPhone_Label}
+              placeholder={props.fields?.CellPhone_Placeholder?.value?.toString()}
+              type="tel"
+              showLabel={true}
+              maxLength={10}
+              onChange={handleInputChange}
+              inputRegex={getRegex(props.fields?.CellPhone_ValidationRegex?.value?.toString())}
+              formatErrorMessage={props.fields?.CellPhone_ValidationErrorMessage?.value?.toString()}
+              containerClassName="space-y-2"
+              labelContainerClassName="flex items-center gap-2"
+              error={errors.cellphone?.message as string}
+            />
 
             <StandardTextInput
               {...register("email", {
@@ -257,9 +318,11 @@ export const Default = (props: ApplicationDetailsProps) => {
                   }}
                   onBlur={field.onBlur}
                   error={errors.monthlyIncome?.message as string}
+                  notificationText={<RichText field={fields?.NetIncome_NotificationText} />}
                 />
               )}
             />
+
           </div>
 
           <Controller
