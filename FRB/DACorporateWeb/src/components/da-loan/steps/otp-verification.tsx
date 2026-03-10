@@ -13,7 +13,11 @@ import {
   Text as ContentSdkText,
 } from "@sitecore-content-sdk/nextjs";
 import { ComponentProps } from "lib/component-props";
-import { InputOTP, InputOTPGroup, InputOTPSlot } from "components/da-loan/ui-primitive/input-otp";
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+} from "components/da-loan/ui-primitive/input-otp";
 
 export type OTPVerificationProps = ComponentProps & {
   fields: {
@@ -28,7 +32,9 @@ export type OTPVerificationProps = ComponentProps & {
     OTP_Placeholder: TextField;
     "Send Again Message 1": RichTextField;
     "Send Again Message 2": TextField;
+    "Go Back Message": TextField;
   };
+  onBack?: () => void;
 };
 
 const getRegex = (regexString?: string): RegExp | undefined => {
@@ -51,6 +57,15 @@ const interpolateCountdownMessage = (
   return htmlContent.replace(/##countdown##/g, countdown.toString());
 };
 
+const interpolateGoBackMessage = (
+  template: string | undefined,
+  method: string | null,
+): string => {
+  const fallbackMethod = method ?? "contact";
+  if (!template) return `Entered the wrong ${fallbackMethod}? Go back`;
+  return template.replace(/##method##/g, fallbackMethod);
+};
+
 export const Default = (props: OTPVerificationProps) => {
   console.log("OTPVerificationProps:", props);
 
@@ -59,7 +74,9 @@ export const Default = (props: OTPVerificationProps) => {
   const [countdown, setCountdown] = useState(45);
   const [canResend, setCanResend] = useState(false);
   const [contactValue, setContactValue] = useState<string | null>(null);
-  const [otpMethod, setOtpMethod] = useState<'cellphone' | 'email' | null>(null);
+  const [otpMethod, setOtpMethod] = useState<"cellphone" | "email" | null>(
+    null,
+  );
   const [isEditorMode, setIsEditorMode] = useState(false);
 
   const {
@@ -86,7 +103,10 @@ export const Default = (props: OTPVerificationProps) => {
 
   useEffect(() => {
     const storedContactValue = localStorage.getItem("otpContactValue");
-    const storedMethod = localStorage.getItem("otpMethod") as "cellphone" | "email" | null;
+    const storedMethod = localStorage.getItem("otpMethod") as
+      | "cellphone"
+      | "email"
+      | null;
     setContactValue(storedContactValue);
     setOtpMethod(storedMethod);
   }, []);
@@ -143,49 +163,57 @@ export const Default = (props: OTPVerificationProps) => {
           )}
         </p>
 
-        <p className="text-center text-gray-800 font-semibold">{contactValue}</p>
+        <p className="text-center text-gray-800 font-semibold">
+          {contactValue}
+        </p>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          <div className="space-y-2 flex justify-center flex-col items-center">						
-            <ContentSdkText field={props.fields?.OTP_Label} class="text-sm font-medium text-gray-800" />
-						<Controller
-							control={control}
-							name="otp"
-							rules={{
-								required:
-									props.fields?.OTP_ValidationErrorMessage?.value?.toString() ||
-									"OTP is required",
-								pattern: {
-									value:
-										getRegex(props.fields?.OTP_ValidationRegex?.value?.toString()) ||
-										/^[0-9]{6}$/,
-									message:
-										props.fields?.OTP_ValidationErrorMessage?.value?.toString() ||
-										"Invalid OTP format",
-								},
-							}}
-							render={({ field }) => (
-								<InputOTP
-									id="otp"
-									maxLength={6}
-									value={field.value ?? ""}
-									onChange={field.onChange}
-									inputMode="numeric"
-									autoComplete="one-time-password"
-								>
-									<InputOTPGroup>
-										<InputOTPSlot index={0} />
-										<InputOTPSlot index={1} />
-										<InputOTPSlot index={2} />
-										<InputOTPSlot index={3} />
-										<InputOTPSlot index={4} />
-										<InputOTPSlot index={5} />
-									</InputOTPGroup>
-								</InputOTP>
-							)}
-						/>
-						{errors.otp && <p className="text-sm text-red-500">{errors.otp.message}</p>}
-					</div>
+          <div className="space-y-2 flex justify-center flex-col items-center">
+            <ContentSdkText
+              field={props.fields?.OTP_Label}
+              class="text-sm font-medium text-gray-800"
+            />
+            <Controller
+              control={control}
+              name="otp"
+              rules={{
+                required:
+                  props.fields?.OTP_ValidationErrorMessage?.value?.toString() ||
+                  "OTP is required",
+                pattern: {
+                  value:
+                    getRegex(
+                      props.fields?.OTP_ValidationRegex?.value?.toString(),
+                    ) || /^[0-9]{6}$/,
+                  message:
+                    props.fields?.OTP_ValidationErrorMessage?.value?.toString() ||
+                    "Invalid OTP format",
+                },
+              }}
+              render={({ field }) => (
+                <InputOTP
+                  id="otp"
+                  maxLength={6}
+                  value={field.value ?? ""}
+                  onChange={field.onChange}
+                  inputMode="numeric"
+                  autoComplete="one-time-password"
+                >
+                  <InputOTPGroup>
+                    <InputOTPSlot index={0} />
+                    <InputOTPSlot index={1} />
+                    <InputOTPSlot index={2} />
+                    <InputOTPSlot index={3} />
+                    <InputOTPSlot index={4} />
+                    <InputOTPSlot index={5} />
+                  </InputOTPGroup>
+                </InputOTP>
+              )}
+            />
+            {errors.otp && (
+              <p className="text-sm text-red-500">{errors.otp.message}</p>
+            )}
+          </div>
           <Button
             type={isEditorMode ? "button" : "submit"}
             className="w-full bg-[#2c5f5d] hover:bg-[#234a48] text-white py-6 text-base font-medium"
@@ -197,7 +225,9 @@ export const Default = (props: OTPVerificationProps) => {
             {canResend ? (
               <div>
                 {isEditorMode ? (
-                  <ContentSdkText field={props.fields?.["Send Again Message 2"]} />
+                  <ContentSdkText
+                    field={props.fields?.["Send Again Message 2"]}
+                  />
                 ) : (
                   <button
                     type="button"
@@ -211,12 +241,16 @@ export const Default = (props: OTPVerificationProps) => {
             ) : (
               <div>
                 {isEditorMode ? (
-                  <ContentSdkText field={props.fields?.["Send Again Message 1"]} />
+                  <ContentSdkText
+                    field={props.fields?.["Send Again Message 1"]}
+                  />
                 ) : (
                   <div
                     dangerouslySetInnerHTML={{
                       __html: interpolateCountdownMessage(
-                        props.fields?.["Send Again Message 1"]?.value?.toString(),
+                        props.fields?.[
+                          "Send Again Message 1"
+                        ]?.value?.toString(),
                         countdown,
                       ),
                     }}
@@ -224,6 +258,31 @@ export const Default = (props: OTPVerificationProps) => {
                 )}
               </div>
             )}
+          </div>
+
+          <div className="text-center text-sm text-gray-600">
+            <button
+              type="button"
+              onClick={() => {
+                if (isEditorMode) return;
+                if (props.onBack) {
+                  props.onBack();
+                } else {
+                  router.push("/loans/send-otp");
+                }
+              }}
+              disabled={isEditorMode}
+              className="text-[#2c5f5d] underline"
+            >
+              {isEditorMode ? (
+                <ContentSdkText field={props.fields?.["Go Back Message"]} />
+              ) : (
+                interpolateGoBackMessage(
+                  props.fields?.["Go Back Message"]?.value?.toString(),
+                  otpMethod,
+                )
+              )}
+            </button>
           </div>
         </form>
       </CardContent>

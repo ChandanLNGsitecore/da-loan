@@ -104,11 +104,11 @@ export const Default = (props: ApplicationFormProps) => {
               }
               roundValue={(value) => Math.round(value / 1000) * 1000}
               containerClassName="space-y-4"
-              labelClassName="text-sm text-gray-800"
+              labelClassName="font-medium text-gray-800 font-heading text-xl"
               inputClassName=""
               sliderContainerClassName="space-y-4"
               sliderClassName="w-full"
-              minMaxLabelsClassName="flex justify-between text-xs text-gray-600"
+              minMaxLabelsClassName="flex justify-between text-gray-600"
               minLabel={"R" + fields?.LoanAmountSlider_MinValue?.value}
               maxLabel={"R" + fields?.LoanAmountSlider_MaxValue?.value}
             />
@@ -122,12 +122,12 @@ export const Default = (props: ApplicationFormProps) => {
             step={fields?.LoanTermSlider_Increment?.value}
             onChange={(value) => setValue("repaymentMonths", value)}
             containerClassName="space-y-4"
-            labelContainerClassName="flex items-center justify-between"
-            labelClassName="text-sm text-gray-800"
-            inputClassName="w-16 text-center px-3 text-sm font-medium"
+            labelContainerClassName="relative"
+            labelClassName="font-medium text-gray-800 font-heading text-xl"
+            inputClassName="p-0 w-24 text-left font-medium border-none rounded-none font-heading text-4xl! focus-visible:border-b-2 focus-visible:border-gray-900 focus-visible:ring-0 text-secondary-blue"
             sliderContainerClassName="space-y-4"
             sliderClassName="w-full"
-            minMaxLabelsClassName="flex justify-between text-xs text-gray-500"
+            minMaxLabelsClassName="flex justify-between text-gray-500"
             minLabel={fields?.LoanTermSlider_MinValue?.value}
             maxLabel={fields?.LoanTermSlider_MaxValue?.value}
           />
@@ -156,7 +156,7 @@ export const Default = (props: ApplicationFormProps) => {
 
           <Button
             type="submit"
-            className="w-full bg-[#2c5f5d] hover:bg-[#234a48] text-white py-6 text-base font-medium"
+            className="w-full bg-[#2c5f5d] hover:bg-[#234a48] text-white py-6 text-base font-medium w-full"
           >
             <Text field={props.fields?.SubmitButtonText} />
           </Button>

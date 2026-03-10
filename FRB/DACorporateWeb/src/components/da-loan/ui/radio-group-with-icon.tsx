@@ -33,17 +33,17 @@ export const RadioGroupWithIcon = forwardRef<HTMLDivElement, RadioGroupWithIconP
                                 key={id}
                                 type="button"
                                 onClick={() => onChange?.(optionValue)}
-                                className={`w-full flex items-center gap-4 p-4 rounded-lg border-2 transition-all cursor-pointer ${isSelected ? "border-secondary-blue bg-secondary-blue" : "border-gray-200 bg-white hover:border-secondary-blue hover:bg-secondary-blue/5"
+                                className={`w-full flex items-center gap-4 p-4 rounded-lg border-2 transition-all cursor-pointer ${isSelected ? "border-primary bg-primary" : "border-gray-200 bg-white hover:border-primary hover:bg-secondary-blue/5"
                                     }`}
                             >
                                 <div
-                                    className={`shrink-0 w-12 h-12 rounded-full flex items-center justify-center border-2 ${isSelected ? "bg-white/20 border-white" : "bg-gray-100 border-gray-300"
+                                    className={`shrink-0 w-12 h-12 rounded-full flex items-center justify-center border-2 ${isSelected ? "bg-white/10 border-white" : "bg-gray-100"
                                         }`}
                                 >
                                     <Icon className={`w-6 h-6 ${isSelected ? "text-white" : "text-gray-600"}`} />
                                 </div>
-                                <div className="flex-1 text-left">
-                                    <div className={`font-semibold text-base ${isSelected ? "text-white" : "text-gray-800"}`}>
+                                <div className="flex-1 text-left font-heading">
+                                    <div className={`font-light text-base ${isSelected ? "text-white" : "text-gray-800"}`}>
                                         {typeof label === 'string' ? label : <Text field={label} />}
                                     </div>
                                 </div>

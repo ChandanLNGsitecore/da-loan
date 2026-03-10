@@ -52,7 +52,7 @@ export const RangeSlider = ({
 	inputClassName,
 	sliderContainerClassName = "space-y-4",
 	sliderClassName,
-	minMaxLabelsClassName = "flex justify-between text-xs text-gray-600",
+	minMaxLabelsClassName = "flex justify-between text-gray-600",
 	prefix,
 	formatDisplay,
 	parseInput,
@@ -116,7 +116,7 @@ export const RangeSlider = ({
 	const renderInput = () => (
 		<div className="relative">
 			{prefix && (
-				<span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-900">
+				<span className="absolute left-0 top-1/2 -translate-y-1/2 text-gray-400 font-heading text-4xl!">
 					{prefix}
 				</span>
 			)}
@@ -135,7 +135,7 @@ export const RangeSlider = ({
 				onBlur={handleInputBlur}
 				className={cn(
 					"flex h-12 w-full rounded-md border border-input-border-default bg-transparent px-3 py-1 text-base transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
-					prefix && "pl-8",
+					prefix && "pl-8 border-none rounded-none font-heading font-medium text-4xl! focus-visible:border-b-2 focus-visible:border-gray-900 focus-visible:ring-0 text-secondary-blue",
 					inputClassName
 				)}
 			/>
