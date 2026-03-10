@@ -172,7 +172,7 @@ export const Default = (props: EmploymentProps) => {
 					<Controller
 						name="employmentStatus"
 						control={control}
-						rules={{ required: "Employment status is required" }}
+						rules={{ required: fields?.EmploymentStatusValidationMessage?.value  }}
 						render={({ field }) => (
 							<DropDownList
 								id="employmentStatus"
@@ -204,7 +204,7 @@ export const Default = (props: EmploymentProps) => {
 						<Controller
 							name="employmentType"
 							control={control}
-							rules={{ required: "Employment type is required" }}
+							rules={{ required: fields?.EmploymentTypeValidationMessage?.value }}
 							render={({ field }) => (
 								<DropDownList
 									id="employmentType"
@@ -232,7 +232,7 @@ export const Default = (props: EmploymentProps) => {
 						<Controller
 							name="selfEmployedDuration"
 							control={control}
-							rules={{ required: "Employment duration is required" }}
+							rules={{ required: fields?.EmploymentDurationValidationMessage?.value }}
 							render={({ field }) => (
 								<DropDownList
 									id="selfEmployedDuration"
@@ -251,10 +251,10 @@ export const Default = (props: EmploymentProps) => {
 					)}
 					<StandardTextInput
 						{...register("employerName", {
-							required: fields?.EmployerNameRequiredErrorMessage?.value || "Employer name is required",
+							required: fields?.EmployerNameRequiredErrorMessage?.value,
 							minLength: {
 								value: 2,
-								message: fields?.EmployerNameMinLengthErrorMessage?.value || "Employer name must be at least 2 characters"
+								message: fields?.EmployerNameMinLengthErrorMessage?.value
 							}
 						})}
 						label={<Text field={fields?.EmployerNameLabel} />}
@@ -270,7 +270,7 @@ export const Default = (props: EmploymentProps) => {
 					<Controller
 						name="sector"
 						control={control}
-						rules={{ required: "Sector is required" }}
+						rules={{ required: fields?.EmploymentSectorValidationMessage?.value }}
 						render={({ field }) => (
 							<DropDownList
 								id="sector"
@@ -309,7 +309,7 @@ export const Default = (props: EmploymentProps) => {
 					<Controller
 						name="incomeFrequency"
 						control={control}
-						rules={{ required: "Income frequency is required" }}
+						rules={{ required: fields?.EmploymentIncomeFrequencyValidationMessage?.value }}
 						render={({ field }) => (
 							<DropDownList
 								id="incomeFrequency"
@@ -331,14 +331,14 @@ export const Default = (props: EmploymentProps) => {
 							name="salaryDate"
 							control={control}
 							rules={{
-								required: fields?.SalaryDateRequiredErrorMessage?.value || "Salary date is required",
+								required: fields?.SalaryDateRequiredErrorMessage?.value,
 								validate: (value) => {
 									if (!value || value === "") {
-										return fields?.SalaryDateRequiredErrorMessage?.value || "Salary date is required";
+										return fields?.SalaryDateRequiredErrorMessage?.value;
 									}
 									const num = parseInt(value);
 									if (isNaN(num) || num < 1 || num > 31) {
-										return "Please enter a day between 1 and 31";
+										return fields?.EmploymentSalaryDateValidationMessage?.value;
 									}
 									return true;
 								}
@@ -389,7 +389,7 @@ export const Default = (props: EmploymentProps) => {
 						<Controller
 							name="spxConsent"
 							control={control}
-							rules={{ required: "SPX consent is required" }}
+							rules={{ required: fields?.SpxConsentValidationMessage?.value }}
 							render={({ field }) => (
 								<DropDownList
 									id="spxConsent"
