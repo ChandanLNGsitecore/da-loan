@@ -35,7 +35,7 @@ export const Default = (props: ApplicationDetailsProps) => {
 
   const onSubmit = (data: Record<string, unknown>) => {
     console.log("Form submitted:", data);
-    router.push("/loans/request-otp");
+    router.push("/loans/send-otp");
   };
 
   // Utility function to convert string regex to RegExp (matches SendOTP.tsx)
