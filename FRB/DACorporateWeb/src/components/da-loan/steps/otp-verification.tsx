@@ -169,10 +169,9 @@ export const Default = (props: OTPVerificationProps) => {
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div className="space-y-2 flex justify-center flex-col items-center">
-            <ContentSdkText
-              field={props.fields?.OTP_Label}
-              class="text-sm font-medium text-gray-800"
-            />
+            <label className="text-sm font-medium text-gray-800">
+              <ContentSdkText field={props.fields?.OTP_Label} />
+            </label>
             <Controller
               control={control}
               name="otp"
