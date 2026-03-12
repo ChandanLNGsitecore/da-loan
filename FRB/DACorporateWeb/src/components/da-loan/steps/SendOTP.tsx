@@ -32,8 +32,8 @@ export const Default = (props: SendOTPComponentProps) => {
 
 
 	const [sentMethod, setSentMethod] = useState<'cellphone' | 'email' | null>(null);
-	const [cellphone, setCellphone] = useState("0681784569");
-	const [email, setEmail] = useState("chandan.kumar@lngconsultancy.co.in");
+	const [cellphone, setCellphone] = useState("0823334444");
+	const [email, setEmail] = useState("salt@pepper.com");
 
 	// Validate cellphone format
 	const cellphoneRegex = getRegex(props.fields?.CellPhone_ValidationRegex?.value?.toString());
@@ -85,7 +85,7 @@ export const Default = (props: SendOTPComponentProps) => {
 
 				<div className="space-y-4">
 					<div className="space-y-2">
-						<label htmlFor="cellphone" className="text-sm font-medium text-gray-700">
+						<label  className="text-sm font-medium text-gray-700">
 							<Text field={props.fields?.CellPhone_Label} />
 						</label>
 						<div className="flex gap-2">
@@ -113,7 +113,7 @@ export const Default = (props: SendOTPComponentProps) => {
 					</div>
 
 					<div className="space-y-2">
-						<label htmlFor="email" className="text-sm font-medium text-gray-700">
+						<label  className="text-sm font-medium text-gray-700">
 							<Text field={props.fields?.Email_Label} />
 						</label>
 						<div className="flex gap-2">
