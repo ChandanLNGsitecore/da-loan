@@ -194,7 +194,12 @@ export const Default = (props: OTPVerificationProps) => {
                   id="otp"
                   maxLength={6}
                   value={field.value ?? ""}
-                  onChange={field.onChange}
+                  //onChange={field.onChange}
+                  onChange={(val) => {
+                    // Allow only digits
+                    const numericValue = val.replace(/\D/g, "");
+                    field.onChange(numericValue);
+                  }}
                   inputMode="numeric"
                   autoComplete="one-time-password"
                 >
@@ -231,7 +236,7 @@ export const Default = (props: OTPVerificationProps) => {
                   <button
                     type="button"
                     onClick={handleResend}
-                    className="text-[#2c5f5d] underline"
+                    className="text-[#2c5f5d] underline cursor-pointer"
                   >
                     {props.fields?.["Send Again Message 2"]?.value?.toString()}
                   </button>
@@ -271,7 +276,7 @@ export const Default = (props: OTPVerificationProps) => {
                 }
               }}
               disabled={isEditorMode}
-              className="text-[#2c5f5d] underline"
+              className="text-[#2c5f5d] underline cursor-pointer"
             >
               {isEditorMode ? (
                 <ContentSdkText field={props.fields?.["Go Back Message"]} />

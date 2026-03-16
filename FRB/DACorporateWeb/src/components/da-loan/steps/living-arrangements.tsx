@@ -9,6 +9,8 @@ import { DropDownList } from "components/da-loan/ui/drop-down-list";
 import { RadioGroup } from "components/da-loan/ui/radio-group-input";
 import { Text } from '@sitecore-content-sdk/nextjs';
 import { useRouter } from "next/navigation";
+import { StandardNumberInput } from "components/da-loan/ui/standard-number-input";
+import { formatNumber, parseNumberInput } from "lib/format";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type SitecoreFields = Record<string, any>;
@@ -36,6 +38,7 @@ type LivingArrangements = {
 	maritalStatus: string;
 	maritalType?: string;
 	numberOfDependents?: number;
+	monthlyRent?: number;
 };
 
 interface LivingArrangementsProps {
@@ -55,6 +58,10 @@ export const Default = (props: LivingArrangementsProps) => {
 	const { fields: propsFields = {} } = props;
 	const fields = propsFields.fields || propsFields;
 
+		const [monthlyRentInput, setMonthlyRentInput] = useState(() =>
+		initialData?.monthlyRent ? formatNumber(initialData.monthlyRent, { fractionDigits: 2 }) : ""
+	);
+
 	debugger;
 	console.log("Props:", props);
 	console.log("Fields:", fields);
@@ -66,6 +73,7 @@ export const Default = (props: LivingArrangementsProps) => {
 		control,
 		handleSubmit,
 		trigger,
+		register,
 		formState: { errors },
 	} = useForm<LivingArrangements>({
 		mode: "onChange",
@@ -78,10 +86,12 @@ export const Default = (props: LivingArrangementsProps) => {
 			maritalStatus: initialData?.maritalStatus || "",
 			maritalType: initialData?.maritalType || "",
 			numberOfDependents: initialData?.numberOfDependents,
+			monthlyRent: initialData?.monthlyRent,
 		},
 	});
 
 	const maritalStatus = useWatch({ control, name: "maritalStatus" });
+	const whereDoYouLive = useWatch({ control, name: "whereDoYouLive" });
 
 		const onFormSubmit = handleSubmit((data) => {
 		console.log("Liveing Arrangement form submitted:", data);
@@ -110,7 +120,17 @@ export const Default = (props: LivingArrangementsProps) => {
       router.back();
     }
   };
+	const handleMonthlyRentChange = (value: string) => {
+		const sanitized = value.replace(/[^\d.]/g, "");
+		setMonthlyRentInput(sanitized);
+		const parsed = parseNumberInput(sanitized);
+		setValue("monthlyRent", parsed, { shouldValidate: true });
+	};
 
+	const handleMonthlyRentBlur = (value: string) => {
+		const parsed = parseNumberInput(value);
+		setMonthlyRentInput(parsed ? formatNumber(parsed, { fractionDigits: 2 }) : "");
+	};
 	return (
 		<Card className="w-full mx-auto bg-white">
 			<CardContent className="p-6 md:p-8 space-y-6">
@@ -188,7 +208,27 @@ export const Default = (props: LivingArrangementsProps) => {
 							/>
 						)}
 					/>
-
+{whereDoYouLive === "Renting" && (
+						<div>
+							<StandardNumberInput
+								name="monthlyRent"
+								label={fields?.MonthlyRentLabel}
+								placeholder={fields?.MonthlyRentPlaceholder?.value || "e.g. 6 500.00"}
+								value={monthlyRentInput}
+								onFocus={() => setMonthlyRentInput((current) => current.replace(/\s/g, ""))}
+								onChange={(e) => handleMonthlyRentChange(e.target.value)}
+								onBlur={(e) => handleMonthlyRentBlur(e.target.value)}
+								error={errors.monthlyRent?.message}
+								required={true}
+								type="text"								
+								inputClassName=""
+								ref={register("monthlyRent", {
+									valueAsNumber: true,
+									required: fields?.MonthlyRentRequiredMessage?.value
+								}).ref}
+							/>
+						</div>
+					)}
 					<Controller
 						name="homeLanguage"
 						control={control}
