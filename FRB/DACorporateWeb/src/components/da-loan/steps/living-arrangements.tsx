@@ -1,16 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm, useWatch, Controller } from "react-hook-form";
 import { Button } from "components/da-loan/ui-primitive/button";
 import { Card, CardContent } from "components/da-loan/ui-primitive/card";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { DropDownList } from "components/da-loan/ui/drop-down-list";
 import { RadioGroup } from "components/da-loan/ui/radio-group-input";
-import { Text } from '@sitecore-content-sdk/nextjs';
+import { Text, TextField } from '@sitecore-content-sdk/nextjs';
 import { useRouter } from "next/navigation";
-import { StandardNumberInput } from "components/da-loan/ui/standard-number-input";
 import { formatNumber, parseNumberInput } from "lib/format";
+import { Input } from "components/da-loan/ui-primitive/input";
+// Removed unused import: Input
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type SitecoreFields = Record<string, any>;
@@ -91,7 +92,17 @@ export const Default = (props: LivingArrangementsProps) => {
 	});
 
 	const maritalStatus = useWatch({ control, name: "maritalStatus" });
+
 	const whereDoYouLive = useWatch({ control, name: "whereDoYouLive" });
+
+	// Reset monthlyRent when whereDoYouLive changes away from "Renting"
+	
+	useEffect(() => {
+		if (whereDoYouLive !== "Renting") {
+			setMonthlyRentInput("");
+			setValue("monthlyRent", undefined, { shouldValidate: true });
+		}
+	}, [whereDoYouLive, setValue]);
 
 		const onFormSubmit = handleSubmit((data) => {
 		console.log("Liveing Arrangement form submitted:", data);
@@ -209,24 +220,27 @@ export const Default = (props: LivingArrangementsProps) => {
 						)}
 					/>
 {whereDoYouLive === "Renting" && (
-						<div>
-							<StandardNumberInput
-								name="monthlyRent"
-								label={fields?.MonthlyRentLabel}
+							<div>
+							<label className="block text-sm font-medium text-gray-800 mb-1">
+								<Text field={fields?.MonthlyRentLabel} />
+							</label>
+							<Input
+								id="monthlyRent"
+								type="text"
+								inputMode="decimal"
 								placeholder={fields?.MonthlyRentPlaceholder?.value || "e.g. 6 500.00"}
+								{...register("monthlyRent", {
+									valueAsNumber: true,
+									required: fields?.MonthlyRentRequiredMessage?.value || " Please select a monthly rent"
+								})}
 								value={monthlyRentInput}
 								onFocus={() => setMonthlyRentInput((current) => current.replace(/\s/g, ""))}
 								onChange={(e) => handleMonthlyRentChange(e.target.value)}
 								onBlur={(e) => handleMonthlyRentBlur(e.target.value)}
-								error={errors.monthlyRent?.message}
-								required={true}
-								type="text"								
-								inputClassName=""
-								ref={register("monthlyRent", {
-									valueAsNumber: true,
-									required: fields?.MonthlyRentRequiredMessage?.value
-								}).ref}
 							/>
+							{errors.monthlyRent && (
+								<p className="text-sm text-red-500 mt-1">{errors.monthlyRent.message}</p>
+							)}
 						</div>
 					)}
 					<Controller
